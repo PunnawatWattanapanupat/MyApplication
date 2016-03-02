@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Active Learning</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="re_password">Re-Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="email">Email</string>
+    <string name="class_code">Class Code</string>
+    <string name="full_name">Full Name</string>
+    <string name="remember_password">Remember Password</string>
+    <string name="sign_up_here">Sign Up Here!</string>
+    <string name="teacher">TEACHER</string>
+    <string name="student">STUDENT</string>
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_student_sign_up">StudentSignUp</string>
+    <string name="title_activity_teacher_sign_up">TeacherSignUp</string>
+    <string name="title_activity_home">Home</string>
+
+    <string name="positive_text">OK</string>
+    <string name="negative_text">Later</string>
+    <string name="dialog_title">Summary</string>
+    <string name="dialog_message">dsad</string>
+    <string name="button_response">You Clicked on the \'%s\' button</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="to_date">To Date</string>
+    <string name="from_date">DD/MM/YYYY</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_main_class">Class</string>
+</resources>
