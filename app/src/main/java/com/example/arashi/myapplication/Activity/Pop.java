@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.UserLocalStore;
 
 /**

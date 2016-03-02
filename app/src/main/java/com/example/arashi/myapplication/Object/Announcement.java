@@ -1,4 +1,4 @@
-package com.example.arashi.myapplication.Activity;
+package com.example.arashi.myapplication.Object;
 
 /**
  * Created by Ooppo on 11/2/2559.

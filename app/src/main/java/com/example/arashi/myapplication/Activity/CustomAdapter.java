@@ -11,22 +11,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.arashi.myapplication.Object.Announcement;
+
+import java.util.ArrayList;
+
 public class CustomAdapter extends BaseAdapter {
 
     Context mContext;
-    String[] strName;
+    ArrayList<Announcement> topic;
     int[] resId;
 
 
-    public CustomAdapter(Context context, String[] strName, int[] resId ) {
+    public CustomAdapter(Context context, ArrayList<Announcement> topic, int[] resId ) {
         this.mContext= context;
-        this.strName = strName;
+        this.topic = topic;
         this.resId = resId;
 
     }
 
     public int getCount() {
-        return strName.length;
+        return topic.size();
     }
 
     public Object getItem(int position) {
@@ -34,7 +38,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
@@ -44,16 +48,23 @@ public class CustomAdapter extends BaseAdapter {
         if(view == null)
             view = mInflater.inflate(R.layout.listview_row, parent, false);
 
+        Announcement announcement = topic.get(position);
+        String AnnounceData = announcement.topic;
 
 
 
 
         TextView textView = (TextView)view.findViewById(R.id.textView1);
-        textView.setText(strName[position]);
+        textView.setText(AnnounceData);
 
         ImageView imageView = (ImageView)view.findViewById(R.id.imageView1);
         imageView.setBackgroundResource(resId[position]);
 
         return view;
+    }
+
+    public void setListData(ArrayList<Announcement> topic){
+        this.topic = topic;
+        notifyDataSetChanged();
     }
 }

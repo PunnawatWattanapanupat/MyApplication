@@ -33,8 +33,8 @@ public class ClassActivity extends Activity {
     UserLocalStore userLocalStore;
     ClassAdapter adapter;
     User user;
-   // Class classroom;
-    int userId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +53,6 @@ public class ClassActivity extends Activity {
 //        Bundle bundle = getIntent().getExtras();
 //        userId = bundle.getInt("userId");
 
- //       txt_class_id = (TextView) findViewById(R.id.txt_class_id);
-//        int class_id = classLocalStore.getJoinedInClass().class_id;
-       // txt_class_id.setText(Integer.toString(class_id));
-       // textv1=(TextView)findViewById(R.id.textView1);
-        //classLocalStore.getJoinedInClass().classname;
 
 
         severRequests.showClassListInBackground(user, new GetShowClassCallback() {

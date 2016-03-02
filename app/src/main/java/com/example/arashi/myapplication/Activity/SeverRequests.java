@@ -1,5 +1,6 @@
 package com.example.arashi.myapplication.Activity;
 
+import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Object.Roster;
 import com.example.arashi.myapplication.Object.User;
@@ -78,6 +79,11 @@ public class SeverRequests {
         progressDialog.show();
         new StoreAnnounceDataAsyncTask(announcement, announceCallBack).execute();
     }
+
+    public void showAnnounceListInBackground(User user,GetShowAnnounceCallback  getShowAnnounceCallback) {
+        new showAnnounceListAsyncTask(user, getShowAnnounceCallback).execute();
+    }
+
     public String GetTopic(){
         String data = "test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,mmmm,mmmm,mmmm,mmmm,mmmm,fff,1fhfc,ykfyfhkvk,uuhhhh,kuy,";
         return data;
@@ -857,11 +863,11 @@ public class SeverRequests {
                 JSONObject jObj = new JSONObject(line);
 
                 if (jObj.length() != 0) {
-                    String Detail = jObj.getString("detail");
-                    String Photo = jObj.getString("photo");
+                    String detail = jObj.getString("detail");
+                    String photo = jObj.getString("photo");
                     int user_id = jObj.getInt("user_id");
 
-                    returnAnnounce = new Announcement(announcement.topic,Detail, Photo, user_id);
+                    returnAnnounce = new Announcement(announcement.topic,detail, photo, user_id);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
@@ -897,4 +903,109 @@ public class SeverRequests {
             super.onPostExecute(returnAnnounce);
         }
     }
+
+    public class showAnnounceListAsyncTask extends AsyncTask<Void, Void, ArrayList<Announcement>> {
+
+        GetShowAnnounceCallback showAnnounceCallback;
+        ArrayList<Announcement> showAnnounce;
+        // int user_id;
+        User user;
+
+
+        public showAnnounceListAsyncTask(User user, GetShowAnnounceCallback showAnnounceCallback) {
+            this.user = user;
+            this.showAnnounceCallback = showAnnounceCallback;
+            showAnnounce = new ArrayList<>();
+
+        }
+        @Override
+        protected ArrayList<Announcement> doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("user_id", user.user_id+"");
+
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "showAnnouncement.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+                JSONArray noticeArray = jObj.getJSONArray("announcement");
+                Announcement announcement;
+                for (int i = 0; i < noticeArray.length(); i++) {
+                    JSONObject announcements = noticeArray.getJSONObject(i);
+                    String topic = announcements.getString("topic");
+                    String detail = announcements.getString("topic");
+                    String photo = announcements.getString("photo");
+                    int user_id = announcements.getInt("user_id");
+                    announcement = new Announcement(topic, detail, photo, user_id);
+                    showAnnounce.add(announcement);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return showAnnounce;
+        }
+
+
+        private String getEncodeData(Map<String, String> data) {
+            StringBuilder sb = new StringBuilder();
+            for (String key : data.keySet()) {
+                String value = null;
+                try {
+                    value = URLEncoder.encode(data.get(key), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                if (sb.length() > 0)
+                    sb.append("&");
+
+                sb.append(key + "=" + value);
+            }
+            return sb.toString();
+        }
+
+        protected void onPostExecute(ArrayList<Announcement> returnShowAnnounce){
+            progressDialog.dismiss();
+            showAnnounceCallback.done(returnShowAnnounce);
+            super.onPostExecute(returnShowAnnounce);
+        }
+    }
+
 }
