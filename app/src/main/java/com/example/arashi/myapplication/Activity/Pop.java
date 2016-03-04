@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Announcement;
+import com.example.arashi.myapplication.Store.AnnounceLocalStore;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.UserLocalStore;
 
 /**
@@ -41,9 +43,9 @@ public class Pop extends Activity  {
     final String testTOPIC2 = "UserName";
     SharedPreferences sp2;
     SharedPreferences.Editor editor2;
-
-    UserLocalStore userLocalStore;
-    Button Done;
+    AnnounceLocalStore announceLocalStore;
+    ClassLocalStore classLocalStore;
+    Button Done, Back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +115,11 @@ public class Pop extends Activity  {
             }
         });
 
-        userLocalStore = new UserLocalStore(this);
-        Done = (Button) findViewById(R.id.Done);
+        announceLocalStore = new AnnounceLocalStore(this);
+        classLocalStore = new ClassLocalStore(this);
 
+        //Click Done
+        Done = (Button) findViewById(R.id.Done);
         Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,16 +132,26 @@ public class Pop extends Activity  {
                 String topic = edtTopic1.getText().toString();
                 String detail = edtTopic2.getText().toString();
                 String photo = "cannot save photo";
-                int user_id = userLocalStore.getLoggedInUser().user_id;
+                int user_id = classLocalStore.getJoinedInClass().user_id;
+                int class_id = classLocalStore.getJoinedInClass().class_id;
 
-                if(topic.isEmpty() || detail.isEmpty() || user_id == 0){
+                if(topic.isEmpty() || detail.isEmpty() || user_id == 0 || class_id == 0){
                     Toast.makeText(Pop.this,"Please fill all completely", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                        Announcement announcement = new Announcement(topic, detail, photo, user_id);
+                        Announcement announcement = new Announcement(topic, detail, photo, user_id, class_id);
                         postAnnounce(announcement);
                 }
 
+            }
+        });
+
+        //Click Back
+        Back = (Button) findViewById(R.id.Back);
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -150,12 +164,31 @@ public class Pop extends Activity  {
             @Override
             public void done(Announcement returnAnnounce) {
                 Toast.makeText(Pop.this, "Posing is completed", Toast.LENGTH_SHORT).show();
+               // startActivity(new Intent(Pop.this, TabFragment2.class));
                 finish();
             }
         });
-
+       // fetchAnnounce(announcement);
     }
 
+//    private void fetchAnnounce(Announcement announcement){
+//        //For student show class
+//        SeverRequests serverRequests = new SeverRequests(this);
+//        serverRequests.fetchAnnounceDataInBackground(announcement,new GetAnnounceCallBack() {
+//            @Override
+//            public void done(Announcement returnAnnounce) {
+//                if(returnAnnounce != null){
+//                    announceLocalStore.storeAnnounceData(returnAnnounce);
+//                    announceLocalStore.setAnnounceForShow(true);
+//                    Toast.makeText(Pop.this, "Show Announce", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                }
+//                else{
+//                    Toast.makeText(Pop.this, "No Announce", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

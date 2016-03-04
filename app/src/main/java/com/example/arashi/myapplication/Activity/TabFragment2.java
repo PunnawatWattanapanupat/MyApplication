@@ -17,8 +17,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Announcement;
-import com.example.arashi.myapplication.Object.User;
+import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.AnnounceLocalStore;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.UserLocalStore;
 
 import java.text.SimpleDateFormat;
@@ -42,17 +43,17 @@ public class TabFragment2 extends Fragment {
     ListView listView;
     ArrayList<Announcement> listItem = new ArrayList<>();
     SeverRequests severRequests;
-    UserLocalStore userLocalStore;
+    ClassLocalStore classLocalStore;
     AnnounceLocalStore announceLocalStore;
     CustomAdapter adapter;
-    User user;
+    Class classroom;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
         severRequests = new SeverRequests(getActivity());
-        userLocalStore = new UserLocalStore(getActivity());
+        classLocalStore = new ClassLocalStore(getActivity());
         announceLocalStore = new AnnounceLocalStore(getActivity());
         listView = (ListView) v.findViewById(R.id.listView1);
 
@@ -76,19 +77,18 @@ public class TabFragment2 extends Fragment {
                 , R.drawable.announcement_icon, R.drawable.announcement_icon
                 , R.drawable.announcement_icon, R.drawable.announcement_icon
                 , R.drawable.announcement_icon, R.drawable.announcement_icon};
-        SeverRequests fetch = new SeverRequests(getActivity());
-        String temp = fetch.GetTopic();
-        temp = temp.substring(0, temp.length()-1);
+//        SeverRequests fetch = new SeverRequests(getActivity());
+//        String temp = fetch.GetTopic();
+//        temp = temp.substring(0, temp.length()-1);
 
 
 
 
         adapter = new CustomAdapter(getActivity(),listItem ,resId);
         listView.setAdapter(adapter);
+        classroom = classLocalStore.getJoinedInClass();
 
-        user = userLocalStore.getLoggedInUser();
-
-        severRequests.showAnnounceListInBackground(user, new GetShowAnnounceCallback() {
+        severRequests.showAnnounceListInBackground(classroom, new GetShowAnnounceCallback() {
             @Override
             public void done(ArrayList<Announcement> returnedShowAnnounce) {
                 if(returnedShowAnnounce.size() > 0){
@@ -96,7 +96,7 @@ public class TabFragment2 extends Fragment {
                     adapter.setListData(listItem);
                 }
                 else {
-                    Toast.makeText(getActivity(),Integer.toString(user.user_id)+" No Data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),Integer.toString(classroom.user_id)+" No Data", Toast.LENGTH_SHORT).show();
                 }
             }
         });

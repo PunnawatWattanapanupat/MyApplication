@@ -47,6 +47,8 @@
             android:theme="@style/AppTheme.CustomTheme"></activity>
         <activity android:name=".PopAnswer"
             android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity android:name="."
+            android:theme="@style/AppTheme.CustomTheme"></activity>
     </application>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
 </manifest>

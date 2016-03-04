@@ -54,20 +54,24 @@ public class ClassActivity extends Activity {
 //        userId = bundle.getInt("userId");
 
 
-
-        severRequests.showClassListInBackground(user, new GetShowClassCallback() {
-            @Override
-            public void done(ArrayList<Class> returnedShowClass) {
-                if(returnedShowClass.size() > 0){
-                    listItem = returnedShowClass;
-                    adapter.setListData(listItem);
+        //teacher class
+        if(userLocalStore.getLoggedInUser().is_teacher == 1) {
+            severRequests.showClassListInBackground(user, new GetShowClassCallback() {
+                @Override
+                public void done(ArrayList<Class> returnedShowClass) {
+                    if (returnedShowClass.size() > 0) {
+                        listItem = returnedShowClass;
+                        adapter.setListData(listItem);
+                    } else {
+                        Toast.makeText(ClassActivity.this, Integer.toString(user.user_id) + " No Data", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else {
-                    Toast.makeText(ClassActivity.this,Integer.toString(user.user_id)+" No Data", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+        }
+        //student class
+        else{
 
+        }
 
 
 
@@ -77,11 +81,6 @@ public class ClassActivity extends Activity {
            //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                 classLocalStore.storeClassData(classItem);
                 classLocalStore.setClassJoinedIn(true);
-
-
-//                Intent intent = new Intent(ClassActivity.this, tabMainActivity.class);
-//                intent.putExtra("classId", classItem.class_id + "");
-//                startActivity(intent);
                 startActivity(new Intent(ClassActivity.this,tabMainActivity.class));
             }
         });
@@ -91,8 +90,7 @@ public class ClassActivity extends Activity {
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int class_id = classLocalStore.getJoinedInClass().class_id;
-//                Toast.makeText(ClassActivity.this,Integer.toString(class_id), Toast.LENGTH_SHORT).show();
+
                 startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
 
             }

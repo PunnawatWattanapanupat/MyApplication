@@ -80,8 +80,13 @@ public class SeverRequests {
         new StoreAnnounceDataAsyncTask(announcement, announceCallBack).execute();
     }
 
-    public void showAnnounceListInBackground(User user,GetShowAnnounceCallback  getShowAnnounceCallback) {
-        new showAnnounceListAsyncTask(user, getShowAnnounceCallback).execute();
+//    public void fetchAnnounceDataInBackground(Announcement announcement, GetAnnounceCallBack announceCallBack){
+//        progressDialog.show();
+//        new  fetchAnnounceDataAsyncTask(announcement, announceCallBack).execute();
+//    }
+
+    public void showAnnounceListInBackground(Class classroom,GetShowAnnounceCallback  getShowAnnounceCallback) {
+        new showAnnounceListAsyncTask(classroom, getShowAnnounceCallback).execute();
     }
 
     public String GetTopic(){
@@ -819,6 +824,7 @@ public class SeverRequests {
             dataToSend.put("detail",announcement.detail );
             dataToSend.put("photo", announcement.photo);
             dataToSend.put("user_id", announcement.user_id+"");
+            dataToSend.put("class_id", announcement.class_id+"");
 
             Announcement returnAnnounce = null;
 
@@ -866,8 +872,9 @@ public class SeverRequests {
                     String detail = jObj.getString("detail");
                     String photo = jObj.getString("photo");
                     int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
 
-                    returnAnnounce = new Announcement(announcement.topic,detail, photo, user_id);
+                    returnAnnounce = new Announcement(announcement.topic,detail, photo, user_id, class_id);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
@@ -904,16 +911,121 @@ public class SeverRequests {
         }
     }
 
+
+//    public class fetchAnnounceDataAsyncTask extends AsyncTask<Void, Void, Announcement> {
+//        Announcement announcement;
+//        GetAnnounceCallBack announceCallBack;
+//
+//
+//        public fetchAnnounceDataAsyncTask(Announcement announcement, GetAnnounceCallBack announceCallBack) {
+//            this.announcement = announcement;
+//            this.announceCallBack = announceCallBack;
+//
+//        }
+//
+//        @Override
+//        protected Announcement doInBackground(Void... params) {
+//            Map<String, String> dataToSend = new HashMap<>();
+//            dataToSend.put("topic",announcement.topic );
+//            dataToSend.put("detail",announcement.detail);
+//
+//            Announcement returnAnnounce = null;
+//
+//            try {
+//
+//                String encode = getEncodeData(dataToSend);
+//                BufferedReader reader = null; // Read some data from server
+//                String line = "";
+//
+//                try {
+//                    URL url = new URL(SERVER_ADDRESS + "FetchAnnounceData.php");
+//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//
+//                    con.setRequestMethod("POST");
+//                    con.setDoOutput(true);
+//                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+//                    writer.write(encode);
+//                    writer.flush();
+//
+//                    StringBuilder stringBuilder = new StringBuilder();
+//                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//
+//
+//                    while ((line = reader.readLine()) != null) {
+//                        stringBuilder.append(line + "\n");
+//                    }
+//                    line = stringBuilder.toString();
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    if (reader != null) {
+//                        try {
+//                            reader.close(); // Close Reader
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//
+//                Log.i("custom_check", line);
+//
+//                JSONObject jObj = new JSONObject(line);
+//
+//                if (jObj.length() != 0) {
+//                    int class_id = jObj.getInt("class_id");
+//                    int user_id = jObj.getInt("user_id");
+//                    String topic = jObj.getString("topic");
+//                    String detail = jObj.getString("detail");
+//                    String photo = jObj.getString("photo");
+//
+//
+//                    returnAnnounce = new Announcement(topic, detail, photo,user_id,class_id);
+//                }
+//            } catch (Exception e) {
+//                Log.e("custom_check", e.toString());
+//            }
+//
+//            return returnAnnounce;
+//        }
+//
+//        private String getEncodeData(Map<String, String> data) {
+//            StringBuilder sb = new StringBuilder();
+//            for (String key : data.keySet()) {
+//                String value = null;
+//                try {
+//                    value = URLEncoder.encode(data.get(key), "UTF-8");
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if (sb.length() > 0)
+//                    sb.append("&");
+//
+//                sb.append(key + "=" + value);
+//            }
+//            return sb.toString();
+//        }
+//
+//
+//
+//
+//        protected void onPostExecute(Announcement returnAnnounce){
+//            progressDialog.dismiss();
+//            announceCallBack.done(returnAnnounce);
+//            super.onPostExecute(returnAnnounce);
+//        }
+//    }
+
     public class showAnnounceListAsyncTask extends AsyncTask<Void, Void, ArrayList<Announcement>> {
 
         GetShowAnnounceCallback showAnnounceCallback;
         ArrayList<Announcement> showAnnounce;
-        // int user_id;
-        User user;
+        Class classroom;
 
 
-        public showAnnounceListAsyncTask(User user, GetShowAnnounceCallback showAnnounceCallback) {
-            this.user = user;
+        public showAnnounceListAsyncTask(Class classroom, GetShowAnnounceCallback showAnnounceCallback) {
+            this.classroom = classroom;
             this.showAnnounceCallback = showAnnounceCallback;
             showAnnounce = new ArrayList<>();
 
@@ -921,7 +1033,8 @@ public class SeverRequests {
         @Override
         protected ArrayList<Announcement> doInBackground(Void... params){
             Map<String, String> dataToSend = new HashMap<>();
-            dataToSend.put("user_id", user.user_id+"");
+            dataToSend.put("user_id", classroom.user_id+"");
+            dataToSend.put("class_id", classroom.class_id+"");
 
 
             try {
@@ -972,7 +1085,8 @@ public class SeverRequests {
                     String detail = announcements.getString("topic");
                     String photo = announcements.getString("photo");
                     int user_id = announcements.getInt("user_id");
-                    announcement = new Announcement(topic, detail, photo, user_id);
+                    int class_id = announcements.getInt("class_id");
+                    announcement = new Announcement(topic, detail, photo, user_id, class_id);
                     showAnnounce.add(announcement);
                 }
             } catch (Exception e) {

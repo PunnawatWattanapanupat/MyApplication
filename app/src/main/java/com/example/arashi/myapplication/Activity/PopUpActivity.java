@@ -50,7 +50,7 @@ public class PopUpActivity extends Activity {
 
         getWindow().setLayout((int) (width * .8), (int) (height * .6));
 
-        //create
+        //create button
         createButton = (Button) findViewById(R.id.CreateClassButton);
         createButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -65,7 +65,6 @@ public class PopUpActivity extends Activity {
                     }
                     else {
                         if(userLocalStore.getLoggedInUser().is_teacher == 1){
-                        //   Toast.makeText(PopUpActivity.this,Integer.toString(), Toast.LENGTH_SHORT).show();
                             Class classroom = new Class(className, classCode,user_id);
                             createClass(classroom);
                         }
@@ -99,37 +98,22 @@ public class PopUpActivity extends Activity {
 
             public void done(Class returnedClass){
                 Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
-
-                finish();
-
+               // finish();
+                startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
             }
         });
 
-        //For teacher show class
-        //SeverRequests serverRequests = new SeverRequests(this);
-        serverRequests.fetchClassDataInBackground(classroom, new GetClassCallback(){
-            public void done(Class returnedClass){
-                if(returnedClass != null){
-                    classLocalStore.storeClassData(returnedClass);
-                    classLocalStore.setClassJoinedIn(true);
-                    Toast.makeText(PopUpActivity.this, "Show Class", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
-                    finish();
-
-                }
-                else{
-                    Toast.makeText(PopUpActivity.this, "Cannot Show Class", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+      // fetchClass(classroom);
     }
 
-    private void fetchClass(Class classroom){
+    private void fetchClass( Class classroom){
         //For student show class
         SeverRequests serverRequests = new SeverRequests(this);
         serverRequests.fetchClassDataInBackground(classroom, new GetClassCallback(){
             public void done(Class returnedClass){
-                if(returnedClass != null){
+                classLocalStore.storeClassData(returnedClass);
+                classLocalStore.setClassJoinedIn(true);
+                if(returnedClass != null && returnedClass.class_id == classLocalStore.getJoinedInClass().class_id && returnedClass.classname == classLocalStore.getJoinedInClass().classname){
                     classLocalStore.storeClassData(returnedClass);
                     classLocalStore.setClassJoinedIn(true);
                     Toast.makeText(PopUpActivity.this, "Show Class", Toast.LENGTH_SHORT).show();
