@@ -28,6 +28,13 @@
         <activity
             android:name=".TeacherSignUp"
             android:label="@string/title_activity_teacher_sign_up" />
+
+        <activity
+            android:name=".QuizActivity"
+            android:label="QuizActivity" />
+        <activity
+            android:name=".ResultActivity"
+            android:label="ResultActivity" />
         <activity
             android:name=".home"
             android:label="@string/title_activity_home" />
