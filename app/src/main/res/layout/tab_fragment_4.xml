@@ -30,14 +30,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/read_quiz_from_file_button"
-            android:text="Read Quiz from file"
-            android:onClick="readQuizFromFile"
-            android:layout_gravity="center"/>
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -49,6 +41,12 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Question"
                 android:id="@+id/textView2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="ssss"
+                android:id="@+id/QuestionNumber" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -115,14 +113,29 @@
 
 
         </LinearLayout>
-
-        <Button android:id="@+id/add_question"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Add Question"
-            android:onClick="addQuestion"
-            android:layout_gravity="center">
-        </Button>
+            android:gravity="center">
+
+            <Button android:id="@+id/add_question"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Add Question"
+                android:onClick="addQuestion"
+                android:layout_gravity="center">
+            </Button>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Finish"
+                android:onClick="addQuestion"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,6 +147,13 @@
             android:paddingBottom="10dp"
             android:visibility="invisible"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:id="@+id/testbtn"
+            android:layout_gravity="center_horizontal" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,26 +162,26 @@
             android:paddingBottom="10dp">
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/quiz_buttons"
-            android:layout_gravity="center"
-            android:visibility="invisible">
-            <Button android:id="@+id/reset_quiz_button"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="reset quiz"
-                android:onClick="resetQuiz">
-            </Button>
-            <Button android:id="@+id/new_quiz_button"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="new quiz">
-                <!--android:onClick="newQuiz"-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/quiz_buttons"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:visibility="invisible">-->
+            <!--<Button android:id="@+id/reset_quiz_button"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="reset quiz"-->
+                <!--android:onClick="resetQuiz">-->
+            <!--</Button>-->
+            <!--<Button android:id="@+id/new_quiz_button"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="new quiz">-->
+                <!--&lt;!&ndash;android:onClick="newQuiz"&ndash;&gt;-->
 
-            </Button>
-        </LinearLayout>
+            <!--</Button>-->
+        <!--</LinearLayout>-->
 
 
     </LinearLayout>
