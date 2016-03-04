@@ -16,6 +16,7 @@
 
 package com.example.arashi.myapplication.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -53,6 +55,7 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,12 +84,98 @@ import java.util.PriorityQueue;
  * The status of questions will be updated on the phone when the user answers them.
  */
 public class TabFragment4 extends Fragment{
-
+    int questnum=1;
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
+            Button testbtn = (Button) v.findViewById(R.id.testbtn);
+
+            testbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent in = new Intent(getActivity(),QuizActivity.class);
+                    startActivity(in);
+                }
+
+
+            });
+
+            Button add_question = (Button) v.findViewById(R.id.add_question);
+//            add_question.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+////                    TextView QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+////                    QuestionNumber.setText("2");
+//
+//
+////                    RadioButton uans =(RadioButton)findViewById(rg.getCheckedRadioButtonId());
+////                    String ansText=uans.getText().toString();
+////
+////                    if (ansText.equals(ans[flag])){
+////
+////                        correct++;
+////                    }
+////                    else {
+////                        wrong++;
+////                    }
+////                    flag++;
+////                    if(flag<questions.length){
+////                        tv.setText(questions[flag]);
+////                        rb1.setText(opt[flag*4]);
+////                        rb2.setText(opt[flag*4+1]);
+////                        rb3.setText(opt[flag*4+2]);
+////                        rb4.setText(opt[flag*4+3]);
+////                    }
+////                    else    {
+////                        marks=correct;
+////                        Intent in = new Intent(getApplicationContext(),ResultActivity.class);
+////                        startActivity(in);
+////                    }
+//
+//                }
+//            });
         return v;
    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //public class TabFragment4 extends Fragment
 //        implements DataApi.DataListener,
 //        MessageApi.MessageListener, ConnectionCallbacks,
