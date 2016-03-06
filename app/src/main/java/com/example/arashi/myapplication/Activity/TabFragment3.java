@@ -42,7 +42,6 @@ public class TabFragment3 extends Fragment {
                 , "What is the benefit that you learn Database subject?" };
 
         CustomAdapterFragment3 adapter = new CustomAdapterFragment3(getActivity().getApplicationContext(), list, resId);
-
         ListView listView = (ListView)v.findViewById(R.id.listView1);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
