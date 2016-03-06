@@ -3,16 +3,21 @@ package com.example.arashi.myapplication.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Object.Roster;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 import com.example.arashi.myapplication.Object.Class;
+
+import java.util.ArrayList;
 
 /**
  * Created by Arashi on 2/11/2016.
@@ -23,23 +28,22 @@ public class PopUpActivity extends Activity {
     Button createButton,cancelButton;
     UserLocalStore userLocalStore;
     ClassLocalStore classLocalStore;
+    ListView listView;
+    ArrayList<Class> listItem = new ArrayList<>();
+    ClassAdapter adapter;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
+
+
         etClassName =  (EditText) findViewById(R.id.etClassName);
         etClassCode = (EditText) findViewById(R.id.etClassCode);
         userLocalStore = new UserLocalStore(this);
         classLocalStore = new ClassLocalStore(this);
-
-//        if(userLocalStore.getLoggedInUser().is_teacher == 1) {
-//            createButton.setText("CREATE");
-//        }
-//        else {
-//            createButton.setText("JOIN");
-//        }
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -77,6 +81,8 @@ public class PopUpActivity extends Activity {
 
                         }
                     }
+
+
             }
         });
 
@@ -90,6 +96,7 @@ public class PopUpActivity extends Activity {
             }
         });
 
+
     }
     private void createClass(Class classroom){
 
@@ -98,13 +105,15 @@ public class PopUpActivity extends Activity {
 
             public void done(Class returnedClass){
                 Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
-               // finish();
-                startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
+                //startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
+                finish();
             }
         });
 
       // fetchClass(classroom);
     }
+
+
 
     private void fetchClass( Class classroom){
         //For student show class
@@ -127,8 +136,4 @@ public class PopUpActivity extends Activity {
             }
         });
     }
-
-
-
-
 }

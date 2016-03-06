@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,7 +22,7 @@ import android.widget.Toast;
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Store.AnnounceLocalStore;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 /**
  * Created by Ooppo on 10/2/2559.
@@ -47,6 +49,18 @@ public class Pop extends Activity  {
     ClassLocalStore classLocalStore;
     Button Done, Back;
 
+
+//    public tabMainActivity.FragmentRefreshListener getFragmentRefreshListener() {
+//        return fragmentRefreshListener;
+//    }
+//    public void setFragmentRefreshListener(tabMainActivity.FragmentRefreshListener fragmentRefreshListener) {
+//        this.fragmentRefreshListener = fragmentRefreshListener;
+//    }
+//
+//    tabMainActivity.FragmentRefreshListener fragmentRefreshListener;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -55,7 +69,6 @@ public class Pop extends Activity  {
         setContentView(R.layout.popupwindow);
         DisplayMetrics dm =new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
 
 
 
@@ -82,7 +95,6 @@ public class Pop extends Activity  {
             }
         });
 
-//        datailAnn
 
         sp2 = getSharedPreferences(testPREFTOPIC2, Context.MODE_PRIVATE);
         editor2 = sp2.edit();
@@ -164,8 +176,8 @@ public class Pop extends Activity  {
             @Override
             public void done(Announcement returnAnnounce) {
                 Toast.makeText(Pop.this, "Posing is completed", Toast.LENGTH_SHORT).show();
-               // startActivity(new Intent(Pop.this, TabFragment2.class));
-                finish();
+                startActivity(new Intent(Pop.this, tabMainActivity.class));
+//                finish();
             }
         });
        // fetchAnnounce(announcement);
@@ -199,5 +211,14 @@ public class Pop extends Activity  {
             imageToUpload.setImageURI(selectedImage);
         }
     }
+
+
+
+
+
+
+
+
+
 
 }

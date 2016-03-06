@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Secure;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 //import android.widget.TextView;
 //import android.widget.Button;
 //import android.widget.Toast;

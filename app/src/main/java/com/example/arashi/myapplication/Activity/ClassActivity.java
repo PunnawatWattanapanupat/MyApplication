@@ -18,7 +18,7 @@ import com.example.arashi.myapplication.Object.Class;
 
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class ClassActivity extends Activity {
     UserLocalStore userLocalStore;
     ClassAdapter adapter;
     User user;
-
+    Runnable run;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,7 @@ public class ClassActivity extends Activity {
 
         }
 
-
-
+        //OnClickListView
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Class classItem = (Class) arg0.getItemAtPosition(arg2);
@@ -90,11 +89,12 @@ public class ClassActivity extends Activity {
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                adapter = new ClassAdapter(ClassActivity.this, listItem);
+                listView.setAdapter(adapter);
                 startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
-
             }
         });
+
 
     }
 

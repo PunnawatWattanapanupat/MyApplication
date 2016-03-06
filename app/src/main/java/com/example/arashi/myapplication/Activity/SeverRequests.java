@@ -1082,7 +1082,7 @@ public class SeverRequests {
                 for (int i = 0; i < noticeArray.length(); i++) {
                     JSONObject announcements = noticeArray.getJSONObject(i);
                     String topic = announcements.getString("topic");
-                    String detail = announcements.getString("topic");
+                    String detail = announcements.getString("detail");
                     String photo = announcements.getString("photo");
                     int user_id = announcements.getInt("user_id");
                     int class_id = announcements.getInt("class_id");

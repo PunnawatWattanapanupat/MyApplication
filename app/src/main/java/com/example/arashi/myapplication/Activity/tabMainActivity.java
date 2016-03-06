@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Button;
 
 //import android.app.FragmentManager;
 
@@ -21,6 +22,9 @@ public class tabMainActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE=1;
     ImageView imageToUpload;
 
+//    public interface FragmentRefreshListener{
+//        void onRefresh();
+//    }
 
 //    private static final int RESULT_LOAD_IMAGE=1;
 //    ImageView imageToUpload;
@@ -30,6 +34,17 @@ public class tabMainActivity extends AppCompatActivity {
     private boolean viewGroupIsVisible = true;
 
     private View mViewGroup;
+
+//    public FragmentRefreshListener getFragmentRefreshListener() {
+//        return fragmentRefreshListener;
+//    }
+//
+//    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
+//        this.fragmentRefreshListener = fragmentRefreshListener;
+//    }
+//
+//    private FragmentRefreshListener fragmentRefreshListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +84,21 @@ public class tabMainActivity extends AppCompatActivity {
 
             }
         });
+
+
+//        Button createAnnounce = (Button)findViewById(R.id.createAnnounce);
+//
+//        createAnnounce.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(getFragmentRefreshListener()!=null){
+//                    getFragmentRefreshListener().onRefresh();
+//                }
+//            }
+//        });
+
+
+
 
 
 //        Button b = (Button) findViewById(R.id.testPopup);
@@ -130,6 +160,7 @@ public class tabMainActivity extends AppCompatActivity {
 //        }
 //
 //    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

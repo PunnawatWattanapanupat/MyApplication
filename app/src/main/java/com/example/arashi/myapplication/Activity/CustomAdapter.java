@@ -34,7 +34,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return topic.get(position);
     }
 
     public long getItemId(int position) {

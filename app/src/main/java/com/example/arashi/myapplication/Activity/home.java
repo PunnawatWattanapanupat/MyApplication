@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.arashi.myapplication.Activity.ClassActivity;
 import com.example.arashi.myapplication.Activity.EditProfile;
 import com.example.arashi.myapplication.Activity.MainActivity;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 
 public class home extends Activity implements View.OnClickListener  {

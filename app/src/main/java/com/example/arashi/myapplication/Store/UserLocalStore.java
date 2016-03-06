@@ -1,4 +1,4 @@
-package com.example.arashi.myapplication;
+package com.example.arashi.myapplication.Store;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -34,7 +34,7 @@ public class AnnounceLocalStore {
         int user_id = announceLocalDatabase.getInt("user_id",-1);
 
 
-        Announcement storedAnnounce = new Announcement(topic, detail, photo,user_id);
+        Announcement storedAnnounce = new Announcement(topic, detail, photo, user_id);
         return storedAnnounce;
     }
     public void setAnnounceForShow(boolean joinedIn){

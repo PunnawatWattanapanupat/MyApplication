@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Secure;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 public class EditProfile extends Activity implements View.OnClickListener {
 

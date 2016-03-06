@@ -1,7 +1,9 @@
 package com.example.arashi.myapplication.Activity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,11 +18,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.AnnounceLocalStore;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
-import com.example.arashi.myapplication.UserLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ public class TabFragment2 extends Fragment {
     Class classroom;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
@@ -58,15 +62,16 @@ public class TabFragment2 extends Fragment {
         listView = (ListView) v.findViewById(R.id.listView1);
 
 
-        ImageView createAnnounce = (ImageView) v.findViewById(R.id.createAnnounce);
 
-        //Add announcement button
-        createAnnounce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(),Pop.class));
-            }
-        });
+//        ((tabMainActivity)getActivity()).setFragmentRefreshListener(new tabMainActivity.FragmentRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                // Refresh Your Fragment
+//            }
+//        });
+
+        ImageView createAnnounce = (ImageView) v.findViewById(R.id.createAnnounce);
 
 
         int[] resId = { R.drawable.announcement_icon, R.drawable.announcement_icon
@@ -101,17 +106,29 @@ public class TabFragment2 extends Fragment {
             }
         });
 
+
+
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Announcement announcement = (Announcement) arg0.getItemAtPosition(arg2);
                 //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                 announceLocalStore.storeAnnounceData(announcement);
                 announceLocalStore.setAnnounceForShow(true);
-                //startActivity(new Intent(getActivity(),PopAnswer.class));
+                startActivity(new Intent(getActivity(),PopAnnounceDetail.class));
+
             }
         });
 //        Toast toast = Toast.makeText(getActivity(),""+list.length , Toast.LENGTH_SHORT);
 //        toast.show();
+
+        //Add announcement button
+        createAnnounce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),Pop.class));
+            }
+        });
+
 
         return v;
     }
@@ -132,10 +149,6 @@ public class TabFragment2 extends Fragment {
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
     }
-
-
-
-
 
 
 }
