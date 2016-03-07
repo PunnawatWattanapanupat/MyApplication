@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="ssss"
+                android:text=""
                 android:id="@+id/QuestionNumber" />
 
             <EditText
@@ -122,16 +122,16 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Add Question"
-                android:onClick="addQuestion"
+
                 android:layout_gravity="center">
             </Button>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/finishButton"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Finish"
-                android:onClick="addQuestion"
+
                 android:layout_gravity="center_horizontal" />
 
         </LinearLayout>

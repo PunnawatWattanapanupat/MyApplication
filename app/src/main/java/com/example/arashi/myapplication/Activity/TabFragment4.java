@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.google.android.gms.common.ConnectionResult;
 //import com.google.android.gms.common.api.GoogleApiClient;
@@ -84,11 +85,21 @@ import java.util.PriorityQueue;
  * The status of questions will be updated on the phone when the user answers them.
  */
 public class TabFragment4 extends Fragment{
+    TextView QuestionNumber;
+    EditText choice_a_text;
+    EditText choice_b_text;
+    EditText choice_c_text;
+    EditText choice_d_text;
+    Integer count=1;
     int questnum=1;
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
             Button testbtn = (Button) v.findViewById(R.id.testbtn);
-
+            choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
+            choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
+            choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
+            choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
+            QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
             testbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,41 +110,83 @@ public class TabFragment4 extends Fragment{
 
             });
 
+            QuestionNumber.setText(count.toString());
             Button add_question = (Button) v.findViewById(R.id.add_question);
-//            add_question.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
+            add_question.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
+
+                    String choice_a_text_value = choice_a_text.getText().toString();
+                    String choice_b_text_value = choice_b_text.getText().toString();
+                    String choice_c_text_value = choice_c_text.getText().toString();
+                    String choice_d_text_value = choice_d_text.getText().toString();
+
+
+
+//                    Toast.makeText(getActivity(), choice_a_text_value+choice_b_text_value+choice_c_text_value+choice_d_text_value, Toast.LENGTH_LONG).show();
+
+
+                    Log.d("choice_a_text_value",choice_a_text_value);
+                    Log.d("choice_b_text_value",choice_b_text_value);
+                    Log.d("choice_c_text_value",choice_c_text_value);
+                    Log.d("choice_d_text_value",choice_d_text_value);
+
+
+                    Toast.makeText(getActivity(), "This question's already saved.", Toast.LENGTH_LONG).show();
+
+
+                    String count_value = count.toString();
+                    choice_a_text.setText("");
+                    choice_b_text.setText("");
+                    choice_c_text.setText("");
+                    choice_d_text.setText("");
+                    ++count;
+                    Log.d("count_value",count_value);
+                    getActivity().finish();
+                    startActivity(getActivity().getIntent());
+
+//                    TextView QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+//                    QuestionNumber.setText("2");
+
+
+//                    RadioButton uans =(RadioButton)findViewById(rg.getCheckedRadioButtonId());
+//                    String ansText=uans.getText().toString();
 //
-////                    TextView QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
-////                    QuestionNumber.setText("2");
+//                    if (ansText.equals(ans[flag])){
 //
-//
-////                    RadioButton uans =(RadioButton)findViewById(rg.getCheckedRadioButtonId());
-////                    String ansText=uans.getText().toString();
-////
-////                    if (ansText.equals(ans[flag])){
-////
-////                        correct++;
-////                    }
-////                    else {
-////                        wrong++;
-////                    }
-////                    flag++;
-////                    if(flag<questions.length){
-////                        tv.setText(questions[flag]);
-////                        rb1.setText(opt[flag*4]);
-////                        rb2.setText(opt[flag*4+1]);
-////                        rb3.setText(opt[flag*4+2]);
-////                        rb4.setText(opt[flag*4+3]);
-////                    }
-////                    else    {
-////                        marks=correct;
-////                        Intent in = new Intent(getApplicationContext(),ResultActivity.class);
-////                        startActivity(in);
-////                    }
-//
-//                }
-//            });
+//                        correct++;
+//                    }
+//                    else {
+//                        wrong++;
+//                    }
+//                    flag++;
+//                    if(flag<questions.length){
+//                        tv.setText(questions[flag]);
+//                        rb1.setText(opt[flag*4]);
+//                        rb2.setText(opt[flag*4+1]);
+//                        rb3.setText(opt[flag*4+2]);
+//                        rb4.setText(opt[flag*4+3]);
+//                    }
+//                    else    {
+//                        marks=correct;
+//                        Intent in = new Intent(getApplicationContext(),ResultActivity.class);
+//                        startActivity(in);
+//                    }
+
+                }
+            });
+
+
+            Button finishButton = (Button) v.findViewById(R.id.finishButton);
+            finishButton.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                }
+            });
         return v;
    }
 }
