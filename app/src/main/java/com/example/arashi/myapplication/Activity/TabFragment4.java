@@ -86,6 +86,7 @@ import java.util.PriorityQueue;
  */
 public class TabFragment4 extends Fragment{
     TextView QuestionNumber;
+    EditText question_text;
     EditText choice_a_text;
     EditText choice_b_text;
     EditText choice_c_text;
@@ -95,11 +96,15 @@ public class TabFragment4 extends Fragment{
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
             Button testbtn = (Button) v.findViewById(R.id.testbtn);
+
+            question_text = (EditText) v.findViewById(R.id.question_text);
             choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
             choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
             choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
             choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
             QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+
+
             testbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,7 +115,7 @@ public class TabFragment4 extends Fragment{
 
             });
 
-            QuestionNumber.setText(count.toString());
+            QuestionNumber.setText(""+count);
             Button add_question = (Button) v.findViewById(R.id.add_question);
             add_question.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,7 +123,7 @@ public class TabFragment4 extends Fragment{
 
 
                     //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
-
+                    String question_text_value = question_text.getText().toString();
                     String choice_a_text_value = choice_a_text.getText().toString();
                     String choice_b_text_value = choice_b_text.getText().toString();
                     String choice_c_text_value = choice_c_text.getText().toString();
@@ -128,7 +133,7 @@ public class TabFragment4 extends Fragment{
 
 //                    Toast.makeText(getActivity(), choice_a_text_value+choice_b_text_value+choice_c_text_value+choice_d_text_value, Toast.LENGTH_LONG).show();
 
-
+                    Log.d("question_text_value",question_text_value);
                     Log.d("choice_a_text_value",choice_a_text_value);
                     Log.d("choice_b_text_value",choice_b_text_value);
                     Log.d("choice_c_text_value",choice_c_text_value);
@@ -138,15 +143,18 @@ public class TabFragment4 extends Fragment{
                     Toast.makeText(getActivity(), "This question's already saved.", Toast.LENGTH_LONG).show();
 
 
-                    String count_value = count.toString();
+                   // String count_value = count.toString();
+                    question_text.setText("");
                     choice_a_text.setText("");
                     choice_b_text.setText("");
                     choice_c_text.setText("");
                     choice_d_text.setText("");
-                    ++count;
-                    Log.d("count_value",count_value);
-                    getActivity().finish();
-                    startActivity(getActivity().getIntent());
+                    count++;
+                    Log.d("count_value",""+count);
+
+                    QuestionNumber.setText(""+count);
+//                    getActivity().finish();
+//                    startActivity(getActivity().getIntent());
 
 //                    TextView QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
 //                    QuestionNumber.setText("2");
