@@ -38,8 +38,6 @@ public class PopUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
-
-
         etClassName =  (EditText) findViewById(R.id.etClassName);
         etClassCode = (EditText) findViewById(R.id.etClassCode);
         userLocalStore = new UserLocalStore(this);
@@ -73,20 +71,16 @@ public class PopUpActivity extends Activity {
                             createClass(classroom);
                         }
                         else {
-
-                                //Roster roster = new Roster(user_id,);
-                                Class classroom = new Class(className, classCode);
-                                fetchClass(classroom);
+                            Class classroom = new Class(className, classCode);
+                            studentJoinClass(classroom);
+                            //createRoster(roster);
 //                            Toast.makeText(PopUpActivity.this,"Student", Toast.LENGTH_SHORT).show();
-
                         }
                     }
 
 
             }
         });
-
-
         //cancel
         cancelButton = (Button) findViewById(R.id.CancelClassButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +89,8 @@ public class PopUpActivity extends Activity {
                 finish();
             }
         });
-
-
     }
     private void createClass(Class classroom){
-
         SeverRequests serverRequests = new SeverRequests(this);
         serverRequests.storeClassDataInBackground(classroom, new GetClassCallback(){
 
@@ -109,29 +100,38 @@ public class PopUpActivity extends Activity {
                 finish();
             }
         });
-
-      // fetchClass(classroom);
     }
 
+    private void createRoster(Roster roster){
+        SeverRequests serverRequests = new SeverRequests(this);
+        serverRequests.storeRosterDataInBackground(roster, new GetRosterCallback(){
 
+            public void done(Roster returnedRoster){
+               // Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
+                finish();
+            }
+        });
+    }
 
-    private void fetchClass( Class classroom){
+    private void studentJoinClass( Class classroom){
         //For student show class
         SeverRequests serverRequests = new SeverRequests(this);
         serverRequests.fetchClassDataInBackground(classroom, new GetClassCallback(){
             public void done(Class returnedClass){
-                classLocalStore.storeClassData(returnedClass);
-                classLocalStore.setClassJoinedIn(true);
-                if(returnedClass != null && returnedClass.class_id == classLocalStore.getJoinedInClass().class_id && returnedClass.classname == classLocalStore.getJoinedInClass().classname){
+
+                if(returnedClass != null){
                     classLocalStore.storeClassData(returnedClass);
                     classLocalStore.setClassJoinedIn(true);
-                    Toast.makeText(PopUpActivity.this, "Show Class", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
-                    finish();
+                    Toast.makeText(PopUpActivity.this, "Join Class", Toast.LENGTH_SHORT).show();
 
+                    int user_id = userLocalStore.getLoggedInUser().user_id;
+                    Roster roster = new Roster(user_id,classLocalStore.getJoinedInClass().class_id);
+                    createRoster(roster);
                 }
                 else{
                     Toast.makeText(PopUpActivity.this, "No Class", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });

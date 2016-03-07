@@ -24,6 +24,9 @@ import com.example.arashi.myapplication.Store.AnnounceLocalStore;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * Created by Ooppo on 10/2/2559.
  */
@@ -146,12 +149,13 @@ public class Pop extends Activity  {
                 String photo = "cannot save photo";
                 int user_id = classLocalStore.getJoinedInClass().user_id;
                 int class_id = classLocalStore.getJoinedInClass().class_id;
+                String date_post = DateFormat.getDateTimeInstance().format(new Date());
 
                 if(topic.isEmpty() || detail.isEmpty() || user_id == 0 || class_id == 0){
                     Toast.makeText(Pop.this,"Please fill all completely", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                        Announcement announcement = new Announcement(topic, detail, photo, user_id, class_id);
+                        Announcement announcement = new Announcement(topic, detail, photo,date_post, user_id, class_id);
                         postAnnounce(announcement);
                 }
 
@@ -180,27 +184,8 @@ public class Pop extends Activity  {
 //                finish();
             }
         });
-       // fetchAnnounce(announcement);
-    }
 
-//    private void fetchAnnounce(Announcement announcement){
-//        //For student show class
-//        SeverRequests serverRequests = new SeverRequests(this);
-//        serverRequests.fetchAnnounceDataInBackground(announcement,new GetAnnounceCallBack() {
-//            @Override
-//            public void done(Announcement returnAnnounce) {
-//                if(returnAnnounce != null){
-//                    announceLocalStore.storeAnnounceData(returnAnnounce);
-//                    announceLocalStore.setAnnounceForShow(true);
-//                    Toast.makeText(Pop.this, "Show Announce", Toast.LENGTH_SHORT).show();
-//                    finish();
-//                }
-//                else{
-//                    Toast.makeText(Pop.this, "No Announce", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
+    }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

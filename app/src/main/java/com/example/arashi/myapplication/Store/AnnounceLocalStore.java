@@ -22,6 +22,7 @@ public class AnnounceLocalStore {
         spEditor.putString("topic", announcement.topic);
         spEditor.putString("detail", announcement.detail);
         spEditor.putString("photo", announcement.photo);
+        spEditor.putString("date_post", announcement.detail);
         spEditor.putInt("user_id",announcement.user_id);
         spEditor.commit();
     }
@@ -31,10 +32,11 @@ public class AnnounceLocalStore {
         String topic = announceLocalDatabase.getString("topic", "");
         String detail = announceLocalDatabase.getString("detail","");
         String photo = announceLocalDatabase.getString("photo","");
+        String date_post = announceLocalDatabase.getString("date_post","");
         int user_id = announceLocalDatabase.getInt("user_id",-1);
 
 
-        Announcement storedAnnounce = new Announcement(topic, detail, photo, user_id);
+        Announcement storedAnnounce = new Announcement(topic, detail, photo,date_post, user_id);
         return storedAnnounce;
     }
     public void setAnnounceForShow(boolean joinedIn){

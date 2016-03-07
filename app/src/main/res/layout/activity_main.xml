@@ -120,7 +120,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/color_text_light_green"
-            android:text="@string/confirm"
+            android:text="@string/login"
             android:onClick="onConfirmClicked"/>
 
 

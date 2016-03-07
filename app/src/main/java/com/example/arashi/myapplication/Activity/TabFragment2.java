@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -74,14 +75,25 @@ public class TabFragment2 extends Fragment {
         ImageView createAnnounce = (ImageView) v.findViewById(R.id.createAnnounce);
 
 
-        int[] resId = { R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon
-                , R.drawable.announcement_icon, R.drawable.announcement_icon};
+//        int[] resId= new int[adapter.getCount()];
+//        for(int number = 0; number < adapter.getCount();number++ ){
+//            resId[number] = R.drawable.announcement_icon;
+//        }
+
+//        int[] count_array = new int[adapter.getCount()];
+//        for(int number = 0; number < adapter.getCount();number++ ){
+//            count_array[number] = number+1;
+//        }
+
+//        int[] resId = { R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon
+//                , R.drawable.announcement_icon, R.drawable.announcement_icon};
+
 //        SeverRequests fetch = new SeverRequests(getActivity());
 //        String temp = fetch.GetTopic();
 //        temp = temp.substring(0, temp.length()-1);
@@ -89,7 +101,7 @@ public class TabFragment2 extends Fragment {
 
 
 
-        adapter = new CustomAdapter(getActivity(),listItem ,resId);
+        adapter = new CustomAdapter(getActivity(),listItem);
         listView.setAdapter(adapter);
         classroom = classLocalStore.getJoinedInClass();
 
@@ -100,9 +112,9 @@ public class TabFragment2 extends Fragment {
                     listItem = returnedShowAnnounce;
                     adapter.setListData(listItem);
                 }
-                else {
-                    Toast.makeText(getActivity(),Integer.toString(classroom.user_id)+" No Data", Toast.LENGTH_SHORT).show();
-                }
+//                else {
+//                    Toast.makeText(getActivity(),Integer.toString(classroom.user_id)+" No Data", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 

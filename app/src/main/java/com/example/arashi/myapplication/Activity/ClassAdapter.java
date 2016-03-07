@@ -61,6 +61,6 @@ public class ClassAdapter extends BaseAdapter {
 
     public void setListData(ArrayList<Class> strData){
         this.strData = strData;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 }

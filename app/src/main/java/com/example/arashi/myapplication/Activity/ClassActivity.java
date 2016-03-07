@@ -33,7 +33,6 @@ public class ClassActivity extends Activity {
     UserLocalStore userLocalStore;
     ClassAdapter adapter;
     User user;
-    Runnable run;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +48,25 @@ public class ClassActivity extends Activity {
 
         adapter = new ClassAdapter(this, listItem);
         listView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
 //        Bundle bundle = getIntent().getExtras();
 //        userId = bundle.getInt("userId");
 
 
-        //teacher class
-        if(userLocalStore.getLoggedInUser().is_teacher == 1) {
-            severRequests.showClassListInBackground(user, new GetShowClassCallback() {
-                @Override
-                public void done(ArrayList<Class> returnedShowClass) {
-                    if (returnedShowClass.size() > 0) {
-                        listItem = returnedShowClass;
-                        adapter.setListData(listItem);
-                    } else {
-                        Toast.makeText(ClassActivity.this, Integer.toString(user.user_id) + " No Data", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-        //student class
-        else{
 
-        }
+
+        severRequests.showClassListInBackground(user, new GetShowClassCallback() {
+            @Override
+            public void done(ArrayList<Class> returnedShowClass) {
+                if (returnedShowClass.size() > 0) {
+                    listItem = returnedShowClass;
+                    adapter.setListData(listItem);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ClassActivity.this,"No Data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //OnClickListView
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -89,8 +84,6 @@ public class ClassActivity extends Activity {
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapter = new ClassAdapter(ClassActivity.this, listItem);
-                listView.setAdapter(adapter);
                 startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
             }
         });

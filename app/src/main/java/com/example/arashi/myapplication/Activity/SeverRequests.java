@@ -80,18 +80,27 @@ public class SeverRequests {
         new StoreAnnounceDataAsyncTask(announcement, announceCallBack).execute();
     }
 
-//    public void fetchAnnounceDataInBackground(Announcement announcement, GetAnnounceCallBack announceCallBack){
-//        progressDialog.show();
-//        new  fetchAnnounceDataAsyncTask(announcement, announceCallBack).execute();
-//    }
-
     public void showAnnounceListInBackground(Class classroom,GetShowAnnounceCallback  getShowAnnounceCallback) {
         new showAnnounceListAsyncTask(classroom, getShowAnnounceCallback).execute();
     }
 
-    public String GetTopic(){
-        String data = "test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,mmmm,mmmm,mmmm,mmmm,mmmm,fff,1fhfc,ykfyfhkvk,uuhhhh,kuy,";
-        return data;
+
+    public String getEncodeData(Map<String, String> data) {
+        StringBuilder sb = new StringBuilder();
+        for (String key : data.keySet()) {
+            String value = null;
+            try {
+                value = URLEncoder.encode(data.get(key), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            if (sb.length() > 0)
+                sb.append("&");
+
+            sb.append(key + "=" + value);
+        }
+        return sb.toString();
     }
 
 
@@ -172,23 +181,6 @@ public class SeverRequests {
             return returnUser;
         }
 
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
 
         protected void onPostExecute(User returnUser){
             progressDialog.dismiss();
@@ -271,23 +263,6 @@ public class SeverRequests {
         }
 
 
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
 
         protected void onPostExecute(User returnedUser){
             progressDialog.dismiss();
@@ -374,23 +349,6 @@ public class SeverRequests {
             return returnUser;
         }
 
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
 
         protected void onPostExecute(User returnUser){
             progressDialog.dismiss();
@@ -475,24 +433,6 @@ public class SeverRequests {
         }
 
 
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
-
         protected void onPostExecute(Class returnClass){
             progressDialog.dismiss();
             classCallback.done(returnClass);
@@ -576,24 +516,6 @@ public class SeverRequests {
         }
 
 
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
-
         protected void onPostExecute(Class returnClass){
             progressDialog.dismiss();
             classCallback.done(returnClass);
@@ -628,7 +550,15 @@ public class SeverRequests {
                 String line = "";
 
                 try {
-                    URL url = new URL(SERVER_ADDRESS + "ShowClass.php");
+                    URL url;
+                    //teacher
+                    if(user.is_teacher == 1) {
+                        url = new URL(SERVER_ADDRESS + "ShowClass.php");
+                    }
+                    //student
+                    else {
+                        url = new URL(SERVER_ADDRESS + "ShowClassStudent.php");
+                    }
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
                     con.setRequestMethod("POST");
@@ -679,24 +609,6 @@ public class SeverRequests {
             return showClass;
         }
 
-
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
 
         protected void onPostExecute(ArrayList<Class> returnShowClass){
             progressDialog.dismiss();
@@ -769,12 +681,12 @@ public class SeverRequests {
                 JSONObject jObj = new JSONObject(line);
 
                 if (jObj.length() != 0) {
-//                    int user_id = jObj.getInt("user_id");
-//                    int class_id = jObj.getInt("class_id");
+                    int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
  //                 int check_student = jObj.getInt("check_student");
 
 
-                    returnRoster = new Roster(roster.user_id,roster.class_id);
+                    returnRoster = new Roster(user_id,class_id);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
@@ -783,24 +695,6 @@ public class SeverRequests {
             return returnRoster;
         }
 
-
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
 
         protected void onPostExecute(Roster returnRoster){
             progressDialog.dismiss();
@@ -823,6 +717,7 @@ public class SeverRequests {
             dataToSend.put("topic", announcement.topic);
             dataToSend.put("detail",announcement.detail );
             dataToSend.put("photo", announcement.photo);
+            dataToSend.put("date_post", announcement.date_post);
             dataToSend.put("user_id", announcement.user_id+"");
             dataToSend.put("class_id", announcement.class_id+"");
 
@@ -869,12 +764,14 @@ public class SeverRequests {
                 JSONObject jObj = new JSONObject(line);
 
                 if (jObj.length() != 0) {
+                    String topic = jObj.getString("topic");
                     String detail = jObj.getString("detail");
                     String photo = jObj.getString("photo");
+                    String date_post = jObj.getString("date_post");
                     int user_id = jObj.getInt("user_id");
                     int class_id = jObj.getInt("class_id");
 
-                    returnAnnounce = new Announcement(announcement.topic,detail, photo, user_id, class_id);
+                    returnAnnounce = new Announcement(topic,detail, photo, date_post, user_id, class_id);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
@@ -882,26 +779,6 @@ public class SeverRequests {
 
             return returnAnnounce;
         }
-
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
-
-
 
 
         protected void onPostExecute(Announcement returnAnnounce){
@@ -911,111 +788,6 @@ public class SeverRequests {
         }
     }
 
-
-//    public class fetchAnnounceDataAsyncTask extends AsyncTask<Void, Void, Announcement> {
-//        Announcement announcement;
-//        GetAnnounceCallBack announceCallBack;
-//
-//
-//        public fetchAnnounceDataAsyncTask(Announcement announcement, GetAnnounceCallBack announceCallBack) {
-//            this.announcement = announcement;
-//            this.announceCallBack = announceCallBack;
-//
-//        }
-//
-//        @Override
-//        protected Announcement doInBackground(Void... params) {
-//            Map<String, String> dataToSend = new HashMap<>();
-//            dataToSend.put("topic",announcement.topic );
-//            dataToSend.put("detail",announcement.detail);
-//
-//            Announcement returnAnnounce = null;
-//
-//            try {
-//
-//                String encode = getEncodeData(dataToSend);
-//                BufferedReader reader = null; // Read some data from server
-//                String line = "";
-//
-//                try {
-//                    URL url = new URL(SERVER_ADDRESS + "FetchAnnounceData.php");
-//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//
-//                    con.setRequestMethod("POST");
-//                    con.setDoOutput(true);
-//                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
-//                    writer.write(encode);
-//                    writer.flush();
-//
-//                    StringBuilder stringBuilder = new StringBuilder();
-//                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//
-//
-//                    while ((line = reader.readLine()) != null) {
-//                        stringBuilder.append(line + "\n");
-//                    }
-//                    line = stringBuilder.toString();
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    if (reader != null) {
-//                        try {
-//                            reader.close(); // Close Reader
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//
-//                Log.i("custom_check", line);
-//
-//                JSONObject jObj = new JSONObject(line);
-//
-//                if (jObj.length() != 0) {
-//                    int class_id = jObj.getInt("class_id");
-//                    int user_id = jObj.getInt("user_id");
-//                    String topic = jObj.getString("topic");
-//                    String detail = jObj.getString("detail");
-//                    String photo = jObj.getString("photo");
-//
-//
-//                    returnAnnounce = new Announcement(topic, detail, photo,user_id,class_id);
-//                }
-//            } catch (Exception e) {
-//                Log.e("custom_check", e.toString());
-//            }
-//
-//            return returnAnnounce;
-//        }
-//
-//        private String getEncodeData(Map<String, String> data) {
-//            StringBuilder sb = new StringBuilder();
-//            for (String key : data.keySet()) {
-//                String value = null;
-//                try {
-//                    value = URLEncoder.encode(data.get(key), "UTF-8");
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                if (sb.length() > 0)
-//                    sb.append("&");
-//
-//                sb.append(key + "=" + value);
-//            }
-//            return sb.toString();
-//        }
-//
-//
-//
-//
-//        protected void onPostExecute(Announcement returnAnnounce){
-//            progressDialog.dismiss();
-//            announceCallBack.done(returnAnnounce);
-//            super.onPostExecute(returnAnnounce);
-//        }
-//    }
 
     public class showAnnounceListAsyncTask extends AsyncTask<Void, Void, ArrayList<Announcement>> {
 
@@ -1084,9 +856,10 @@ public class SeverRequests {
                     String topic = announcements.getString("topic");
                     String detail = announcements.getString("detail");
                     String photo = announcements.getString("photo");
+                    String date_post = announcements.getString("date_post");
                     int user_id = announcements.getInt("user_id");
                     int class_id = announcements.getInt("class_id");
-                    announcement = new Announcement(topic, detail, photo, user_id, class_id);
+                    announcement = new Announcement(topic, detail, photo,date_post, user_id, class_id);
                     showAnnounce.add(announcement);
                 }
             } catch (Exception e) {
@@ -1096,24 +869,6 @@ public class SeverRequests {
             return showAnnounce;
         }
 
-
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
-        }
 
         protected void onPostExecute(ArrayList<Announcement> returnShowAnnounce){
             progressDialog.dismiss();

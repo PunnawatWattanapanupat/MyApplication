@@ -18,23 +18,22 @@ import java.util.ArrayList;
 public class CustomAdapter extends BaseAdapter {
 
     Context mContext;
-    ArrayList<Announcement> topic;
-    int[] resId;
+    ArrayList<Announcement> announceData;
 
 
-    public CustomAdapter(Context context, ArrayList<Announcement> topic, int[] resId ) {
+
+
+    public CustomAdapter(Context context, ArrayList<Announcement> announceData ) {
         this.mContext= context;
-        this.topic = topic;
-        this.resId = resId;
-
+        this.announceData = announceData;
     }
 
     public int getCount() {
-        return topic.size();
+        return announceData.size();
     }
 
     public Object getItem(int position) {
-        return topic.get(position);
+        return announceData.get(position);
     }
 
     public long getItemId(int position) {
@@ -48,14 +47,25 @@ public class CustomAdapter extends BaseAdapter {
         if(view == null)
             view = mInflater.inflate(R.layout.listview_row, parent, false);
 
-        Announcement announcement = topic.get(position);
-        String AnnounceData = announcement.topic;
+        Announcement announcement = announceData.get(position);
+        String AnnounceTopic = announcement.topic;
+        String AnnounceDateTime = announcement.date_post;
 
-
+        //for show
+        TextView numberCount = (TextView)view.findViewById(R.id.NumberCount);
+        numberCount.setText(Integer.toString(position+1));
 
 
         TextView textView = (TextView)view.findViewById(R.id.textView1);
-        textView.setText(AnnounceData);
+        textView.setText(AnnounceTopic);
+
+        TextView txt_date_time = (TextView)view.findViewById(R.id.txt_date_time);
+        txt_date_time.setText(AnnounceDateTime);
+
+        int[] resId= new int[getCount()];
+        for(int number = 0; number < getCount();number++ ){
+            resId[number] = R.drawable.announcement_icon;
+        }
 
         ImageView imageView = (ImageView)view.findViewById(R.id.imageView1);
         imageView.setBackgroundResource(resId[position]);
@@ -63,8 +73,8 @@ public class CustomAdapter extends BaseAdapter {
         return view;
     }
 
-    public void setListData(ArrayList<Announcement> topic){
-        this.topic = topic;
-        notifyDataSetChanged();
+    public void setListData(ArrayList<Announcement> announceData){
+        this.announceData = announceData;
+        this.notifyDataSetChanged();
     }
 }

@@ -127,7 +127,6 @@ public class MainActivity extends Activity implements OnClickListener {
     private void logUserIn(User returnedUser){
         userLocalStore.storeUserData(returnedUser);
         userLocalStore.setUserLoggedIn(true);
-        //String username = mUsername.getText().toString();
         Toast.makeText(this,"Log In is Completed", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this, home.class);
        // intent.putExtra("message", username);

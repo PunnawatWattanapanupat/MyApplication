@@ -17,6 +17,10 @@ import com.example.arashi.myapplication.Activity.EditProfile;
 import com.example.arashi.myapplication.Activity.MainActivity;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class home extends Activity implements View.OnClickListener  {
     TextView vName, vUsername, vEmail, vStatus;
@@ -49,7 +53,8 @@ public class home extends Activity implements View.OnClickListener  {
 
     }
 
-    protected void onBegin(){
+    public void onBegin(){
+        //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         vUsername.setText(userLocalStore.getLoggedInUser().username);
         vName.setText(userLocalStore.getLoggedInUser().name);
         vEmail.setText(userLocalStore.getLoggedInUser().email);
@@ -70,7 +75,7 @@ public class home extends Activity implements View.OnClickListener  {
                 startActivity(new Intent(this, EditProfile.class));
                 break;
             case R.id.button_class:
-                //Toast.makeText(this,Integer.toString(userLocalStore.getLoggedInUser().user_id), Toast.LENGTH_SHORT).show();
+
 //                Intent intent = new Intent(this, ClassActivity.class);
 //                intent.putExtra("userId", userLocalStore.getLoggedInUser().user_id);
 //                startActivity(intent);
