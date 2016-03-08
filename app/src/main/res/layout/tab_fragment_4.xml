@@ -7,10 +7,13 @@
 
           http://www.apache.org/licenses/LICENSE-2.0
 
-     Unless required by applicable law or agreed to in writing, software
+     Unless required by applicable law or agreed to in writing,
+software
      distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied.
+     See the License for the specific language governing permissions
+and
      limitations under the License.
 -->
 
@@ -56,133 +59,120 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Quiz"
+            android:id="@+id/createQuizButton"
             android:layout_gravity="center"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-        <CheckBox
-            android:id="@+id/item_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Release this Quiz For Students"
-            android:id="@+id/textcheckbox" />
-    </LinearLayout>
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Question"
-                android:id="@+id/textView2" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=""
-                android:id="@+id/QuestionNumber" />
+        <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/question_text" />
-        </LinearLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?
+android:attr/textAppearanceLarge"-->
+        <!--android:text="Question"-->
+        <!--android:id="@+id/textView2" />-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?
+android:attr/textAppearanceLarge"-->
+        <!--android:text=""-->
+        <!--android:id="@+id/QuestionNumber" />-->
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/question_text" />-->
+        <!--</LinearLayout>-->
 
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/choices_radio_group">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:text="Choice A"
-                    android:id="@+id/choice_a_radio"
-                    android:checked="true" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:text="Choice B"
-                    android:id="@+id/choice_b_radio"
-                    android:checked="false" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:text="Choice C"
-                    android:id="@+id/choice_c_radio" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:text="Choice D"
-                    android:id="@+id/choice_d_radio" />
-            </RadioGroup>
+        <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:id="@+id/choice_a_text" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:id="@+id/choice_b_text" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:id="@+id/choice_c_text" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:id="@+id/choice_d_text" />
-            </LinearLayout>
+        <!--<RadioGroup-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:id="@+id/choices_radio_group">-->
+        <!--<RadioButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:text="Choice A"-->
+        <!--android:id="@+id/choice_a_radio"-->
+        <!--android:checked="true" />-->
+        <!--<RadioButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:text="Choice B"-->
+        <!--android:id="@+id/choice_b_radio"-->
+        <!--android:checked="false" />-->
+        <!--<RadioButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:text="Choice C"-->
+        <!--android:id="@+id/choice_c_radio" />-->
+        <!--<RadioButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:text="Choice D"-->
+        <!--android:id="@+id/choice_d_radio" />-->
+        <!--</RadioGroup>-->
 
 
-        </LinearLayout>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:id="@+id/choice_a_text" />-->
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:id="@+id/choice_b_text" />-->
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:id="@+id/choice_c_text" />-->
+        <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:id="@+id/choice_d_text" />-->
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
 
-            <Button android:id="@+id/add_question"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Add Question"
+        <!--</LinearLayout>-->
 
-                android:layout_gravity="center">
-            </Button>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center">-->
 
-            <Button
-                android:id="@+id/finishButton"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Finish"
+        <!--<Button android:id="@+id/add_question"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Add Question"-->
 
-                android:layout_gravity="center_horizontal" />
+        <!--android:layout_gravity="center">-->
+        <!--</Button>-->
 
-        </LinearLayout>
+        <!--<Button-->
+        <!--android:id="@+id/finishButton"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Finish"-->
+
+        <!--android:layout_gravity="center_horizontal" />-->
+
+        <!--</LinearLayout>-->
 
 
         <Button
@@ -223,8 +213,8 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="245dp"
-            android:id="@+id/Question_alreadyCreate">
+            android:layout_height="451dp"
+            android:id="@+id/Quiz_alreadyCreate">
 
         </ListView>
     </LinearLayout>
