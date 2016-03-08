@@ -53,8 +53,6 @@ public class EditProfile extends Activity implements View.OnClickListener {
 
 
                     if (password.equals(confirm_password)) {
-                        password = secure.getHash(password);
-
                         if (username.isEmpty()) {
                             username = userLocalStore.getLoggedInUser().username;
                         }
@@ -72,24 +70,12 @@ public class EditProfile extends Activity implements View.OnClickListener {
                             Toast.makeText(this, "Please check your email!", Toast.LENGTH_SHORT).show();
 
                         }
-                        else {
-                            if (username.isEmpty()) {
-                                username = userLocalStore.getLoggedInUser().username;
-                            }
-                            if (name.isEmpty()) {
-                                name = userLocalStore.getLoggedInUser().name;
-                            }
-                            if (password.isEmpty()) {
-                                password = secure.getHash(userLocalStore.getLoggedInUser().password);
-                            }
-                            if (email.isEmpty()) {
-                                email = userLocalStore.getLoggedInUser().email;
-                            }
+                        password = secure.getHash(password);
                             User user = new User(user_id, username, name, password, email, status);
                             registerUser(user);
 
                             break;
-                        }
+
                     }
 
                     else {
