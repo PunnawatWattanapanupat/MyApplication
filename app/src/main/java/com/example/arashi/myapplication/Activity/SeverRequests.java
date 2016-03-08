@@ -75,6 +75,10 @@ public class SeverRequests {
         new  storeRosterDataAsyncTask(roster, rosterCallback).execute();
     }
 
+    public void showRosterStudentListInBackground(Class classroom,GetShowRosterStudentCallback  getShowRosterStudentCallback) {
+        new showRosterStudentListAsyncTask(classroom, getShowRosterStudentCallback).execute();
+    }
+
     public void storeAnnounceDataInBackground(Announcement announcement, GetAnnounceCallBack announceCallBack){
         progressDialog.show();
         new StoreAnnounceDataAsyncTask(announcement, announceCallBack).execute();
@@ -700,6 +704,91 @@ public class SeverRequests {
             progressDialog.dismiss();
             rosterCallback.done(returnRoster);
             super.onPostExecute(returnRoster);
+        }
+    }
+
+    public class showRosterStudentListAsyncTask extends AsyncTask<Void, Void, ArrayList<User>> {
+
+        GetShowRosterStudentCallback showRosterStudentCallback;
+        ArrayList<User> showRosterStudent;
+        Class classroom;
+
+
+        public showRosterStudentListAsyncTask(Class classroom, GetShowRosterStudentCallback showRosterStudentCallback) {
+            this.classroom = classroom;
+            this.showRosterStudentCallback = showRosterStudentCallback;
+            showRosterStudent = new ArrayList<>();
+
+        }
+        @Override
+        protected ArrayList<User> doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", classroom.class_id+"");
+
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "showRosterStudent.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+                JSONArray noticeArray = jObj.getJSONArray("roster_student");
+                User roster_student;
+                for (int i = 0; i < noticeArray.length(); i++) {
+                    JSONObject student = noticeArray.getJSONObject(i);
+                    String username = student.getString("username");
+                    String name = student.getString("name");
+                    String email = student.getString("email");
+                    int user_id = student.getInt("user_id");
+                    roster_student = new User(user_id, username, name, email);
+                    showRosterStudent.add(roster_student);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return showRosterStudent;
+        }
+
+
+        protected void onPostExecute(ArrayList<User> returnedRosterStudent){
+            progressDialog.dismiss();
+            showRosterStudentCallback.done(returnedRosterStudent);
+            super.onPostExecute(returnedRosterStudent);
         }
     }
 

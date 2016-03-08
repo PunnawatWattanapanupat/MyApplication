@@ -54,6 +54,20 @@ public class EditProfile extends Activity implements View.OnClickListener {
 
                     if (password.equals(confirm_password)) {
                         password = secure.getHash(password);
+
+                        if (username.isEmpty()) {
+                            username = userLocalStore.getLoggedInUser().username;
+                        }
+                        if (name.isEmpty()) {
+                            name = userLocalStore.getLoggedInUser().name;
+                        }
+                        if (password.isEmpty()) {
+                            password = userLocalStore.getLoggedInUser().password;
+                        }
+                        if (email.isEmpty()) {
+                            email = userLocalStore.getLoggedInUser().email;
+                        }
+
                         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                             Toast.makeText(this, "Please check your email!", Toast.LENGTH_SHORT).show();
 

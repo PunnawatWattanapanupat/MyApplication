@@ -31,12 +31,13 @@ public class User {
         this.password = password;
         this.email = email;
         this.is_teacher = is_teacher;
+    } public User (int user_id,String username, String name, String email){
+        this.user_id = user_id;
+        this.username = username;
+        this.name = name;
+        this.password = "";
+        this.email = email;
+        this.is_teacher = -1;
     }
-//    public  User (String username){
-//        this.username = username;
-//        this.name = "";
-//        this.password = "";
-//        this.email = "";
-//        this.is_teacher = -1;
-//    }
+
 }

@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <ImageButton
         android:id="@+id/imagePhotoStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/personicon"
+        android:src="@drawable/user_icon"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="100dp"/>
+
+        android:layout_gravity="center"
+     />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:id="@+id/student_name" />
 
 </LinearLayout>

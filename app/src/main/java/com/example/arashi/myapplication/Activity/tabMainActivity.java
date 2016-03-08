@@ -50,8 +50,6 @@ public class tabMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Students"));
@@ -85,7 +83,8 @@ public class tabMainActivity extends AppCompatActivity {
             }
         });
 
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 //        Button createAnnounce = (Button)findViewById(R.id.createAnnounce);
 //
 //        createAnnounce.setOnClickListener(new View.OnClickListener() {

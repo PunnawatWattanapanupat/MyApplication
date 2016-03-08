@@ -1,20 +1,27 @@
 package com.example.arashi.myapplication.Activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.TextView;
 
+import com.example.arashi.myapplication.Object.User;
+import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -25,10 +32,19 @@ public class TabFragment1 extends Fragment {
     private EditText fromDateEtxt;
     private View mViewGroup;
     private CheckBox testcheck;
-    TextView textClassName, textClassCode;
-    ClassLocalStore classLocalStore;
     //    private EditText toDateEtxt;
     private SimpleDateFormat dateFormatter;
+
+    GridView gridView_roster;
+    ArrayList<User> listItem_roster;
+    TextView textClassName, textClassCode;
+    SeverRequests severRequests;
+    Class classroom;
+    ClassLocalStore classLocalStore;
+    UserLocalStore userLocalStore;
+    RosterAdapter rosterAdapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,16 +54,24 @@ public class TabFragment1 extends Fragment {
         fromDateEtxt = (EditText) v.findViewById(R.id.etxt_fromdate);
         textClassName = (TextView) v.findViewById(R.id.textClassName);
         textClassCode = (TextView) v.findViewById(R.id.textClassCode);
+        gridView_roster = (GridView) v.findViewById(R.id.grid_roster);
 
+        listItem_roster = new ArrayList<>();
+        severRequests = new SeverRequests(getActivity());
         classLocalStore = new ClassLocalStore(getActivity());
+        userLocalStore = new UserLocalStore(getActivity());
+
         //show classname & class code
         textClassName.setText( classLocalStore.getJoinedInClass().classname);
         textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
 
+        rosterAdapter = new RosterAdapter(getActivity(),listItem_roster);
+        gridView_roster.setAdapter(rosterAdapter);
+        classroom = classLocalStore.getJoinedInClass();
 
+        //Tin's Part
         fromDateEtxt.setInputType(InputType.TYPE_NULL);
         fromDateEtxt.requestFocus();
-
 
 
         setDateTimeField();
@@ -57,12 +81,32 @@ public class TabFragment1 extends Fragment {
                 fromDatePickerDialog.show();
             }
         });
-
-
         mViewGroup = v.findViewById(R.id.viewsContainer);
-
-
         testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
+
+        //
+        severRequests.showRosterStudentListInBackground(classroom, new GetShowRosterStudentCallback() {
+            @Override
+            public void done(ArrayList<User> returnedRosterStudent) {
+                if(returnedRosterStudent.size() > 0){
+                    listItem_roster = returnedRosterStudent;
+                    rosterAdapter.setListData(listItem_roster);
+                }
+
+            }
+        });
+
+        //Click List View
+        gridView_roster.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                User roster_student = (User) arg0.getItemAtPosition(arg2);
+                //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
+                userLocalStore.storeUserData(roster_student);
+                userLocalStore.setUserLoggedIn(true);
+               // startActivity(new Intent(getActivity(),PopAnnounceDetail.class));
+            }
+        });
+
 
         return v;
     }

@@ -45,7 +45,7 @@ public class TabFragment2 extends Fragment {
     private SimpleDateFormat dateFormatter;
 
     ListView listView;
-    ArrayList<Announcement> listItem = new ArrayList<>();
+    ArrayList<Announcement> listItem;
     SeverRequests severRequests;
     ClassLocalStore classLocalStore;
     AnnounceLocalStore announceLocalStore;
@@ -61,7 +61,7 @@ public class TabFragment2 extends Fragment {
         classLocalStore = new ClassLocalStore(getActivity());
         announceLocalStore = new AnnounceLocalStore(getActivity());
         listView = (ListView) v.findViewById(R.id.listView1);
-
+        listItem = new ArrayList<>();
 
 
 //        ((tabMainActivity)getActivity()).setFragmentRefreshListener(new tabMainActivity.FragmentRefreshListener() {
@@ -73,31 +73,6 @@ public class TabFragment2 extends Fragment {
 //        });
 
         ImageView createAnnounce = (ImageView) v.findViewById(R.id.createAnnounce);
-
-
-//        int[] resId= new int[adapter.getCount()];
-//        for(int number = 0; number < adapter.getCount();number++ ){
-//            resId[number] = R.drawable.announcement_icon;
-//        }
-
-//        int[] count_array = new int[adapter.getCount()];
-//        for(int number = 0; number < adapter.getCount();number++ ){
-//            count_array[number] = number+1;
-//        }
-
-//        int[] resId = { R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon
-//                , R.drawable.announcement_icon, R.drawable.announcement_icon};
-
-//        SeverRequests fetch = new SeverRequests(getActivity());
-//        String temp = fetch.GetTopic();
-//        temp = temp.substring(0, temp.length()-1);
-
 
 
 
