@@ -16,11 +16,16 @@
 
 package com.example.arashi.myapplication.Activity;
 
+import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +37,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
+import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+
 
 //import com.google.android.gms.common.ConnectionResult;
 //import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,6 +67,8 @@ import android.widget.Toast;
 //import com.google.android.gms.wearable.PutDataMapRequest;
 //import com.google.android.gms.wearable.PutDataRequest;
 //import com.google.android.gms.wearable.Wearable;
+
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,68 +108,177 @@ public class TabFragment4 extends Fragment{
     EditText choice_b_text;
     EditText choice_c_text;
     EditText choice_d_text;
+    EditText question_name_text;
     Integer count=1;
+    ListView listView1;
+
+    SQLiteDatabase mDb;
+
+    MyDbHelper mHelper;
+    Cursor mCursor;
+
     int questnum=1;
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
-            Button testbtn = (Button) v.findViewById(R.id.testbtn);
+        Button testbtn = (Button) v.findViewById(R.id.testbtn);
 
-            question_text = (EditText) v.findViewById(R.id.question_text);
-            choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
-            choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
-            choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
-            choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
-            QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+        question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
+        question_text = (EditText) v.findViewById(R.id.question_text);
+        choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
+        choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
+        choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
+        choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
+        QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+        //ListViewShow Question_alreadyCreate
+        listView1 = (ListView)v.findViewById(R.id.Question_alreadyCreate);
 
-
-            testbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent in = new Intent(getActivity(),QuizActivity.class);
-                    startActivity(in);
-                }
-
-
-            });
-
-            QuestionNumber.setText(""+count);
-            Button add_question = (Button) v.findViewById(R.id.add_question);
-            add_question.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        testbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getActivity(),QuizActivity.class);
+                startActivity(in);
+            }
 
 
-                    //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
-                    String question_text_value = question_text.getText().toString();
-                    String choice_a_text_value = choice_a_text.getText().toString();
-                    String choice_b_text_value = choice_b_text.getText().toString();
-                    String choice_c_text_value = choice_c_text.getText().toString();
-                    String choice_d_text_value = choice_d_text.getText().toString();
+        });
+
+        QuestionNumber.setText(""+count);
+        Button add_question = (Button) v.findViewById(R.id.add_question);
+
+
+
+
+        mHelper = new MyDbHelper(getActivity());
+        mDb = mHelper.getWritableDatabase();
+//        mCursor = mDb.rawQuery("SELECT " + MyDbHelper.COL_NAME + ", "  + MyDbHelper.COL_PIECE_PRICE
+//                + ", " + MyDbHelper.COL_CAKE_PRICE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ, null);
+
+
+
+        mCursor = mDb.rawQuery("SELECT " + MyDbHelper.QUIZ_ID + ", "  + MyDbHelper.QUIZ_NAME
+                + ", " + MyDbHelper.IS_ACTIVE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.QUIZ_ID + " DESC;", null);
+
+        ArrayList<String> dirArray = new ArrayList<String>();
+        mCursor.moveToFirst();
+
+//        while ( !mCursor.isAfterLast() ){
+//            dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
+//                    + "Piece : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_PIECE_PRICE)) + "\t\t"
+//                    + "Cake : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_CAKE_PRICE)));
+//            mCursor.moveToNext();
+//        }
+
+
+        while ( !mCursor.isAfterLast() ){
+            dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
+                    mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
+                    + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+            mCursor.moveToNext();
+        }
+
+        ArrayAdapter<String> adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
+        listView1.setAdapter(adapterDir);
+
+
+        add_question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
+
+                String question_name_text_value = question_name_text.getText().toString();
+                String question_text_value = question_text.getText().toString();
+                String choice_a_text_value = choice_a_text.getText().toString();
+                String choice_b_text_value = choice_b_text.getText().toString();
+                String choice_c_text_value = choice_c_text.getText().toString();
+                String choice_d_text_value = choice_d_text.getText().toString();
 
 
 
 //                    Toast.makeText(getActivity(), choice_a_text_value+choice_b_text_value+choice_c_text_value+choice_d_text_value, Toast.LENGTH_LONG).show();
+                Log.d("question_name_value",question_name_text_value);
+                Log.d("question_text_value",question_text_value);
+                Log.d("choice_a_text_value",choice_a_text_value);
+                Log.d("choice_b_text_value",choice_b_text_value);
+                Log.d("choice_c_text_value",choice_c_text_value);
+                Log.d("choice_d_text_value",choice_d_text_value);
 
-                    Log.d("question_text_value",question_text_value);
-                    Log.d("choice_a_text_value",choice_a_text_value);
-                    Log.d("choice_b_text_value",choice_b_text_value);
-                    Log.d("choice_c_text_value",choice_c_text_value);
-                    Log.d("choice_d_text_value",choice_d_text_value);
 
 
+
+
+                // String count_value = count.toString();
+
+
+                /// try to insert to database
+
+
+                mHelper = new MyDbHelper(getActivity());
+                mDb = mHelper.getWritableDatabase();
+
+                if (!question_name_text_value.isEmpty()) {
+                    mCursor = mDb.rawQuery("INSERT INTO " + MyDbHelper.TABLE_NAME_QUIZ + " (" + MyDbHelper.QUIZ_NAME + ", " + MyDbHelper.IS_ACTIVE
+                            + ") VALUES (" + "'" + question_name_text_value + "'" + "," + 0 + ");", null);
+
+//                mCursor = mDb.rawQuery("INSERT INTO " + MyDbHelper.TABLE_NAME_QUIZ + " (" + MyDbHelper.COL_NAME + ", " + MyDbHelper.COL_PIECE_PRICE
+//                        + ", " + MyDbHelper.COL_CAKE_PRICE + ") VALUES ('Testtt', 445, 750);", null);
+
+
+                ArrayList<String> dirArray = new ArrayList<String>();
+                mCursor.moveToFirst();
+
+//                while ( !mCursor.isAfterLast() ){
+//                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
+//                            + "Piece : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_PIECE_PRICE)) + "\t\t"
+//                            + "Cake : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_CAKE_PRICE)));
+//                    mCursor.moveToNext();
+//                }
+
+                while ( !mCursor.isAfterLast() ){
+                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
+                            mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
+                            + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                    mCursor.moveToNext();
+                }
+
+
+                ArrayAdapter<String> adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
+                listView1.setAdapter(adapterDir);
+
+
+                mCursor = mDb.rawQuery("SELECT " + MyDbHelper.QUIZ_ID + ", "  + MyDbHelper.QUIZ_NAME
+                        + ", " + MyDbHelper.IS_ACTIVE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.QUIZ_ID + " DESC;", null);
+//                //try to select data again
+//                mCursor = mDb.rawQuery("SELECT " + MyDbHelper.COL_NAME + ", "  + MyDbHelper.COL_PIECE_PRICE
+//                        + ", " + MyDbHelper.COL_CAKE_PRICE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.cakeID+" DESC;", null);
+
+
+                mCursor.moveToFirst();
+
+//                while ( !mCursor.isAfterLast() ){
+//                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
+//                            + "Piece : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_PIECE_PRICE)) + "\t\t"
+//                            + "Cake : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_CAKE_PRICE)));
+//                    mCursor.moveToNext();
+//                }
+
+
+                while ( !mCursor.isAfterLast() ){
+                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
+                            mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
+                            + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                    mCursor.moveToNext();
+                }
+
+                adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
+                listView1.setAdapter(adapterDir);
                     Toast.makeText(getActivity(), "This question's already saved.", Toast.LENGTH_LONG).show();
+                } else
+                {
+                    Toast.makeText(getActivity(), "Please fill Question !", Toast.LENGTH_LONG).show();
+                }
 
-
-                   // String count_value = count.toString();
-                    question_text.setText("");
-                    choice_a_text.setText("");
-                    choice_b_text.setText("");
-                    choice_c_text.setText("");
-                    choice_d_text.setText("");
-                    count++;
-                    Log.d("count_value",""+count);
-
-                    QuestionNumber.setText(""+count);
 //                    getActivity().finish();
 //                    startActivity(getActivity().getIntent());
 
@@ -184,20 +310,42 @@ public class TabFragment4 extends Fragment{
 //                        startActivity(in);
 //                    }
 
-                }
-            });
+                question_text.setText("");
+                choice_a_text.setText("");
+                choice_b_text.setText("");
+                choice_c_text.setText("");
+                choice_d_text.setText("");
+                count++;
+                Log.d("count_value",""+count);
+
+                QuestionNumber.setText(""+count);
+            }
+        });
 
 
-            Button finishButton = (Button) v.findViewById(R.id.finishButton);
-            finishButton.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
+        Button finishButton = (Button) v.findViewById(R.id.finishButton);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                                                }
-            });
+            }
+        });
+
+
+
+
+
+
         return v;
-   }
+    }
+    public void onPause() {
+        super.onPause();
+//        mHelper.close();
+//        mDb.close();
+    }
 }
+
+
 
 
 
