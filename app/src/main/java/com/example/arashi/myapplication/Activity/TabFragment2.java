@@ -119,7 +119,7 @@ public class TabFragment2 extends Fragment {
         });
 
 
-
+        //Click List View
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Announcement announcement = (Announcement) arg0.getItemAtPosition(arg2);
