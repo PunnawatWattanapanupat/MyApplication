@@ -17,6 +17,7 @@
 package com.example.arashi.myapplication.Activity;
 
 import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
+import com.example.arashi.myapplication.Object.Announcement;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -102,18 +104,18 @@ import java.util.PriorityQueue;
  * The status of questions will be updated on the phone when the user answers them.
  */
 public class TabFragment4 extends Fragment{
-    TextView QuestionNumber;
-    EditText question_text;
-    EditText choice_a_text;
-    EditText choice_b_text;
-    EditText choice_c_text;
-    EditText choice_d_text;
+    //    TextView QuestionNumber;
+//    EditText question_text;
+//    EditText choice_a_text;
+//    EditText choice_b_text;
+//    EditText choice_c_text;
+//    EditText choice_d_text;
     EditText question_name_text;
-    Integer count=1;
+    // Integer count=1;
     ListView listView1;
-
+    Button createQuizButton;
     SQLiteDatabase mDb;
-
+    Boolean Tvalue = true;
     MyDbHelper mHelper;
     Cursor mCursor;
 
@@ -123,14 +125,14 @@ public class TabFragment4 extends Fragment{
         Button testbtn = (Button) v.findViewById(R.id.testbtn);
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
-        question_text = (EditText) v.findViewById(R.id.question_text);
-        choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
-        choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
-        choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
-        choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
-        QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+//        question_text = (EditText) v.findViewById(R.id.question_text);
+//        choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
+//        choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
+//        choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
+//        choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
+//        QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
         //ListViewShow Question_alreadyCreate
-        listView1 = (ListView)v.findViewById(R.id.Question_alreadyCreate);
+        listView1 = (ListView)v.findViewById(R.id.Quiz_alreadyCreate);
 
         testbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +144,8 @@ public class TabFragment4 extends Fragment{
 
         });
 
-        QuestionNumber.setText(""+count);
-        Button add_question = (Button) v.findViewById(R.id.add_question);
+//        QuestionNumber.setText(""+count);
+        createQuizButton = (Button) v.findViewById(R.id.createQuizButton);
 
 
 
@@ -161,6 +163,7 @@ public class TabFragment4 extends Fragment{
         ArrayList<String> dirArray = new ArrayList<String>();
         mCursor.moveToFirst();
 
+
 //        while ( !mCursor.isAfterLast() ){
 //            dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
 //                    + "Piece : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_PIECE_PRICE)) + "\t\t"
@@ -172,7 +175,8 @@ public class TabFragment4 extends Fragment{
         while ( !mCursor.isAfterLast() ){
             dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
                     mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
-                    + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                    + "Release to Students? : " +
+                    mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
             mCursor.moveToNext();
         }
 
@@ -180,7 +184,7 @@ public class TabFragment4 extends Fragment{
         listView1.setAdapter(adapterDir);
 
 
-        add_question.setOnClickListener(new View.OnClickListener() {
+        createQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -188,21 +192,21 @@ public class TabFragment4 extends Fragment{
                 //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
 
                 String question_name_text_value = question_name_text.getText().toString();
-                String question_text_value = question_text.getText().toString();
-                String choice_a_text_value = choice_a_text.getText().toString();
-                String choice_b_text_value = choice_b_text.getText().toString();
-                String choice_c_text_value = choice_c_text.getText().toString();
-                String choice_d_text_value = choice_d_text.getText().toString();
+//                String question_text_value = question_text.getText().toString();
+//                String choice_a_text_value = choice_a_text.getText().toString();
+//                String choice_b_text_value = choice_b_text.getText().toString();
+//                String choice_c_text_value = choice_c_text.getText().toString();
+//                String choice_d_text_value = choice_d_text.getText().toString();
 
 
 
 //                    Toast.makeText(getActivity(), choice_a_text_value+choice_b_text_value+choice_c_text_value+choice_d_text_value, Toast.LENGTH_LONG).show();
                 Log.d("question_name_value",question_name_text_value);
-                Log.d("question_text_value",question_text_value);
-                Log.d("choice_a_text_value",choice_a_text_value);
-                Log.d("choice_b_text_value",choice_b_text_value);
-                Log.d("choice_c_text_value",choice_c_text_value);
-                Log.d("choice_d_text_value",choice_d_text_value);
+//                Log.d("question_text_value",question_text_value);
+//                Log.d("choice_a_text_value",choice_a_text_value);
+//                Log.d("choice_b_text_value",choice_b_text_value);
+//                Log.d("choice_c_text_value",choice_c_text_value);
+//                Log.d("choice_d_text_value",choice_d_text_value);
 
 
 
@@ -219,14 +223,14 @@ public class TabFragment4 extends Fragment{
 
                 if (!question_name_text_value.isEmpty()) {
                     mCursor = mDb.rawQuery("INSERT INTO " + MyDbHelper.TABLE_NAME_QUIZ + " (" + MyDbHelper.QUIZ_NAME + ", " + MyDbHelper.IS_ACTIVE
-                            + ") VALUES (" + "'" + question_name_text_value + "'" + "," + 0 + ");", null);
+                            + ") VALUES (" + "'" + question_name_text_value + "'" + "," + "'"+"No" +"'"+ ");", null);
 
 //                mCursor = mDb.rawQuery("INSERT INTO " + MyDbHelper.TABLE_NAME_QUIZ + " (" + MyDbHelper.COL_NAME + ", " + MyDbHelper.COL_PIECE_PRICE
 //                        + ", " + MyDbHelper.COL_CAKE_PRICE + ") VALUES ('Testtt', 445, 750);", null);
 
 
-                ArrayList<String> dirArray = new ArrayList<String>();
-                mCursor.moveToFirst();
+                    ArrayList<String> dirArray = new ArrayList<String>();
+                    mCursor.moveToFirst();
 
 //                while ( !mCursor.isAfterLast() ){
 //                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
@@ -235,26 +239,26 @@ public class TabFragment4 extends Fragment{
 //                    mCursor.moveToNext();
 //                }
 
-                while ( !mCursor.isAfterLast() ){
-                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
-                            mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
-                            + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
-                    mCursor.moveToNext();
-                }
+                    while ( !mCursor.isAfterLast() ){
+                        dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
+                                mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
+                                + "Release to Students?: " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                        mCursor.moveToNext();
+                    }
 
 
-                ArrayAdapter<String> adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
-                listView1.setAdapter(adapterDir);
+                    ArrayAdapter<String> adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
+                    listView1.setAdapter(adapterDir);
 
 
-                mCursor = mDb.rawQuery("SELECT " + MyDbHelper.QUIZ_ID + ", "  + MyDbHelper.QUIZ_NAME
-                        + ", " + MyDbHelper.IS_ACTIVE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.QUIZ_ID + " DESC;", null);
+                    mCursor = mDb.rawQuery("SELECT " + MyDbHelper.QUIZ_ID + ", "  + MyDbHelper.QUIZ_NAME
+                            + ", " + MyDbHelper.IS_ACTIVE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.QUIZ_ID + " DESC;", null);
 //                //try to select data again
 //                mCursor = mDb.rawQuery("SELECT " + MyDbHelper.COL_NAME + ", "  + MyDbHelper.COL_PIECE_PRICE
 //                        + ", " + MyDbHelper.COL_CAKE_PRICE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.cakeID+" DESC;", null);
 
 
-                mCursor.moveToFirst();
+                    mCursor.moveToFirst();
 
 //                while ( !mCursor.isAfterLast() ){
 //                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
@@ -263,20 +267,24 @@ public class TabFragment4 extends Fragment{
 //                    mCursor.moveToNext();
 //                }
 
+                    while ( !mCursor.isAfterLast() ){
+                        dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
+                                mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
+                                + "Release to Students? : " +  mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                        mCursor.moveToNext();
+                    }
 
-                while ( !mCursor.isAfterLast() ){
-                    dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
-                            mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
-                            + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
-                    mCursor.moveToNext();
-                }
 
-                adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
-                listView1.setAdapter(adapterDir);
-                    Toast.makeText(getActivity(), "This question's already saved.", Toast.LENGTH_LONG).show();
+
+
+                    //
+
+                    adapterDir = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dirArray);
+                    listView1.setAdapter(adapterDir);
+                    Toast.makeText(getActivity(), "This Quiz's already created.", Toast.LENGTH_LONG).show();
                 } else
                 {
-                    Toast.makeText(getActivity(), "Please fill Question !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Please fill Quiz Name !", Toast.LENGTH_LONG).show();
                 }
 
 //                    getActivity().finish();
@@ -310,28 +318,33 @@ public class TabFragment4 extends Fragment{
 //                        startActivity(in);
 //                    }
 
-                question_text.setText("");
-                choice_a_text.setText("");
-                choice_b_text.setText("");
-                choice_c_text.setText("");
-                choice_d_text.setText("");
-                count++;
-                Log.d("count_value",""+count);
+//                question_text.setText("");
+//                choice_a_text.setText("");
+//                choice_b_text.setText("");
+//                choice_c_text.setText("");
+//                choice_d_text.setText("");
+//                count++;
+                // Log.d("count_value",""+count);
 
-                QuestionNumber.setText(""+count);
+                // QuestionNumber.setText(""+count);
             }
         });
 
 
-        Button finishButton = (Button) v.findViewById(R.id.finishButton);
-        finishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        Button finishButton = (Button) v.findViewById(R.id.finishButton);
+//        finishButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(),QuizQuestionActivity.class));
             }
         });
-
-
 
 
 

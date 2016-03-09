@@ -35,6 +35,9 @@
             android:name=".ResultActivity"
             android:label="ResultActivity" />
         <activity
+            android:name=".QuizQuestionActivity"
+            android:label="QuizQuestionActivity" />
+        <activity
             android:name=".home"
             android:label="@string/title_activity_home" />
         <activity android:name=".EditProfile" />
