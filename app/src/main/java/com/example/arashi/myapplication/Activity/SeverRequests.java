@@ -337,14 +337,14 @@ public class SeverRequests {
                 JSONObject jObj = new JSONObject(line);
 
                 if (jObj.length() != 0) {
-                   // int user_id = jObj.getInt("user_id");
-                  //  String username = jObj.getString("username");
+                    int user_id = jObj.getInt("user_id");
+                    String username = jObj.getString("username");
                     String name = jObj.getString("name");
-                   // String password = jObj.getString("password");
+                    String password = jObj.getString("password");
                     String email = jObj.getString("email");
                     int is_teacher = jObj.getInt("is_teacher");
 
-                    returnUser = new User(user.user_id,user.username,name, user.password, email, is_teacher);
+                    returnUser = new User(user_id,username,name, password, email, is_teacher);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
