@@ -13,7 +13,7 @@ import android.widget.EditText;
  */
 
 
-public class PopAnswer extends Activity{
+public class PopAnswer extends Activity implements View.OnClickListener {
     EditText edtTopic1;
     final String testPREFTOPIC1 = "SamplePreferences";
     final String testTOPIC1 = "UserName";
@@ -36,21 +36,9 @@ Button Done ;
         getWindow().setLayout((int)(width*.8),(int)(heighht*.8));
 
         Done = (Button) findViewById(R.id.Done);
-        Done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               finish();
-            }
-        });
-
-
         Button Back = (Button) findViewById(R.id.Back);
-        Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        Done.setOnClickListener(this);
+        Back.setOnClickListener(this);
 //        sp1 = getSharedPreferences(testPREFTOPIC1, Context.MODE_PRIVATE);
 //        editor1 = sp1.edit();
 //
@@ -68,4 +56,18 @@ Button Done ;
 //            }
 //        });
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.Back:
+                finish();
+                break;
+            case R.id.Done:
+                finish();
+                break;
+        }
+
+    }
+
 }

@@ -22,7 +22,7 @@ import java.util.Date;
  */
 
 
-public class PopFragment3 extends Activity /*implements View.OnClickListener */{
+public class PopFragment3 extends Activity implements View.OnClickListener /*implements View.OnClickListener */{
     EditText Questiontext;
     String question,date;
     int user_id;
@@ -51,9 +51,11 @@ public class PopFragment3 extends Activity /*implements View.OnClickListener */{
         Done = (Button)findViewById(R.id.Done);
         Back = (Button)findViewById(R.id.Back);
 
-        /*Done.setOnClickListener(this);
-        Back.setOnClickListener(this);*/
+        Done.setOnClickListener(this);
+        Back.setOnClickListener(this);
+        userLocalStore = new UserLocalStore(this);
         user = userLocalStore.getLoggedInUser();
+
 
 //        sp1 = getSharedPreferences(testPREFTOPIC1, Context.MODE_PRIVATE);
 //        editor1 = sp1.edit();
@@ -72,22 +74,22 @@ public class PopFragment3 extends Activity /*implements View.OnClickListener */{
 //            }
 //        });
     }
-
-    /*@Override
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.Done:
-                    question = Questiontext.getText().toString();
-                    user_id = user.user_id;
-                    date = DateFormat.getDateTimeInstance().format(new Date());
-                    addquestion(question,user_id,date);
-                Log.d("datafuckfuck",question+user_id+date);
+                question = Questiontext.getText().toString();
+                user_id = user.user_id;
+                date = DateFormat.getDateTimeInstance().format(new Date());
+                addquestion(question,user_id,date);
+                Log.d("E1",question+user_id+date);
                 break;
             case R.id.Back:
+                onBackPressed();
                 break;
         }
-
     }
+
     public void addquestion(String q,int uid,String dmy){
         ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
         serverRequestsQA.AddQuestion(q, uid, dmy, new GetAddQuestion() {
@@ -97,7 +99,7 @@ public class PopFragment3 extends Activity /*implements View.OnClickListener */{
                     showErrorMessage("Fuck");
                 }
                 else{
-                    showErrorMessage("Yeah");
+                    finish();
                 }
             }
         });
@@ -107,5 +109,5 @@ public class PopFragment3 extends Activity /*implements View.OnClickListener */{
         dialogBuilder.setMessage(Errmes);
         dialogBuilder.setPositiveButton("OK",null);
         dialogBuilder.show();
-    }*/
+    }
 }

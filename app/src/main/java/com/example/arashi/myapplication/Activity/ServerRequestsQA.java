@@ -37,6 +37,26 @@ public class ServerRequestsQA {
         progressDialog.show();
         new AddQuestionAsyncTask(question,user_id,date,getAddQuestion).execute();
     }
+
+    private String getEncodeData(Map<String, String> data) {
+        StringBuilder sb = new StringBuilder();
+        for (String key : data.keySet()) {
+            String value = null;
+            try {
+                value = URLEncoder.encode(data.get(key), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            if (sb.length() > 0)
+                sb.append("&");
+
+            sb.append(key + "=" + value);
+        }
+        return sb.toString();
+    }
+
+
     public class AddQuestionAsyncTask extends AsyncTask<Void, Void, Void> {
         String question;
         int user_id;
@@ -83,29 +103,14 @@ public class ServerRequestsQA {
 
 
             return null;
-        }
-        private String getEncodeData(Map<String, String> data) {
-            StringBuilder sb = new StringBuilder();
-            for (String key : data.keySet()) {
-                String value = null;
-                try {
-                    value = URLEncoder.encode(data.get(key), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
 
-                if (sb.length() > 0)
-                    sb.append("&");
-
-                sb.append(key + "=" + value);
-            }
-            return sb.toString();
         }
 
-        protected void onPostExecute(String question){
+        @Override
+        protected void onPostExecute(Void aVoid) {
             progressDialog.dismiss();
             getAddQuestion.done(question);
-            super.onPostExecute(null);
+            super.onPostExecute(aVoid);
         }
     }
 }
