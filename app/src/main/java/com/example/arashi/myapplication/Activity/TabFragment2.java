@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,9 +88,7 @@ public class TabFragment2 extends Fragment {
                     listItem = returnedShowAnnounce;
                     adapter.setListData(listItem);
                 }
-//                else {
-//                    Toast.makeText(getActivity(),Integer.toString(classroom.user_id)+" No Data", Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
 
@@ -97,6 +96,7 @@ public class TabFragment2 extends Fragment {
         //Click List View
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Log.e("test", "onItemClick: Clicked");
                 Announcement announcement = (Announcement) arg0.getItemAtPosition(arg2);
                 //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                 announceLocalStore.storeAnnounceData(announcement);
@@ -105,8 +105,6 @@ public class TabFragment2 extends Fragment {
 
             }
         });
-//        Toast toast = Toast.makeText(getActivity(),""+list.length , Toast.LENGTH_SHORT);
-//        toast.show();
 
         //Add announcement button
         createAnnounce.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +113,6 @@ public class TabFragment2 extends Fragment {
                 startActivity(new Intent(getActivity(),Pop.class));
             }
         });
-
 
         return v;
     }

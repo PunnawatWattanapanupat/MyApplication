@@ -61,7 +61,9 @@
         <activity
             android:name=".PopAnnounceDetail"
             android:theme="@style/AppTheme.CustomTheme" />
-
+        <activity
+            android:name=".PopRosterStudent"
+            android:theme="@style/AppTheme.CustomTheme"/>
     </application>
 
 </manifest>

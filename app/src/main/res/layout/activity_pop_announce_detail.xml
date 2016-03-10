@@ -28,12 +28,29 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:layout_below="@id/detail_announce"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+
+    </LinearLayout>
+
+    <Button
         android:id="@+id/ok_announce"
-        android:layout_below="@+id/detail_announce"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        style="@style/TextButtonStyle1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@color/color_text_green"
+        android:text="OK"
+        android:layout_below="@+id/button_layout"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="81dp" />
 </RelativeLayout>

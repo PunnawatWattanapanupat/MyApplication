@@ -21,8 +21,6 @@ public class CustomAdapter extends BaseAdapter {
     ArrayList<Announcement> announceData;
 
 
-
-
     public CustomAdapter(Context context, ArrayList<Announcement> announceData ) {
         this.mContext= context;
         this.announceData = announceData;

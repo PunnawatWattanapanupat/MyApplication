@@ -5,15 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Object.Class;
@@ -61,6 +64,7 @@ public class TabFragment1 extends Fragment {
         classLocalStore = new ClassLocalStore(getActivity());
         userLocalStore = new UserLocalStore(getActivity());
 
+
         //show classname & class code
         textClassName.setText( classLocalStore.getJoinedInClass().classname);
         textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
@@ -81,6 +85,7 @@ public class TabFragment1 extends Fragment {
                 fromDatePickerDialog.show();
             }
         });
+
         mViewGroup = v.findViewById(R.id.viewsContainer);
         testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
 
@@ -92,22 +97,20 @@ public class TabFragment1 extends Fragment {
                     listItem_roster = returnedRosterStudent;
                     rosterAdapter.setListData(listItem_roster);
                 }
-
             }
         });
 
-        //Click List View
-        gridView_roster.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                User roster_student = (User) arg0.getItemAtPosition(arg2);
-                //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
+        //Click Grid View
+        gridView_roster.setOnItemClickListener(new OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                User roster_student = (User) parent.getItemAtPosition(position);
+                Toast.makeText(getActivity(),roster_student.name, Toast.LENGTH_SHORT).show();
                 userLocalStore.storeUserData(roster_student);
                 userLocalStore.setUserLoggedIn(true);
-               // startActivity(new Intent(getActivity(),PopAnnounceDetail.class));
+                startActivity(new Intent(getActivity(),PopRosterStudent.class));
             }
         });
-
-
         return v;
     }
 
