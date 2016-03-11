@@ -111,7 +111,7 @@ public class TabFragment2 extends Fragment {
 
         //Student cannot Add announcement
         if(userLocalStore.getLoggedInUser().is_teacher != 1){
-            createAnnounce.setVisibility(View.INVISIBLE);
+            createAnnounce.setVisibility(View.GONE);
         }
         //Add announcement button
         createAnnounce.setOnClickListener(new View.OnClickListener() {

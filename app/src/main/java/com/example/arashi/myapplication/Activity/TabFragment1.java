@@ -81,8 +81,8 @@ public class TabFragment1 extends Fragment {
         CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox22);
         if(userLocalStore.getLoggedInUser().is_teacher != 1)
         {
-            checkBox.setVisibility(v.INVISIBLE);
-            btn_checked_student.setVisibility(v.INVISIBLE);
+            checkBox.setVisibility(v.GONE);
+            btn_checked_student.setVisibility(v.GONE);
         }
 
         //Tin's Part
