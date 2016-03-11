@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.example.arashi.myapplication.Store.UserLocalStore;
+
 //import android.app.FragmentManager;
 
 public class tabMainActivity extends AppCompatActivity {
@@ -191,6 +193,7 @@ public class tabMainActivity extends AppCompatActivity {
     public void ActiveClick(View v) {
         //code to check if this checkbox is checked!
         // CheckBox checkBox = (CheckBox)v;
+
         final TabFragment1 tabFragment1 = new TabFragment1();
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox22);
         checkBox.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,7 +41,8 @@ public class TabFragment1 extends Fragment {
 
     GridView gridView_roster;
     ArrayList<User> listItem_roster;
-    TextView textClassName, textClassCode;
+    TextView textClassName, textClassCode, textNumberStudent;
+    Button btn_checked_student;
     SeverRequests severRequests;
     Class classroom;
     ClassLocalStore classLocalStore;
@@ -57,7 +59,9 @@ public class TabFragment1 extends Fragment {
         fromDateEtxt = (EditText) v.findViewById(R.id.etxt_fromdate);
         textClassName = (TextView) v.findViewById(R.id.textClassName);
         textClassCode = (TextView) v.findViewById(R.id.textClassCode);
+        textNumberStudent = (TextView) v.findViewById(R.id.textNumberStudent);
         gridView_roster = (GridView) v.findViewById(R.id.grid_roster);
+        btn_checked_student = (Button) v.findViewById(R.id.btn_checked_student);
 
         listItem_roster = new ArrayList<>();
         severRequests = new SeverRequests(getActivity());
@@ -65,13 +69,21 @@ public class TabFragment1 extends Fragment {
         userLocalStore = new UserLocalStore(getActivity());
 
 
-        //show classname & class code
-        textClassName.setText( classLocalStore.getJoinedInClass().classname);
-        textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
-
         rosterAdapter = new RosterAdapter(getActivity(),listItem_roster);
         gridView_roster.setAdapter(rosterAdapter);
         classroom = classLocalStore.getJoinedInClass();
+
+        //show classname & class code & student amount
+        textClassName.setText( classLocalStore.getJoinedInClass().classname);
+        textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
+
+        //Hide Checkbox If user is student.
+        CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox22);
+        if(userLocalStore.getLoggedInUser().is_teacher != 1)
+        {
+            checkBox.setVisibility(v.INVISIBLE);
+            btn_checked_student.setVisibility(v.INVISIBLE);
+        }
 
         //Tin's Part
         fromDateEtxt.setInputType(InputType.TYPE_NULL);
@@ -96,6 +108,8 @@ public class TabFragment1 extends Fragment {
                 if(returnedRosterStudent.size() > 0){
                     listItem_roster = returnedRosterStudent;
                     rosterAdapter.setListData(listItem_roster);
+                    //show  student amount
+                    textNumberStudent.setText(Integer.toString(rosterAdapter.getCount()));
                 }
             }
         });
@@ -111,6 +125,10 @@ public class TabFragment1 extends Fragment {
                 startActivity(new Intent(getActivity(),PopRosterStudent.class));
             }
         });
+
+
+
+
         return v;
     }
 

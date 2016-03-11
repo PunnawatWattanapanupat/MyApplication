@@ -51,7 +51,7 @@ public class CustomAdapter extends BaseAdapter {
 
         //for show
         TextView numberCount = (TextView)view.findViewById(R.id.NumberCount);
-        numberCount.setText(Integer.toString(position+1));
+        numberCount.setText(Integer.toString(announceData.size()-position));
 
 
         TextView textView = (TextView)view.findViewById(R.id.textView1);

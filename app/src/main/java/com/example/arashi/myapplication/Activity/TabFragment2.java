@@ -46,8 +46,10 @@ public class TabFragment2 extends Fragment {
     private SimpleDateFormat dateFormatter;
 
     ListView listView;
+    TextView textClassName;
     ArrayList<Announcement> listItem;
     SeverRequests severRequests;
+    UserLocalStore userLocalStore;
     ClassLocalStore classLocalStore;
     AnnounceLocalStore announceLocalStore;
     CustomAdapter adapter;
@@ -59,8 +61,10 @@ public class TabFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
         severRequests = new SeverRequests(getActivity());
+        userLocalStore = new UserLocalStore(getActivity());
         classLocalStore = new ClassLocalStore(getActivity());
         announceLocalStore = new AnnounceLocalStore(getActivity());
+        textClassName = (TextView) v.findViewById(R.id.textClassName);
         listView = (ListView) v.findViewById(R.id.listView1);
         listItem = new ArrayList<>();
 
@@ -80,7 +84,7 @@ public class TabFragment2 extends Fragment {
         adapter = new CustomAdapter(getActivity(),listItem);
         listView.setAdapter(adapter);
         classroom = classLocalStore.getJoinedInClass();
-
+        textClassName.setText(classroom.classname);
         severRequests.showAnnounceListInBackground(classroom, new GetShowAnnounceCallback() {
             @Override
             public void done(ArrayList<Announcement> returnedShowAnnounce) {
@@ -96,7 +100,6 @@ public class TabFragment2 extends Fragment {
         //Click List View
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Log.e("test", "onItemClick: Clicked");
                 Announcement announcement = (Announcement) arg0.getItemAtPosition(arg2);
                 //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                 announceLocalStore.storeAnnounceData(announcement);
@@ -106,6 +109,10 @@ public class TabFragment2 extends Fragment {
             }
         });
 
+        //Student cannot Add announcement
+        if(userLocalStore.getLoggedInUser().is_teacher != 1){
+            createAnnounce.setVisibility(View.INVISIBLE);
+        }
         //Add announcement button
         createAnnounce.setOnClickListener(new View.OnClickListener() {
             @Override
