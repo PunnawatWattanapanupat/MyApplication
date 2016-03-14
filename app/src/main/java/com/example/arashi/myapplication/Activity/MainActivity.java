@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Secure;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 //import android.widget.TextView;
 //import android.widget.Button;
 //import android.widget.Toast;
@@ -41,6 +43,11 @@ public class MainActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Parse.initialize(this);
+
+
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         //getSupportActionBar().hide();
         //setContentView(R.layout.main);
 
