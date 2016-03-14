@@ -16,12 +16,31 @@
             android:id="@+id/question_name" />
 
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
             android:id="@+id/question_name_text" />
 
 
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/CheckboxRelease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Release this Quiz For Students"
+            android:id="@+id/textcheckbox" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -125,27 +144,10 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Finish"
-
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-        <CheckBox
-            android:id="@+id/item_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Release this Quiz For Students"
-            android:id="@+id/textcheckbox" />
-    </LinearLayout>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="245dp"

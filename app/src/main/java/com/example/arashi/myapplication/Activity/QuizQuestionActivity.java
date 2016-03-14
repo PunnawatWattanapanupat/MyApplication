@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,31 +27,62 @@ public class QuizQuestionActivity extends Activity{
     EditText question_text;
     EditText choice_a_text;
     EditText choice_b_text;
+
     EditText choice_c_text;
     EditText choice_d_text;
-    EditText question_name_text;
+    TextView question_name_text;
     Integer count=1;
     ListView listView1;
+    CheckBox CheckboxRelease;
+    Button finishButton;
 
     SQLiteDatabase mDb;
 
     MyDbHelper mHelper;
     Cursor mCursor;
+
+    String passedVar=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_question);
-
+        finishButton = (Button) findViewById(R.id.finishButton);
+        question_name_text= (TextView) findViewById(R.id.question_name_text);
         question_text = (EditText) findViewById(R.id.question_text);
         choice_a_text = (EditText) findViewById(R.id.choice_a_text);
         choice_b_text = (EditText) findViewById(R.id.choice_b_text);
         choice_c_text = (EditText) findViewById(R.id.choice_c_text);
         choice_d_text = (EditText) findViewById(R.id.choice_d_text);
         QuestionNumber = (TextView) findViewById(R.id.QuestionNumber);
+        CheckboxRelease = (CheckBox) findViewById(R.id.CheckboxRelease);
+
+
+        Bundle bundle = getIntent().getExtras();
+        String text = bundle.getString("MyValue");
+        Toast.makeText(QuizQuestionActivity.this, text, Toast.LENGTH_LONG).show();
+
+
+
+        //question_name_text.setText(""+text);
+        if(text.contains(".\t\t")){
+
+            text=text.substring(4,text.length()); //substring Number
+            while(text.contains("\t")){
+                text=text.substring(1,text.length()); //substring Number
+            }
+            text=text.substring(0,text.length()-26); //substring Release to Student
+            Toast.makeText(QuizQuestionActivity.this,text , Toast.LENGTH_LONG).show();
+        }
+        question_name_text.setText(""+text);
+//        if (text.contains("Release to Student?:Yes")&& text.contains("Release to Student?:No")){
+//            CheckboxRelease.setChecked(true);
+//        }
 
 
         //ListViewShow Question_alreadyCreate
         listView1 = (ListView)findViewById(R.id.Question_alreadyCreate);
+
 
 
 
@@ -66,6 +98,8 @@ public class QuizQuestionActivity extends Activity{
 
         mCursor = mDb.rawQuery("SELECT " + MyDbHelper.QUIZ_ID + ", "  + MyDbHelper.QUIZ_NAME
                 + ", " + MyDbHelper.IS_ACTIVE + " FROM " + MyDbHelper.TABLE_NAME_QUIZ + " ORDER BY " + MyDbHelper.QUIZ_ID + " DESC;", null);
+
+
 
         ArrayList<String> dirArray = new ArrayList<String>();
         mCursor.moveToFirst();
@@ -84,9 +118,10 @@ public class QuizQuestionActivity extends Activity{
         while ( !mCursor.isAfterLast() ){
             dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
                     mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
-                    + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                    + "Release to Student? : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
             mCursor.moveToNext();
         }
+
 
         ArrayAdapter<String> adapterDir = new ArrayAdapter<String>(QuizQuestionActivity.this, android.R.layout.simple_list_item_1, dirArray);
         listView1.setAdapter(adapterDir);
@@ -129,6 +164,11 @@ public class QuizQuestionActivity extends Activity{
                 mHelper = new MyDbHelper(QuizQuestionActivity.this);
                 mDb = mHelper.getWritableDatabase();
 
+
+//           if(item_check.isChecked()){
+//               mCursor = mDb.rawQuery("INSERT INTO " + MyDbHelper.TABLE_NAME_QUIZ + " (" + MyDbHelper.QUIZ_NAME + ", " + MyDbHelper.IS_ACTIVE
+//                       + ") VALUES (" + "'" + question_name_text_value + "'" + "," + 0 + ");", null);
+//           }
                 if (!question_name_text_value.isEmpty()) {
                     mCursor = mDb.rawQuery("INSERT INTO " + MyDbHelper.TABLE_NAME_QUIZ + " (" + MyDbHelper.QUIZ_NAME + ", " + MyDbHelper.IS_ACTIVE
                             + ") VALUES (" + "'" + question_name_text_value + "'" + "," + 0 + ");", null);
@@ -150,7 +190,7 @@ public class QuizQuestionActivity extends Activity{
                     while ( !mCursor.isAfterLast() ){
                         dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
                                 mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
-                                + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                                + "Release to Student? : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
                         mCursor.moveToNext();
                     }
 
@@ -179,9 +219,11 @@ public class QuizQuestionActivity extends Activity{
                     while ( !mCursor.isAfterLast() ){
                         dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_ID)) + ".\t\t" +
                                 mCursor.getString(mCursor.getColumnIndex(MyDbHelper.QUIZ_NAME)) + "\n"
-                                + "Bool : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
+                                + "Release to Student? : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.IS_ACTIVE)));
                         mCursor.moveToNext();
                     }
+
+
 
                     adapterDir = new ArrayAdapter<String>(QuizQuestionActivity.this, android.R.layout.simple_list_item_1, dirArray);
                     listView1.setAdapter(adapterDir);
@@ -235,11 +277,17 @@ public class QuizQuestionActivity extends Activity{
         });
 
 
-        Button finishButton = (Button) findViewById(R.id.finishButton);
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String strSend;
+                if(CheckboxRelease.isChecked()==true){
+                     strSend = "Yes";
+                }else strSend="No";
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",strSend);
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
             }
         });
     }
