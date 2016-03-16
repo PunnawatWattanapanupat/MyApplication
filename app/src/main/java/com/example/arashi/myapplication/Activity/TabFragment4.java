@@ -18,6 +18,7 @@ package com.example.arashi.myapplication.Activity;
 
 import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
 import com.example.arashi.myapplication.Object.Announcement;
+import com.example.arashi.myapplication.Object.Quiz;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -84,7 +85,7 @@ public class TabFragment4 extends Fragment{
     Boolean Tvalue = true;
     MyDbHelper mHelper;
     Cursor mCursor;
-
+    Quiz quiz;
     int questnum=1;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
@@ -110,7 +111,7 @@ public class TabFragment4 extends Fragment{
 
         });
 
-//        QuestionNumber.setText(""+count);
+//        QuestionNumber.setText(""+count);q
         createQuizButton = (Button) v.findViewById(R.id.createQuizButton);
 
 
@@ -156,8 +157,8 @@ public class TabFragment4 extends Fragment{
 
 
                 //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
-
                 String question_name_text_value = question_name_text.getText().toString();
+                quiz.quiz_name = question_name_text_value;
 //                String question_text_value = question_text.getText().toString();
 //                String choice_a_text_value = choice_a_text.getText().toString();
 //                String choice_b_text_value = choice_b_text.getText().toString();
