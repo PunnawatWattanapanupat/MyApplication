@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,9 @@ import com.example.arashi.myapplication.Activity.ClassActivity;
 import com.example.arashi.myapplication.Activity.EditProfile;
 import com.example.arashi.myapplication.Activity.MainActivity;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -64,7 +68,6 @@ public class home extends Activity implements View.OnClickListener  {
         else {
             vStatus.setText("Student");
         }
-
     }
 
 
@@ -82,7 +85,7 @@ public class home extends Activity implements View.OnClickListener  {
                 startActivity(new Intent(this, ClassActivity.class));
                 break;
             case R.id.button_sign_out:
-                startActivity(new Intent(this, MainActivity.class));
+               // SharedPreferences.Editor.clear();
                 finish();
                 break;
 

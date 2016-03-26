@@ -61,7 +61,6 @@ public class ClassActivity extends Activity {
                 if (returnedShowClass.size() > 0) {
                     listItem = returnedShowClass;
                     adapter.setListData(listItem);
-                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(ClassActivity.this,"No Data", Toast.LENGTH_SHORT).show();
                 }

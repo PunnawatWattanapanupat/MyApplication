@@ -62,21 +62,21 @@ public class PopUpActivity extends Activity {
                 String classCode = etClassCode.getText().toString();
                 int user_id = userLocalStore.getLoggedInUser().user_id;
 
-                    if(className.isEmpty() || classCode.isEmpty() ){
-                        Toast.makeText(PopUpActivity.this,"Please fill all completely", Toast.LENGTH_SHORT).show();
+                if(className.isEmpty() || classCode.isEmpty() ){
+                    Toast.makeText(PopUpActivity.this,"Please fill all completely", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(userLocalStore.getLoggedInUser().is_teacher == 1){
+                        Class classroom = new Class(className, classCode,user_id);
+                        createClass(classroom);
                     }
                     else {
-                        if(userLocalStore.getLoggedInUser().is_teacher == 1){
-                            Class classroom = new Class(className, classCode,user_id);
-                            createClass(classroom);
-                        }
-                        else {
-                            Class classroom = new Class(className, classCode);
-                            studentJoinClass(classroom);
-                            //createRoster(roster);
+                        Class classroom = new Class(className, classCode);
+                        studentJoinClass(classroom);
+                        //createRoster(roster);
 //                            Toast.makeText(PopUpActivity.this,"Student", Toast.LENGTH_SHORT).show();
-                        }
                     }
+                }
 
 
             }
@@ -107,7 +107,7 @@ public class PopUpActivity extends Activity {
         serverRequests.storeRosterDataInBackground(roster, new GetRosterCallback(){
 
             public void done(Roster returnedRoster){
-               // Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
                 finish();
             }

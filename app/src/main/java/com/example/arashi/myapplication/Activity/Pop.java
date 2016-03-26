@@ -1,6 +1,8 @@
 package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +25,14 @@ import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Store.AnnounceLocalStore;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParsePushBroadcastReceiver;
+import com.parse.ParseQuery;
+import com.parse.PushService;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -176,9 +186,32 @@ public class Pop extends Activity  {
     private void postAnnounce(Announcement announcement){
 
         SeverRequests serverRequests = new SeverRequests(this);
+
+        // Create our Installation query
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("classAnnounce", true);
+
+        // Send push notification to query
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery); // Set our Installation query
+        push.setMessage(announcement.topic);
+        push.sendInBackground();
+
+        //
+//        Intent intent = new Intent(this, TabFragment2.class);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//        stackBuilder.addParentStack(TabFragment2.class);
+//        stackBuilder.addNextIntent(intent);//
+//        PendingIntent pendingIntent =
+//                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+
+       // PendingIntent.getActivities()
+
         serverRequests.storeAnnounceDataInBackground(announcement, new GetAnnounceCallBack() {
             @Override
             public void done(Announcement returnAnnounce) {
+
                 Toast.makeText(Pop.this, "Posing is completed", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(Pop.this, tabMainActivity.class));
 //                finish();

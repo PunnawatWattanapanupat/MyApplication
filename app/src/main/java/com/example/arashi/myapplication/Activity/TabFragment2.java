@@ -26,6 +26,7 @@ import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.AnnounceLocalStore;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.ParseInstallation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -117,6 +118,9 @@ public class TabFragment2 extends Fragment {
         createAnnounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("classAnnounce",true);
+                installation.saveInBackground();
                 startActivity(new Intent(getActivity(),Pop.class));
             }
         });

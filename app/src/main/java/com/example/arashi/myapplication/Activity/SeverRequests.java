@@ -905,7 +905,7 @@ public class SeverRequests {
                 String line = "";
 
                 try {
-                    URL url = new URL(SERVER_ADDRESS + "showAnnouncement.php");
+                    URL url = new URL(SERVER_ADDRESS + "ShowAnnouncement.php");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
                     con.setRequestMethod("POST");

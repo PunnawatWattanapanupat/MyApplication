@@ -59,7 +59,7 @@
             android:text="Create"
             android:id="@+id/CreateClassButton"
             android:layout_marginRight="25dp"
-             />
+            />
 
         <Button
             android:layout_width="wrap_content"
