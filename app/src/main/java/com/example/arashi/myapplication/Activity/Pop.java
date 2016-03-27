@@ -1,6 +1,8 @@
 package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
@@ -11,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -198,13 +201,24 @@ public class Pop extends Activity  {
         push.sendInBackground();
 
         //
-//        Intent intent = new Intent(this, TabFragment2.class);
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-//        stackBuilder.addParentStack(TabFragment2.class);
-//        stackBuilder.addNextIntent(intent);//
-//        PendingIntent pendingIntent =
-//                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//
+
+        // Add custom intent
+        Intent cIntent = new Intent(this, TabFragment2.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Create custom notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setContentText(announcement.detail)
+                .setContentTitle(announcement.topic)
+                .setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        nm.notify(1410, notification);
+
+
 
        // PendingIntent.getActivities()
 

@@ -17,6 +17,7 @@ import com.example.arashi.myapplication.Activity.ClassActivity;
 import com.example.arashi.myapplication.Activity.EditProfile;
 import com.example.arashi.myapplication.Activity.MainActivity;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
@@ -38,6 +39,12 @@ public class home extends Activity implements View.OnClickListener  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         //getSupportActionBar().hide();
+//
+//        Parse.initialize(this);
+//        ParseInstallation.getCurrentInstallation().saveInBackground();
+       // Parse.initialize(this, "cbGiLWxg9HO32BM70fe0ybWAOwWeMCaOTcUpReQi","QKRM8zfrbtUs5VcqagH6FcBcsNZ1BHnYDV11E1kx");
+
+
         vName = (TextView) findViewById(R.id.fullName_text);
         vUsername = (TextView) findViewById(R.id.username_text);
         vEmail = (TextView) findViewById(R.id.email_text);
@@ -85,7 +92,7 @@ public class home extends Activity implements View.OnClickListener  {
                 startActivity(new Intent(this, ClassActivity.class));
                 break;
             case R.id.button_sign_out:
-               // SharedPreferences.Editor.clear();
+                userLocalStore.cleanUserData();
                 finish();
                 break;
 

@@ -27,6 +27,7 @@
 
     <application
         android:allowBackup="true"
+        android:name="com.example.arashi.myapplication.Activity.myApp"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light">

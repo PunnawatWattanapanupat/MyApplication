@@ -2,6 +2,7 @@ package com.example.arashi.myapplication.Activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.example.arashi.myapplication.Store.AnnounceLocalStore;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 //import android.app.FragmentManager;
 
@@ -23,6 +28,10 @@ public class tabMainActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE=1;
     ImageView imageToUpload;
+
+    UserLocalStore userLocalStore;
+    ClassLocalStore classLocalStore;
+    AnnounceLocalStore announceLocalStore;
 
 //    public interface FragmentRefreshListener{
 //        void onRefresh();
@@ -52,6 +61,7 @@ public class tabMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_main);
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Students"));
@@ -169,21 +179,27 @@ public class tabMainActivity extends AppCompatActivity {
         return true;
     }
 
-    // @Override
-    //  public boolean onCreateOptionsMenu(Menu menu) {
-    //    // Inflate the menu; this adds items to the action bar if it is present.
-    //  getMenuInflater().inflate(R.menu.main, menu);
-    //return true;
-    // }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+//                userLocalStore.cleanUserData();
+//                announceLocalStore.cleanAnnounceData();
+//                classLocalStore.cleanClassData();
+                startActivity(new Intent(this,MainActivity.class));
+               // finish();
+                return true;
+            case R.id.action_settings:
+                // Settings option clicked.
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
+
 
     public void dateChoose(View view) {
 

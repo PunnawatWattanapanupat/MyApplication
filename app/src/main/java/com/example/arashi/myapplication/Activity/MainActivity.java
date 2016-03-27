@@ -8,10 +8,12 @@ import android.content.Intent;
 //import android.support.v7.app.AppCompatActivity;
 //import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public EditText mPassword;
     public Button button_confirm;
     public TextView SignUpText;
+    CheckBox checkbox1;
     UserLocalStore userLocalStore;
     Secure secure;
 
@@ -44,17 +47,17 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Parse.initialize(this);
 
-
-        ParseInstallation.getCurrentInstallation().saveInBackground();
         //getSupportActionBar().hide();
         //setContentView(R.layout.main);
+
+
 
         mUsername=(EditText)findViewById(R.id.username_text);
         mPassword=(EditText)findViewById(R.id.password_text);
         button_confirm = (Button) findViewById(R.id.button_confirm);
         SignUpText = (TextView) findViewById(R.id.SignUpText);
+        checkbox1 = (CheckBox) findViewById(R.id.checkbox1);
 
         button_confirm.setOnClickListener(this);
         SignUpText.setOnClickListener(this);
@@ -68,6 +71,11 @@ public class MainActivity extends Activity implements OnClickListener {
 //        String _username = _inboundIndex.getStringExtra("username");
 //        String _password = _inboundIndex.getStringExtra("password");
 //        Toast.makeText(getApplicationContext(),_username+":"+_password, Toast.LENGTH_SHORT).show();
+
+        if(checkbox1.isChecked()){
+            mUsername.setText(userLocalStore.getLoggedInUser().username);
+            mPassword.setText(userLocalStore.getLoggedInUser().password);
+        }
     }
 
     @Override
@@ -105,6 +113,9 @@ public class MainActivity extends Activity implements OnClickListener {
                     User user = new User(username, password);
                    // Toast.makeText(this,user.username+" "+user.password, Toast.LENGTH_SHORT).show();
                     authenticate(user);
+                    //Clear data before start
+                    mUsername.getText().clear();
+                    mPassword.getText().clear();
                     break;
                 case R.id.SignUpText:
                     startActivity(new Intent(this, SignUpActivity.class));
