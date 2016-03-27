@@ -2,6 +2,7 @@ package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -82,7 +83,6 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
                 user_id = user.user_id;
                 date = DateFormat.getDateTimeInstance().format(new Date());
                 addquestion(question,user_id,date);
-                Log.d("E1",question+user_id+date);
                 break;
             case R.id.Back:
                 onBackPressed();

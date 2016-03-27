@@ -19,6 +19,7 @@ package com.example.arashi.myapplication.Activity;
 import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Quiz;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -86,10 +87,12 @@ public class TabFragment4 extends Fragment{
     MyDbHelper mHelper;
     Cursor mCursor;
     Quiz quiz;
+    ClassLocalStore classLocalStore;
     int questnum=1;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
         Button testbtn = (Button) v.findViewById(R.id.testbtn);
+        quiz = new Quiz("",1,1,4);
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
 //        question_text = (EditText) v.findViewById(R.id.question_text);
@@ -314,6 +317,7 @@ public class TabFragment4 extends Fragment{
                 Intent intent = new Intent(getActivity(), QuizQuestionActivity.class);
                 String str=listView1.getItemAtPosition(arg2).toString();
                 intent.putExtra("MyValue", str);
+                Log.i("Myvalueanswer",str);
                 startActivityForResult(intent,1);
                 //startActivity(intent);
             }

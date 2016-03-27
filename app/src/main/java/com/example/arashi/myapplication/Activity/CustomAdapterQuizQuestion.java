@@ -54,8 +54,11 @@ public class CustomAdapterQuizQuestion extends BaseAdapter {
         TextView textChoiceD = (TextView)view.findViewById(R.id.textChoiceD);
 
         numberCount.setText(Integer.toString(questionData.size()-position));
-
-
+        text_name_question.setText(questionText);
+        textChoiceA.setText(ans1);
+        textChoiceB.setText(ans2);
+        textChoiceC.setText(ans3);
+        textChoiceD.setText(ans4);
         return view;
     }
     public void setListData(ArrayList<Question> questionData){

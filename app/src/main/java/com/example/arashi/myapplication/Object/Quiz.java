@@ -7,14 +7,21 @@ import java.util.ArrayList;
  */
 public class Quiz {
     public String quiz_name;
-    public boolean is_active;
-    public int quizID;
+    public int quizID,is_active,class_id;
     public ArrayList<Question> questionArray;
 
-    public Quiz (String quiz_name){
+    public Quiz (String quiz_name,int quizID,int is_active,int class_id){
         questionArray = new ArrayList<>();
         this.quiz_name=quiz_name;
+        this.quizID=quizID;
+        this.is_active=is_active;
+        this.class_id=class_id;
 }
+
+    public void addQuestionforQuiz(String q,String a1,String a2,String a3,String a4,String correctAnswer){
+       questionArray.add(new Question(q,a1,a2,a3,a4,correctAnswer));
+    }
+
     public String QuizConcat() {
         String AllConCat="";
         for(int i =0;i<questionArray.size();i++){
@@ -31,8 +38,5 @@ public class Quiz {
             }
         }
         return AllConCat;
-    }
-    public void addQuestionforQuiz(String q,String a1,String a2,String a3,String a4){
-       questionArray.add(new Question(q,a1,a2,a3,a4));
     }
 }

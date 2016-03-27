@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
 import com.example.arashi.myapplication.Object.Question;
 import com.example.arashi.myapplication.Object.Quiz;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import java.util.ArrayList;
 
@@ -47,6 +49,15 @@ public class QuizQuestionActivity extends Activity{
     CustomAdapterQuizQuestion adapter;
 
     String passedVar=null;
+
+
+    ListView listView;
+    TextView textClassName;
+    SeverRequests severRequests;
+    UserLocalStore userLocalStore;
+    ClassLocalStore classLocalStore;
+    //AnnounceLocalStore announceLocalStore;
+    Class classroom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +107,7 @@ public class QuizQuestionActivity extends Activity{
 
         QuestionNumber.setText(""+count);
         Button add_question = (Button) findViewById(R.id.add_question);
-        quiz = new Quiz("");
+        quiz = new Quiz("",-1,0,4);
 
 
 
@@ -117,7 +128,8 @@ public class QuizQuestionActivity extends Activity{
                 String choice_c_text_value = choice_c_text.getText().toString();
                 String choice_d_text_value = choice_d_text.getText().toString();
 
-                quiz.addQuestionforQuiz(question_text_value,choice_a_text_value,choice_b_text_value,choice_c_text_value,choice_d_text_value);
+
+
                 Log.e("deeeeeeeeeee",quiz.questionArray.toString());
 //                    Toast.makeText(getActivity(), choice_a_text_value+choice_b_text_value+choice_c_text_value+choice_d_text_value, Toast.LENGTH_LONG).show();
                 Log.d("question_name_value",question_name_text_value);
@@ -127,37 +139,41 @@ public class QuizQuestionActivity extends Activity{
                 Log.d("choice_c_text_value",choice_c_text_value);
                 Log.d("choice_d_text_value",choice_d_text_value);
 
-                for(int i =0;i<quiz.questionArray.size();i++){
+               if(question_text_value.isEmpty() || choice_a_text_value.isEmpty() || choice_b_text_value.isEmpty() || choice_c_text_value.isEmpty() || choice_d_text_value.isEmpty()){
+                   Toast.makeText(QuizQuestionActivity.this, "Please complete question and choice.", Toast.LENGTH_LONG).show();
+              }else {
+                   quiz.addQuestionforQuiz(question_text_value,choice_a_text_value,choice_b_text_value,choice_c_text_value,choice_d_text_value,choice_d_text_value);
                     listItem = quiz.questionArray;
                     adapter.setListData(listItem);
-                    }
+                   question_text.setText("");
+                   choice_a_text.setText("");
+                   choice_b_text.setText("");
+                   choice_c_text.setText("");
+                   choice_d_text.setText("");
+                   count++;
+                   Log.d("count_value",""+count);
 
-
-                ArrayList<Question> dirArray = new ArrayList<Question>();
-
-
-
-                mHelper = new MyDbHelper(QuizQuestionActivity.this);
-                mDb = mHelper.getWritableDatabase();
-
-
-                if (!question_text_value.isEmpty()) {
-
-                    Toast.makeText(QuizQuestionActivity.this, "This question's already saved.", Toast.LENGTH_LONG).show();
-                } else
-                {
-                    Toast.makeText(QuizQuestionActivity.this, "Please fill Question !", Toast.LENGTH_LONG).show();
+                   QuestionNumber.setText(""+count);
                 }
 
-                question_text.setText("");
-                choice_a_text.setText("");
-                choice_b_text.setText("");
-                choice_c_text.setText("");
-                choice_d_text.setText("");
-                count++;
-                Log.d("count_value",""+count);
 
-                QuestionNumber.setText(""+count);
+//                ArrayList<Question> dirArray = new ArrayList<Question>();
+//
+//
+//
+//                mHelper = new MyDbHelper(QuizQuestionActivity.this);
+//                mDb = mHelper.getWritableDatabase();
+
+
+//                if (!question_text_value.isEmpty()) {
+//
+//                    Toast.makeText(QuizQuestionActivity.this, "This question's already saved.", Toast.LENGTH_LONG).show();
+//                } else
+//                {
+//                    Toast.makeText(QuizQuestionActivity.this, "Please fill Question !", Toast.LENGTH_LONG).show();
+//                }
+
+
             }
         });
 
