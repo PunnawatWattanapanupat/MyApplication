@@ -14,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Answerstack;
+import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Object.Questionstack;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import java.text.DateFormat;
@@ -41,6 +43,8 @@ public class PopAnswer extends Activity implements View.OnClickListener {
     ArrayList<Answerstack> listitem;
     ListView listView;
     Button Done ;
+    Class classroom;
+    ClassLocalStore classLocalStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +77,10 @@ public class PopAnswer extends Activity implements View.OnClickListener {
         listView = (ListView)findViewById(R.id.listViewAnswerData);
         listView.setAdapter(adapter);
 
+        classLocalStore = new ClassLocalStore(this);
+        classroom = classLocalStore.getJoinedInClass();
         ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
-        serverRequestsQA.SelectAnswer(question_id, new GetSelectionAnswer() {
+        serverRequestsQA.SelectAnswer(question_id, classroom, new GetSelectionAnswer() {
             @Override
             public void done(ArrayList<Answerstack> returnAnswerstack) {
                 if(returnAnswerstack.size()>0){

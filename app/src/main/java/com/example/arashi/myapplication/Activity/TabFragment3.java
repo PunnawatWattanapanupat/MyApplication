@@ -12,8 +12,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Questionstack;
+import com.example.arashi.myapplication.Object.Class;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,12 +29,15 @@ public class TabFragment3 extends Fragment {
     ArrayList<Questionstack> listitem;
     ListView listView;
     Questionstack questionstackdata;
+    ClassLocalStore classLocalStore;
+    Class classroom;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         View v = inflater.inflate(R.layout.tab_fragment_3, container, false);
         listitem = new ArrayList<>();
+        classLocalStore = new ClassLocalStore(getActivity());
 
         adapter = new CustomAdapterFragment3(getActivity().getApplicationContext(), listitem);
         listView = (ListView)v.findViewById(R.id.listView1);
@@ -46,8 +52,10 @@ public class TabFragment3 extends Fragment {
             }
         });
 
+        classroom = classLocalStore.getJoinedInClass();
         serverRequestsQA = new ServerRequestsQA(getActivity());
-        serverRequestsQA.SelectQuestion(new GetSelection() {
+        //Toast.makeText(getActivity(),Integer.toString(classroom.class_id), Toast.LENGTH_SHORT).show();
+        serverRequestsQA.SelectQuestion(classroom, new GetSelection() {
             @Override
             public void done(ArrayList<Questionstack> returnedQuestionstack) {
                 if(returnedQuestionstack.size() > 0){

@@ -4,6 +4,7 @@ package com.example.arashi.myapplication.Activity;
  * Created by Ooppo on 21/2/2559.
  */
 import android.content.Context;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +16,24 @@ import android.widget.TextView;
 import com.example.arashi.myapplication.Object.Questionstack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class CustomAdapterFragment3 extends BaseAdapter    {
+public class CustomAdapterFragment3 extends BaseAdapter {
+    private Map<Integer, String> mFragmentTags;
 
     Context mContext;
     ArrayList<Questionstack> questionstackData;
 
     public CustomAdapterFragment3(Context context,ArrayList<Questionstack> questionstackData) {
         this.mContext= context;
+        mFragmentTags = new HashMap<Integer,String>();
         this.questionstackData = questionstackData;
 
     }
+
+
 
     public int getCount() {
         return questionstackData.size();
@@ -76,5 +83,7 @@ public class CustomAdapterFragment3 extends BaseAdapter    {
 //    public int getbackquestionid(){
 //        return qid;
 //    }
+
+
 
 }

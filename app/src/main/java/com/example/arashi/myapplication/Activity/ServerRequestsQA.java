@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.example.arashi.myapplication.Object.Answerstack;
 import com.example.arashi.myapplication.Object.Questionstack;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.example.arashi.myapplication.Object.Class;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,14 +39,14 @@ public class ServerRequestsQA {
         progressDialog.setMessage("Please wait...");
     }
 
-    public void AddQuestion(String question, int user_id, String date, GetAddQuestion getAddQuestion) {
+    public void AddQuestion(String question, int user_id, String date, Class classroom, GetAddQuestion getAddQuestion) {
         progressDialog.show();
-        new AddQuestionAsyncTask(question, user_id, date, getAddQuestion).execute();
+        new AddQuestionAsyncTask(question, user_id, date, classroom, getAddQuestion).execute();
     }
 
-    public void SelectQuestion(GetSelection getSelection) {
+    public void SelectQuestion(Class classroom, GetSelection getSelection) {
         progressDialog.show();
-        new SelectQuestionAsyncTask(getSelection).execute();
+        new SelectQuestionAsyncTask(classroom, getSelection).execute();
     }
 
     public void AddAnswer(int qid,String answer,String dateanswer,String useranswer,GetAddAnswer getAddAnswer){
@@ -52,8 +54,8 @@ public class ServerRequestsQA {
         new AddAnswerAsyncTask(qid, answer, dateanswer, useranswer,getAddAnswer).execute();
     };
 
-    public void SelectAnswer(int question_id,GetSelectionAnswer getSelectionAnswer) {
-        new SelectAnswerAsyncTask(question_id,getSelectionAnswer).execute();
+    public void SelectAnswer(int question_id, Class classroom,GetSelectionAnswer getSelectionAnswer) {
+        new SelectAnswerAsyncTask(question_id, classroom,getSelectionAnswer).execute();
     };
 
     private String getEncodeData(Map<String, String> data) {
@@ -81,13 +83,14 @@ public class ServerRequestsQA {
         String date;
         String php = "AddQuestion.php";
         GetAddQuestion getAddQuestion;
+        Class classroom;
 
-        public AddQuestionAsyncTask(String question, int user_id, String date,GetAddQuestion getAddQuestion) {
+        public AddQuestionAsyncTask(String question, int user_id, String date,Class classroom, GetAddQuestion getAddQuestion) {
             this.question = question;
             this.user_id = user_id;
             this.date = date;
+            this.classroom = classroom;
             this.getAddQuestion = getAddQuestion;
-
         }
 
         @Override
@@ -96,8 +99,10 @@ public class ServerRequestsQA {
             dataToSend.put("question", question);
             dataToSend.put("user_id", Integer.toString(user_id));
             dataToSend.put("date", date);
+            dataToSend.put("class_id", Integer.toString(classroom.class_id));
             String returnedAddQ = null;
             try {
+
                 String encode = getEncodeData(dataToSend);
                 BufferedReader reader = null; // Read some data from server
                 String line = "";
@@ -138,26 +143,30 @@ public class ServerRequestsQA {
         GetSelection getSelection;
         ArrayList<Questionstack> questionstackArrayList;
         String php = "SelectQuestion.php";
-        public SelectQuestionAsyncTask(GetSelection getSelection) {
+        Class classroom;
+        public SelectQuestionAsyncTask(Class classroom, GetSelection getSelection ) {
+            this.classroom = classroom;
             this.getSelection = getSelection;
             questionstackArrayList = new ArrayList<>();
-
         }
 
         @Override
         protected ArrayList<Questionstack> doInBackground(Void... params) {
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", classroom.class_id+"");
 
             try {
+                String encode = getEncodeData(dataToSend);
                 BufferedReader reader = null; // Read some data from server
                 String line = "";
 
                 try {
                     URL url = new URL(SERVER_ADDRESS + php);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    //con.setRequestMethod("POST");
+                     con.setRequestMethod("POST");
                     con.setDoOutput(true);
                     OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
-                    //writer.write(encode);
+                    writer.write(encode);
                     writer.flush();
 
                     StringBuilder stringBuilder = new StringBuilder();
@@ -274,8 +283,10 @@ public class ServerRequestsQA {
         int question_id;
         GetSelectionAnswer getSelectionAnswer;
         ArrayList<Answerstack> answerstackArrayList;
-        public SelectAnswerAsyncTask(int question_id,GetSelectionAnswer getSelectionAnswer){
+        Class classroom;
+        public SelectAnswerAsyncTask(int question_id, Class classroom,GetSelectionAnswer getSelectionAnswer){
             this.question_id = question_id;
+            this.classroom = classroom;
             this.getSelectionAnswer=getSelectionAnswer;
             answerstackArrayList = new ArrayList<>();
         }
@@ -284,6 +295,7 @@ public class ServerRequestsQA {
         protected ArrayList<Answerstack> doInBackground(Void... params) {
             Map<String, String> dataToSend = new HashMap<>();
             dataToSend.put("question_id", Integer.toString(question_id));
+            dataToSend.put("class_id", Integer.toString(classroom.class_id));
 
             try {
                 String encode = getEncodeData(dataToSend);

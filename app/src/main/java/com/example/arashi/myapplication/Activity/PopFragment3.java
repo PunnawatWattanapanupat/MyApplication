@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.arashi.myapplication.Object.User;
+import com.example.arashi.myapplication.Object.Class;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
 
@@ -35,6 +37,8 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
     UserLocalStore userLocalStore;
     User user;
     ServerRequestsQA serverRequestsQA;
+    Class classroom;
+    ClassLocalStore classLocalStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +86,9 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
                 question = Questiontext.getText().toString();
                 user_id = user.user_id;
                 date = DateFormat.getDateTimeInstance().format(new Date());
-                addquestion(question,user_id,date);
+                classLocalStore = new ClassLocalStore(this);
+                classroom = classLocalStore.getJoinedInClass();
+                addquestion(question,user_id,date, classroom);
                 break;
             case R.id.Back:
                 onBackPressed();
@@ -90,9 +96,9 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
         }
     }
 
-    public void addquestion(String q,int uid,String dmy){
+    public void addquestion(String q,int uid,String dmy, Class classroom){
         ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
-        serverRequestsQA.AddQuestion(q, uid, dmy, new GetAddQuestion() {
+        serverRequestsQA.AddQuestion(q, uid, dmy,classroom, new GetAddQuestion() {
             @Override
             public void done(String booboo) {
                 if(booboo == null){
