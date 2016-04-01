@@ -197,6 +197,7 @@ public class Pop extends Activity  {
         // Send push notification to query
         ParsePush push = new ParsePush();
         push.setQuery(pushQuery); // Set our Installation query
+      //  push.se
         push.setMessage(announcement.topic);
         push.sendInBackground();
 

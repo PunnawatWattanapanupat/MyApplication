@@ -19,14 +19,19 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.arashi.myapplication.Object.Roster;
+import com.example.arashi.myapplication.Object.Session;
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.example.arashi.myapplication.Store.SessionLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -35,7 +40,7 @@ public class TabFragment1 extends Fragment {
     private DatePickerDialog toDatePickerDialog;
     private EditText fromDateEtxt;
     private View mViewGroup;
-    private CheckBox testcheck;
+   // private CheckBox testcheck;
     //    private EditText toDateEtxt;
     private SimpleDateFormat dateFormatter;
 
@@ -47,6 +52,9 @@ public class TabFragment1 extends Fragment {
     Class classroom;
     ClassLocalStore classLocalStore;
     UserLocalStore userLocalStore;
+    Session session;
+    Roster roster;
+    SessionLocalStore sessionLocalStore;
     RosterAdapter rosterAdapter;
 
 
@@ -67,6 +75,7 @@ public class TabFragment1 extends Fragment {
         severRequests = new SeverRequests(getActivity());
         classLocalStore = new ClassLocalStore(getActivity());
         userLocalStore = new UserLocalStore(getActivity());
+        sessionLocalStore = new SessionLocalStore(getActivity());
 
 
         rosterAdapter = new RosterAdapter(getActivity(),listItem_roster);
@@ -77,13 +86,68 @@ public class TabFragment1 extends Fragment {
         textClassName.setText( classLocalStore.getJoinedInClass().classname);
         textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
 
+
+        CheckBox checkBox = (CheckBox) v.findViewById(R.id.check_activate);
+        final CheckBox checkRoster = (CheckBox) v.findViewById(R.id.check_roster);
+
+        //for check active //teacher
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()){
+
+                    session = new Session(true);
+                    sessionLocalStore.storeSessionData(session);
+                    sessionLocalStore.setSessionForShow(true);
+                    Toast.makeText(getActivity(), "students are checked !!! =)",Toast.LENGTH_LONG).show();
+                }
+
+                else {
+                    session = new Session(false);
+                    sessionLocalStore.storeSessionData(session);
+                    sessionLocalStore.setSessionForShow(true);
+                    Toast.makeText(getActivity(), "uncheck !!! =)",Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+        //Update data for check student
+        String date_post = DateFormat.getDateTimeInstance().format(new Date());
+        roster = new Roster(userLocalStore.getLoggedInUser().user_id, classLocalStore.getJoinedInClass().class_id, 1, date_post);
+        //for check roster //student
+        checkRoster.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()){
+                    Toast.makeText(getActivity(), " Hello ",Toast.LENGTH_LONG).show();
+                    checkRoster.setVisibility(v.GONE);
+                    severRequests.updateRosterDataInBackground(roster, new GetRosterCallback() {
+                        @Override
+                        public void done(Roster returnedRoster) {
+                            Toast.makeText(getActivity(), "You are checked",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+
+
         //Hide Checkbox If user is student.
-        CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkBox22);
         if(userLocalStore.getLoggedInUser().is_teacher != 1)
         {
             checkBox.setVisibility(v.GONE);
             btn_checked_student.setVisibility(v.GONE);
+            checkRoster.setVisibility(v.GONE);
+            if(sessionLocalStore.getShowSession().is_check == true)
+            {
+                checkRoster.setVisibility(v.VISIBLE);
+                Toast.makeText(getActivity(), " Hello ",Toast.LENGTH_LONG).show();
+            }
         }
+        //If user is teacher.
+        else
+        {
+            checkRoster.setVisibility(v.GONE);
+        }
+
 
         //Tin's Part
         fromDateEtxt.setInputType(InputType.TYPE_NULL);
@@ -99,9 +163,9 @@ public class TabFragment1 extends Fragment {
         });
 
         mViewGroup = v.findViewById(R.id.viewsContainer);
-        testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
+       // testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
 
-        //
+        //show roster
         severRequests.showRosterStudentListInBackground(classroom, new GetShowRosterStudentCallback() {
             @Override
             public void done(ArrayList<User> returnedRosterStudent) {
@@ -125,9 +189,15 @@ public class TabFragment1 extends Fragment {
                 startActivity(new Intent(getActivity(),PopRosterStudent.class));
             }
         });
+        sessionLocalStore.cleanSessionData();//clear session
 
-
-
+        //click button checked student
+        btn_checked_student.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
+            }
+        });
 
         return v;
     }
