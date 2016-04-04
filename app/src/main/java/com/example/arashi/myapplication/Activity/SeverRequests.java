@@ -75,6 +75,11 @@ public class SeverRequests {
         new  storeRosterDataAsyncTask(roster, rosterCallback).execute();
     }
 
+    public void updateRosterDataInBackground(Roster roster, GetRosterCallback rosterCallback){
+        progressDialog.show();
+        new  updateRosterDataAsyncTask(roster, rosterCallback).execute();
+    }
+
     public void showRosterStudentListInBackground(Class classroom,GetShowRosterStudentCallback  getShowRosterStudentCallback) {
         new showRosterStudentListAsyncTask(classroom, getShowRosterStudentCallback).execute();
     }
@@ -691,6 +696,91 @@ public class SeverRequests {
 
 
                     returnRoster = new Roster(user_id,class_id);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnRoster;
+        }
+
+
+        protected void onPostExecute(Roster returnRoster){
+            progressDialog.dismiss();
+            rosterCallback.done(returnRoster);
+            super.onPostExecute(returnRoster);
+        }
+    }
+
+    public class updateRosterDataAsyncTask extends AsyncTask<Void, Void, Roster> {
+        Roster roster;
+        GetRosterCallback rosterCallback;
+
+
+        public updateRosterDataAsyncTask(Roster roster, GetRosterCallback rosterCallback) {
+            this.roster = roster;
+            this.rosterCallback = rosterCallback;
+
+        }
+        @Override
+        protected Roster doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("user_id", roster.user_id+"");
+            dataToSend.put("class_id", roster.class_id+"");
+            dataToSend.put("check_student", roster.check_student+"");
+            dataToSend.put("date", roster.date);
+
+
+            Roster returnRoster = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "UpdateRoster.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
+                    int check_student = jObj.getInt("check_student");
+                    String date = jObj.getString("date");
+
+                    returnRoster = new Roster( user_id, class_id, check_student, date);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());

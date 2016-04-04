@@ -206,33 +206,33 @@ public class tabMainActivity extends AppCompatActivity {
     }
 
 
-    public void ActiveClick(View v) {
-        //code to check if this checkbox is checked!
-        // CheckBox checkBox = (CheckBox)v;
-
-        final TabFragment1 tabFragment1 = new TabFragment1();
-        CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox22);
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked())
-                    Toast.makeText(tabMainActivity.this, "students are checked !!! =)",
-                            Toast.LENGTH_LONG).show();
-                else {
-                    Toast.makeText(tabMainActivity.this, "uncheck !!! =)",
-                            Toast.LENGTH_LONG).show();
-
-
-                    mViewGroup = findViewById(R.id.viewsContainer);
-                    //mViewGroup.setVisibility(View.INVISIBLE);
-                    showFeedChickenDialog();
-
-//                    tabFragment1.setInvis();
-//                    RelativeLayout testLayout = (RelativeLayout) v.findViewById(R.id.onetest);
-////                    testLayout.setVisibility(RelativeLayout.GONE);
-                }
-            }
-        });
-    }
+//    public void ActiveClick(View v) {
+//        //code to check if this checkbox is checked!
+//        // CheckBox checkBox = (CheckBox)v;
+//
+//        final TabFragment1 tabFragment1 = new TabFragment1();
+//        CheckBox checkBox = (CheckBox) findViewById(R.id.check_activate);
+//        checkBox.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                if (((CheckBox) v).isChecked())
+//                    Toast.makeText(tabMainActivity.this, "students are checked !!! =)",
+//                            Toast.LENGTH_LONG).show();
+//                else {
+//                    Toast.makeText(tabMainActivity.this, "uncheck !!! =)",
+//                            Toast.LENGTH_LONG).show();
+//
+//
+//                    mViewGroup = findViewById(R.id.viewsContainer);
+//                    //mViewGroup.setVisibility(View.INVISIBLE);
+//                    showFeedChickenDialog();
+//
+////                    tabFragment1.setInvis();
+////                    RelativeLayout testLayout = (RelativeLayout) v.findViewById(R.id.onetest);
+//////                    testLayout.setVisibility(RelativeLayout.GONE);
+//                }
+//            }
+//        });
+//    }
 
 //                if(checkBox22.isChecked()==true){
 ////            if(checkBox.isChecked()==false){

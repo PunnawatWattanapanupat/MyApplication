@@ -48,11 +48,8 @@ public class ClassActivity extends Activity {
 
         adapter = new ClassAdapter(this, listItem);
         listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 //        Bundle bundle = getIntent().getExtras();
 //        userId = bundle.getInt("userId");
-
-
 
 
         severRequests.showClassListInBackground(user, new GetShowClassCallback() {
