@@ -91,28 +91,23 @@ public class TabFragment4 extends Fragment{
     int questnum=1;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
-        Button testbtn = (Button) v.findViewById(R.id.testbtn);
+       // Button testbtn = (Button) v.findViewById(R.id.testbtn);
         quiz = new Quiz("",1,1,4);
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
-//        question_text = (EditText) v.findViewById(R.id.question_text);
-//        choice_a_text = (EditText) v.findViewById(R.id.choice_a_text);
-//        choice_b_text = (EditText) v.findViewById(R.id.choice_b_text);
-//        choice_c_text = (EditText) v.findViewById(R.id.choice_c_text);
-//        choice_d_text = (EditText) v.findViewById(R.id.choice_d_text);
-//        QuestionNumber = (TextView) v.findViewById(R.id.QuestionNumber);
+
         //ListViewShow Question_alreadyCreate
         listView1 = (ListView)v.findViewById(R.id.Quiz_alreadyCreate);
 
-        testbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getActivity(),QuizActivity.class);
-                startActivity(in);
-            }
-
-
-        });
+//        testbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent in = new Intent(getActivity(),QuizActivity.class);
+//                startActivity(in);
+//            }
+//
+//
+//        });
 
 //        QuestionNumber.setText(""+count);q
         createQuizButton = (Button) v.findViewById(R.id.createQuizButton);

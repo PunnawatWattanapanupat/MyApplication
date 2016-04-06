@@ -207,20 +207,7 @@ Button Submit_Edit_Button;
                         adapter.setListData(listItem);
 
 
-//                        if (correctAnswer.equals(choice_a_text_value) ) {
-//
-//                            choice_a_radio.setChecked(true);
-//
-//                        } else if (correctAnswer.equals(choice_b_text_value)) {
-//                            choice_b_radio.setChecked(true);
-//                            Log.d("EEEEEEEEEE", "BBB");
-//                        } else if (correctAnswer.equals(choice_c_text_value)) {
-//                            choice_c_radio.setChecked(true);
-//                            Log.d("EEEEEEEEEE", "CCC");
-//                        } else if (correctAnswer.equals(choice_d_text_value)) {
-//                            choice_d_radio.setChecked(true);
-//                            Log.d("EEEEEEEEEE", "DDD");
-//                        }
+
                         choice_a_radio.setChecked(true);
 
 
@@ -269,10 +256,7 @@ Button Submit_Edit_Button;
 
         listViewTest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
-                // startActivity(new Intent(getActivity(),QuizQuestionActivity.class));
-                //String str=listViewTest.getSelectedItemPosition(arg3);
-               // Log.d("EEEEE",str);
+
                 questionPosition = arg2;
                 question_obj = (Question) arg0.getItemAtPosition(arg2);
                 question_text.setText(question_obj.question);
@@ -281,10 +265,10 @@ Button Submit_Edit_Button;
                 choice_c_text.setText(question_obj.ans3);
                 choice_d_text.setText(question_obj.ans4);
 
-                String choice_a_radio_value =   String.valueOf(choice_a_radio.isChecked());
-                String choice_b_radio_value =   String.valueOf(choice_b_radio.isChecked());
-                String choice_c_radio_value =   String.valueOf(choice_c_radio.isChecked());
-                String choice_d_radio_value =   String.valueOf(choice_d_radio.isChecked());
+//                String choice_a_radio_value =   String.valueOf(choice_a_radio.isChecked());
+//                String choice_b_radio_value =   String.valueOf(choice_b_radio.isChecked());
+//                String choice_c_radio_value =   String.valueOf(choice_c_radio.isChecked());
+//                String choice_d_radio_value =   String.valueOf(choice_d_radio.isChecked());
 
 
                 String question_name_text_value = question_name_text.getText().toString();
@@ -295,18 +279,7 @@ Button Submit_Edit_Button;
                 String choice_d_text_value = choice_d_text.getText().toString();
 
                 correctAnswer = question_obj.correctaAnswer;
-//                if (choice_a_radio_value.equals("true")){
-//                    correctAnswer = choice_a_text_value;
-//                }
-//                else if (choice_b_radio_value.equals("true")){
-//                    correctAnswer = choice_b_text_value;
-//                }
-//                else if (choice_c_radio_value.equals("true")){
-//                    correctAnswer = choice_c_text_value;
-//                }
-//                else if (choice_d_radio_value.equals("true")){
-//                    correctAnswer = choice_d_text_value;
-//                }
+
 
 
 
@@ -338,33 +311,10 @@ Button Submit_Edit_Button;
 
 
                 QuestionNumber.setText(""+ (arg2+1));
-//               String question_name_text_value = question_name_text.getText().toString();
-//                String question_text_value = question_text.getText().toString();
-//                String choice_a_text_value = choice_a_text.getText().toString();
-//                String choice_b_text_value = choice_b_text.getText().toString();
-//                String choice_c_text_value = choice_c_text.getText().toString();
-//                String choice_d_text_value = choice_d_text.getText().toString();
-                //String NumberCount_value = NumberCount.getText().toString();
-
-//                if(question_text_value.isEmpty() || choice_a_text_value.isEmpty() || choice_b_text_value.isEmpty() || choice_c_text_value.isEmpty() || choice_d_text_value.isEmpty()){
-//                    Toast.makeText(QuizQuestionActivity.this, "Please complete question and choice.", Toast.LENGTH_LONG).show();
-//                }else {
-                  //  quiz.addQuestionforQuiz(question_text_value,choice_a_text_value,choice_b_text_value,choice_c_text_value,choice_d_text_value,choice_d_text_value);
-//                    listItem = quiz.questionArray;
-//                    adapter.setListData(listItem);
-//                  //  question_obj = new Question(question_name_text_value,question_text_value,choice_a_text_value,choice_b_text_value,choice_c_text_value,choice_d_text_value);
-//                    listItem.set(count-1,question_obj);
-//                    listItem = quiz.questionArray;
-//                    adapter.setListData(listItem);
-              //  NumberCount.setText(NumberCount_value);
 
 
 
-             //   }
 
-
-
-                //startActivity(intent);
             }
         });
 
@@ -445,47 +395,12 @@ Button Submit_Edit_Button;
 
 
 
-//                    if (correctAnswer==choice_a_text_value){
-//
-//                        choice_a_radio.setChecked(true);
-//
-//                    }
-//                    else if (correctAnswer==choice_b_text_value){
-//                        choice_b_radio.setChecked(true);
-//                        Log.d("EEEEEEEEEE","BBB");
-//                    }
-//                    else if (correctAnswer==choice_c_text_value){
-//                        choice_c_radio.setChecked(true);
-//                        Log.d("EEEEEEEEEE","CCC");
-//                    }
-//                    else if (correctAnswer==choice_d_text_value){
-//                        choice_d_radio.setChecked(true);
-//                        Log.d("EEEEEEEEEE","DDD");
-//                    }
                     choice_a_radio.setChecked(true);
 
 
                 }
 
                 }
-
-
-//                ArrayList<Question> dirArray = new ArrayList<Question>();
-//
-//
-//
-//                mHelper = new MyDbHelper(QuizQuestionActivity.this);
-//                mDb = mHelper.getWritableDatabase();
-
-
-//                if (!question_text_value.isEmpty()) {
-//
-//                    Toast.makeText(QuizQuestionActivity.this, "This question's already saved.", Toast.LENGTH_LONG).show();
-//                } else
-//                {
-//                    Toast.makeText(QuizQuestionActivity.this, "Please fill Question !", Toast.LENGTH_LONG).show();
-//                }
-
 
             }
         });
