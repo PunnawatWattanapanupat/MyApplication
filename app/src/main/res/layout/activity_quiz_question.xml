@@ -138,12 +138,26 @@
 
             android:layout_gravity="center">
         </Button>
+        <Button android:id="@+id/Submit_Edit_Button"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Submit Edit"
+            android:visibility="gone"
+            android:layout_gravity="center">
+        </Button>
 
         <Button
             android:id="@+id/finishButton"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Finish"
+            android:layout_gravity="center_horizontal" />
+        <Button
+            android:id="@+id/Cancel_Edit_Button"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Cancel"
+            android:visibility="gone"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
@@ -152,7 +166,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/Question_TEST">
-
     </ListView>
 
 

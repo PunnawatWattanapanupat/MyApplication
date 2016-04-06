@@ -53,7 +53,7 @@ public class CustomAdapterQuizQuestion extends BaseAdapter {
         TextView textChoiceC = (TextView)view.findViewById(R.id.textChoiceC);
         TextView textChoiceD = (TextView)view.findViewById(R.id.textChoiceD);
 
-        numberCount.setText(Integer.toString(questionData.size()-position));
+        numberCount.setText(Integer.toString(position+1));
         text_name_question.setText(questionText);
         textChoiceA.setText(ans1);
         textChoiceB.setText(ans2);
