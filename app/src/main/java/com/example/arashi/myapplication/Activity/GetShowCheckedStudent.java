@@ -5,8 +5,8 @@ import com.example.arashi.myapplication.Object.Roster;
 import java.util.ArrayList;
 
 /**
- * Created by Arashi on 2/20/2016.
+ * Created by Arashi on 4/11/2016.
  */
-public interface GetRosterCallback {
-    void done(Roster returnedRoster);
+public interface GetShowCheckedStudent {
+    void done(ArrayList<Roster> returnedListRoster);
 }

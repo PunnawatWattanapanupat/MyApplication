@@ -71,13 +71,7 @@ public class TabFragment2 extends Fragment {
         listItem = new ArrayList<>();
 
 
-//        ((tabMainActivity)getActivity()).setFragmentRefreshListener(new tabMainActivity.FragmentRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//                // Refresh Your Fragment
-//            }
-//        });
+
 
         ImageView createAnnounce = (ImageView) v.findViewById(R.id.createAnnounce);
 

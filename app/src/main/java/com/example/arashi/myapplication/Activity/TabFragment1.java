@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Roster;
-import com.example.arashi.myapplication.Object.Session;
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
-import com.example.arashi.myapplication.Store.SessionLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 
@@ -52,9 +47,7 @@ public class TabFragment1 extends Fragment {
     Class classroom;
     ClassLocalStore classLocalStore;
     UserLocalStore userLocalStore;
-    Session session;
     Roster roster;
-    SessionLocalStore sessionLocalStore;
     RosterAdapter rosterAdapter;
 
 
@@ -62,6 +55,8 @@ public class TabFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_1, container, false);
+
+
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         fromDateEtxt = (EditText) v.findViewById(R.id.etxt_fromdate);
@@ -75,8 +70,6 @@ public class TabFragment1 extends Fragment {
         severRequests = new SeverRequests(getActivity());
         classLocalStore = new ClassLocalStore(getActivity());
         userLocalStore = new UserLocalStore(getActivity());
-        sessionLocalStore = new SessionLocalStore(getActivity());
-
 
         rosterAdapter = new RosterAdapter(getActivity(),listItem_roster);
         gridView_roster.setAdapter(rosterAdapter);
@@ -87,42 +80,46 @@ public class TabFragment1 extends Fragment {
         textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
 
 
-        CheckBox checkBox = (CheckBox) v.findViewById(R.id.check_activate);
+        final CheckBox checkBox = (CheckBox) v.findViewById(R.id.check_activate);
         final CheckBox checkRoster = (CheckBox) v.findViewById(R.id.check_roster);
 
         //for check active //teacher
         checkBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()){
-
-                    session = new Session(true);
-                    sessionLocalStore.storeSessionData(session);
-                    sessionLocalStore.setSessionForShow(true);
-                    Toast.makeText(getActivity(), "students are checked !!! =)",Toast.LENGTH_LONG).show();
+                    roster = new Roster(classLocalStore.getJoinedInClass().class_id, "ON");
+                    severRequests.updateSessionInBackground(roster,"UpdateSession.php", new GetRosterCallback() {
+                        @Override
+                        public void done(Roster returnedRoster) {
+                            Toast.makeText(getActivity(),"ON SESSION" ,Toast.LENGTH_LONG).show();
+                           // startActivity(new Intent(getActivity(),tabMainActivity.class));
+                        }
+                    });
                 }
-
                 else {
-                    session = new Session(false);
-                    sessionLocalStore.storeSessionData(session);
-                    sessionLocalStore.setSessionForShow(true);
-                    Toast.makeText(getActivity(), "uncheck !!! =)",Toast.LENGTH_LONG).show();
-
+                    roster = new Roster(classLocalStore.getJoinedInClass().class_id, "OFF");
+                    severRequests.updateSessionInBackground(roster,"UpdateSession.php", new GetRosterCallback() {
+                        @Override
+                        public void done(Roster returnedRoster) {
+                            Toast.makeText(getActivity(),"OFF SESSION" ,Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         });
-        //Update data for check student
-        String date_post = DateFormat.getDateTimeInstance().format(new Date());
-        roster = new Roster(userLocalStore.getLoggedInUser().user_id, classLocalStore.getJoinedInClass().class_id, 1, date_post);
+
+
         //for check roster //student
         checkRoster.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()){
-                    Toast.makeText(getActivity(), " Hello ",Toast.LENGTH_LONG).show();
-                    checkRoster.setVisibility(v.GONE);
+                    //Update data for check student
+                    roster = new Roster(userLocalStore.getLoggedInUser().user_id, classLocalStore.getJoinedInClass().class_id, 1);
                     severRequests.updateRosterDataInBackground(roster, new GetRosterCallback() {
                         @Override
                         public void done(Roster returnedRoster) {
                             Toast.makeText(getActivity(), "You are checked",Toast.LENGTH_LONG).show();
+                            checkRoster.setVisibility(getView().GONE);
                         }
                     });
                 }
@@ -136,11 +133,17 @@ public class TabFragment1 extends Fragment {
             checkBox.setVisibility(v.GONE);
             btn_checked_student.setVisibility(v.GONE);
             checkRoster.setVisibility(v.GONE);
-            if(sessionLocalStore.getShowSession().is_check == true)
-            {
-                checkRoster.setVisibility(v.VISIBLE);
-                Toast.makeText(getActivity(), " Hello ",Toast.LENGTH_LONG).show();
-            }
+            roster = new Roster(classLocalStore.getJoinedInClass().class_id);
+            severRequests.updateSessionInBackground(roster,"FetchSession.php", new GetRosterCallback() {
+                @Override
+                public void done(Roster returnedRoster) {
+                    if(returnedRoster.session.equals("ON"))
+                    {
+                        Toast.makeText(getActivity(),"SESSION" ,Toast.LENGTH_LONG).show();
+                        checkRoster.setVisibility(getView().VISIBLE);
+                    }
+                }
+            });
         }
         //If user is teacher.
         else
@@ -189,21 +192,20 @@ public class TabFragment1 extends Fragment {
                 startActivity(new Intent(getActivity(),PopRosterStudent.class));
             }
         });
-        sessionLocalStore.cleanSessionData();//clear session
 
         //click button checked student
         btn_checked_student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
+                startActivity(new Intent(getActivity(),ShowCheckStudent.class));
             }
         });
+
 
         return v;
     }
 
     private void setDateTimeField() {
-
         Calendar newCalendar = Calendar.getInstance();
         fromDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
@@ -214,7 +216,7 @@ public class TabFragment1 extends Fragment {
             }
 
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-
     }
+
+
 }

@@ -162,13 +162,11 @@ public class Pop extends Activity  {
                 String photo = "cannot save photo";
                 int user_id = classLocalStore.getJoinedInClass().user_id;
                 int class_id = classLocalStore.getJoinedInClass().class_id;
-                String date_post = DateFormat.getDateTimeInstance().format(new Date());
-
                 if(topic.isEmpty() || detail.isEmpty() || user_id == 0 || class_id == 0){
                     Toast.makeText(Pop.this,"Please fill all completely", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                        Announcement announcement = new Announcement(topic, detail, photo,date_post, user_id, class_id);
+                        Announcement announcement = new Announcement(topic, detail, photo, user_id, class_id);
                         postAnnounce(announcement);
                 }
 

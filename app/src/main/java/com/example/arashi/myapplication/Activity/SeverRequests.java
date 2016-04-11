@@ -80,9 +80,19 @@ public class SeverRequests {
         new  updateRosterDataAsyncTask(roster, rosterCallback).execute();
     }
 
+    public void updateSessionInBackground(Roster roster, String filename, GetRosterCallback rosterCallback){
+        progressDialog.show();
+        new  updateSessionAsyncTask(roster,filename, rosterCallback).execute();
+    }
+
     public void showRosterStudentListInBackground(Class classroom,GetShowRosterStudentCallback  getShowRosterStudentCallback) {
         new showRosterStudentListAsyncTask(classroom, getShowRosterStudentCallback).execute();
     }
+
+    public void showCheckedStudentListInBackground(Class classroom,GetShowCheckedStudent  getShowCheckedStudent) {
+        new showCheckedStudentListAsyncTask(classroom, getShowCheckedStudent).execute();
+    }
+
 
     public void storeAnnounceDataInBackground(Announcement announcement, GetAnnounceCallBack announceCallBack){
         progressDialog.show();
@@ -728,7 +738,6 @@ public class SeverRequests {
             dataToSend.put("user_id", roster.user_id+"");
             dataToSend.put("class_id", roster.class_id+"");
             dataToSend.put("check_student", roster.check_student+"");
-            dataToSend.put("date", roster.date);
 
 
             Roster returnRoster = null;
@@ -781,6 +790,86 @@ public class SeverRequests {
                     String date = jObj.getString("date");
 
                     returnRoster = new Roster( user_id, class_id, check_student, date);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnRoster;
+        }
+
+
+        protected void onPostExecute(Roster returnRoster){
+            progressDialog.dismiss();
+            rosterCallback.done(returnRoster);
+            super.onPostExecute(returnRoster);
+        }
+    }
+
+    public class updateSessionAsyncTask extends AsyncTask<Void, Void, Roster> {
+        Roster roster;
+        GetRosterCallback rosterCallback;
+        String filename;
+
+        public updateSessionAsyncTask(Roster roster, String filename, GetRosterCallback rosterCallback) {
+            this.roster = roster;
+            this.filename = filename;
+            this.rosterCallback = rosterCallback;
+
+        }
+        @Override
+        protected Roster doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", roster.class_id+"");
+            dataToSend.put("session", roster.session);
+
+            Roster returnRoster = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + filename);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    int class_id = jObj.getInt("class_id");
+                    String session = jObj.getString("session");
+                    returnRoster = new Roster(class_id, session);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
@@ -882,6 +971,92 @@ public class SeverRequests {
         }
     }
 
+    public class showCheckedStudentListAsyncTask extends AsyncTask<Void, Void, ArrayList<Roster>> {
+
+        GetShowCheckedStudent getShowCheckedStudent;
+        ArrayList<Roster> showRosterStudent;
+        Class classroom;
+
+
+        public showCheckedStudentListAsyncTask(Class classroom, GetShowCheckedStudent getShowCheckedStudent) {
+            this.classroom = classroom;
+            this.getShowCheckedStudent = getShowCheckedStudent;
+            showRosterStudent = new ArrayList<>();
+
+        }
+        @Override
+        protected ArrayList<Roster> doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", classroom.class_id+"");
+
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "showCheckStudent.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+                JSONArray noticeArray = jObj.getJSONArray("roster");
+                Roster roster_student;
+                for (int i = 0; i < noticeArray.length(); i++) {
+                    JSONObject student = noticeArray.getJSONObject(i);
+                    String date = student.getString("date");
+                    String name = student.getString("name");
+                    int user_id = student.getInt("user_id");
+                    int class_id = student.getInt("class_id");
+                    int check_student = student.getInt("check_student");
+                    roster_student = new Roster(user_id, class_id, check_student, date, name);
+                    showRosterStudent.add(roster_student);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return showRosterStudent;
+        }
+
+
+        protected void onPostExecute(ArrayList<Roster> returnedRosterStudent){
+            progressDialog.dismiss();
+            getShowCheckedStudent.done(returnedRosterStudent);
+            super.onPostExecute(returnedRosterStudent);
+        }
+    }
+
     public class StoreAnnounceDataAsyncTask extends AsyncTask<Void, Void, Announcement> {
         Announcement announcement;
         GetAnnounceCallBack announceCallBack;
@@ -896,7 +1071,6 @@ public class SeverRequests {
             dataToSend.put("topic", announcement.topic);
             dataToSend.put("detail",announcement.detail );
             dataToSend.put("photo", announcement.photo);
-            dataToSend.put("date_post", announcement.date_post);
             dataToSend.put("user_id", announcement.user_id+"");
             dataToSend.put("class_id", announcement.class_id+"");
 
