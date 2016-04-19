@@ -6,13 +6,18 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+       >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Question Name"
+            style="@style/TextViewStyle1"
             android:id="@+id/question_name" />
 
 
@@ -26,6 +31,7 @@
 
     </LinearLayout>
     <LinearLayout
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:gravity="center"
@@ -45,13 +51,17 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Question"
+            style="@style/TextViewStyle1"
             android:id="@+id/textView2" />
         <TextView
             android:layout_width="wrap_content"
@@ -67,6 +77,10 @@
     </LinearLayout>
 
     <LinearLayout
+
+
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -129,21 +143,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
 
         <Button android:id="@+id/add_question"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Add Question"
-
-            android:layout_gravity="center">
+            android:layout_marginRight="25dp"
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_green"
+            android:layout_gravity="center"
+            android:layout_weight="2">
         </Button>
         <Button android:id="@+id/Submit_Edit_Button"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Submit Edit"
             android:visibility="gone"
-            android:layout_gravity="center">
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_light_green"
+            android:layout_gravity="center"
+            android:layout_weight="2">
         </Button>
 
         <Button
@@ -151,6 +175,9 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Finish"
+            android:layout_weight="2"
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_black"
             android:layout_gravity="center_horizontal" />
         <Button
             android:id="@+id/Cancel_Edit_Button"
@@ -163,6 +190,10 @@
     </LinearLayout>
 
     <ListView
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/Question_TEST">

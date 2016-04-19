@@ -7,10 +7,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#dbe7e6"
+    android:background="@drawable/square"
     tools:context="com.example.arashi.myapplication.Activity.PopRosterStudent">
 
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--android:layout_below="@id/banner">-->
 
+        <TextView
+            android:id="@+id/sin_up"
+            style="@style/HeaderStyle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="Student"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/fullName_layout"
         android:layout_width="match_parent"
@@ -25,7 +41,7 @@
             style="@style/TextViewStyle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:text="Full Name" />
 
 
@@ -52,7 +68,7 @@
             style="@style/TextViewStyle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:text="@string/username" />
 
 
@@ -80,7 +96,7 @@
             style="@style/TextViewStyle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:text="Email" />
 
 
@@ -111,7 +127,7 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/color_text_green"
+            android:background="@color/color_text_black"
             android:text="OK" />
 
 

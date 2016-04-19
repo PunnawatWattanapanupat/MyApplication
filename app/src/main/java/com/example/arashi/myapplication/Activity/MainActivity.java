@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public EditText mPassword;
     public Button button_confirm;
     public TextView SignUpText;
-    CheckBox checkbox1;
+   // CheckBox checkbox1;
     UserLocalStore userLocalStore;
     Secure secure;
 
@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements OnClickListener {
         mPassword=(EditText)findViewById(R.id.password_text);
         button_confirm = (Button) findViewById(R.id.button_confirm);
         SignUpText = (TextView) findViewById(R.id.SignUpText);
-        checkbox1 = (CheckBox) findViewById(R.id.checkbox1);
+       // checkbox1 = (CheckBox) findViewById(R.id.checkbox1);
 
         button_confirm.setOnClickListener(this);
         SignUpText.setOnClickListener(this);
@@ -72,10 +72,10 @@ public class MainActivity extends Activity implements OnClickListener {
 //        String _password = _inboundIndex.getStringExtra("password");
 //        Toast.makeText(getApplicationContext(),_username+":"+_password, Toast.LENGTH_SHORT).show();
 
-        if(checkbox1.isChecked()){
-            mUsername.setText(userLocalStore.getLoggedInUser().username);
-            mPassword.setText(userLocalStore.getLoggedInUser().password);
-        }
+//        if(checkbox1.isChecked()){
+//            mUsername.setText(userLocalStore.getLoggedInUser().username);
+//            mPassword.setText(userLocalStore.getLoggedInUser().password);
+//        }
     }
 
     @Override

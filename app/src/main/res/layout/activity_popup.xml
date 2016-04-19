@@ -2,46 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_light">
+    android:background="@drawable/square">
 
     <LinearLayout
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/TextViewStyle1"
             android:text="Class Name "
-            android:textSize="25dp" />
+            android:layout_weight="0.5"
+          />
         <EditText
             android:id="@+id/etClassName"
-            android:layout_width="match_parent"
+            style="@style/EditTextStyle1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_weight="3"
             />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Class Code "
-            android:textSize="25dp" />
+            android:text="Class Code  "
+            style="@style/TextViewStyle1"
+            android:layout_weight="0.5"
+            />
         <EditText
-            android:layout_width="match_parent"
+            style="@style/EditTextStyle1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/etClassCode"
+            android:layout_weight="3"
             />
     </LinearLayout>
 
@@ -57,8 +63,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create"
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_light_green"
             android:id="@+id/CreateClassButton"
             android:layout_marginRight="25dp"
+            android:layout_weight="1"
             />
 
         <Button
@@ -66,7 +75,11 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/CancelClassButton"
-            android:layout_gravity="center_horizontal" />
+            style="@style/TextButtonStyle1"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/color_text_black"
+            />
     </LinearLayout>
 
 </LinearLayout>

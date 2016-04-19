@@ -18,11 +18,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TextViewStyle1"
         android:layout_marginLeft="25dp"
         android:text="No."
         android:id="@+id/number"
-        android:textSize="25dp"
-        android:textColor="#000000"
         android:padding="10dip" android:gravity="left"
    />
 
@@ -32,8 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Student Name"
-        android:textSize="25sp"
-        android:textColor="#000000"
+        style="@style/TextViewStyle1"
         android:padding="10dip" android:gravity="left"
 />
 
@@ -43,8 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date"
-        android:textSize="25sp"
-        android:textColor="#000000"
+        style="@style/TextViewStyle1"
         android:padding="10dip" android:gravity="left"
         />
 </TableRow>
@@ -57,7 +54,6 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         >
-
 
         <ListView
         android:id="@+id/listView1"

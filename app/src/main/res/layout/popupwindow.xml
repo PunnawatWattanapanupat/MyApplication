@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dbe7e6"
+    android:background="@drawable/square"
     >
 
 
@@ -10,21 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         >
         <TextView
-
+            style="@style/TextViewStyle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Topic"
             android:layout_gravity="left"
-            android:textSize="20sp"
-            android:layout_marginLeft="40dp"
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/topicAnn"
+            style="@style/EditTextStyle1"
             />
     </LinearLayout>
 
@@ -32,21 +32,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Detail"
             android:layout_gravity="left"
-            android:textSize="20sp"
-            android:layout_marginLeft="40dp"
+            style="@style/TextViewStyle1"
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/datailAnn"
-
+            style="@style/EditTextStyle1"
             android:gravity="top"
             android:singleLine="false"
             android:lines="5"
@@ -58,46 +59,51 @@
 
     </LinearLayout>
 
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Photo"-->
+            <!--android:layout_gravity="left"-->
+            <!--style="@style/TextViewStyle1"-->
+            <!--android:layout_marginLeft="40dp"-->
+            <!--/>-->
+        <!--<ImageView-->
+            <!--android:id="@+id/imageToUpload"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:src="@drawable/camera"-->
+            <!--android:layout_marginLeft="10dp"/>-->
+
+    <!--</LinearLayout>-->
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Photo"
-            android:layout_gravity="left"
-            android:textSize="20sp"
-            android:layout_marginLeft="40dp"
-            />
-        <ImageView
-            android:id="@+id/imageToUpload"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/camera"
-            android:layout_marginLeft="10dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
         android:gravity="center"
-
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         >
         <Button
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Done"
             android:text="Done"
-
+            style="@style/TextButtonStyle1"
+            android:layout_marginRight="25dp"
+            android:background="@color/color_text_green"
             />
         <Button
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Back"
-            android:text="Back"/>
+            android:text="Back"
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_black"/>
 
     </LinearLayout>
 

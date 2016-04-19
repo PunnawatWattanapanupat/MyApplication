@@ -27,7 +27,7 @@ public class PopAnnounceDetail extends AppCompatActivity {
         int width = dm.widthPixels;
         int heighht = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(heighht*.8));
+        getWindow().setLayout((int)(width*.8),(int)(heighht*.6));
 
         topic_announce = (TextView) findViewById(R.id.topic_announce);
         detail_announce = (TextView) findViewById(R.id.detail_announce);

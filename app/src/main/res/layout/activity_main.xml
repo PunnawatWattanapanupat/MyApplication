@@ -50,15 +50,17 @@
         android:layout_below="@id/banner"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        >
 
         <TextView
             android:id="@+id/username"
             style="@style/TextViewStyle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/username" />
+            android:layout_weight="1.5"
+            android:text="@string/username"
+          />
 
 
         <EditText
@@ -69,6 +71,7 @@
             android:layout_weight="1"
             android:hint="@string/username"
             android:textColor="@color/color_text_black"
+
             />
     </LinearLayout>
 
@@ -86,8 +89,9 @@
             style="@style/TextViewStyle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/password" />
+            android:layout_weight="1.5"
+            android:text="@string/password"
+         />
 
         <EditText
             android:id="@+id/password_text"
@@ -95,7 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+       />
 
 
     </LinearLayout>
@@ -115,13 +120,13 @@
             android:id="@+id/button_confirm"
             style="@style/TextButtonStyle1"
             android:layout_width="match_parent"
-
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@color/color_text_light_green"
             android:text="@string/login"
-            android:onClick="onConfirmClicked"/>
+            android:onClick="onConfirmClicked"
+            />
 
 
         <Button
@@ -133,27 +138,40 @@
             android:layout_weight="1"
             android:background="@color/color_text_black"
             android:onClick="onClick"
-            android:text="@string/cancel"  />
+            android:text="@string/cancel"
+           />
     </LinearLayout>
-    <CheckBox
-        android:id="@+id/checkbox1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_layout"
-        android:layout_marginLeft="10dp"
-        android:text="@string/remember_password"
-        android:textColor="@color/color_text_black"
-        />
+    <!--<CheckBox-->
+        <!--android:id="@+id/checkbox1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/button_layout"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:text="@string/remember_password"-->
+        <!--android:textColor="@color/color_text_black"-->
+        <!--/>-->
     <TextView
         android:id="@+id/SignUpText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/checkbox1"
+        android:layout_below="@id/button_layout"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:onClick="onSignUpClicked"
         android:text="@string/sign_up_here"
         android:textColor="@color/color_text_black"
-        android:textSize="17sp"
+        android:textSize="20sp"
         />
+    <!--<TextView-->
+        <!--android:id="@+id/SignUpText"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/checkbox1"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:onClick="onSignUpClicked"-->
+        <!--android:text="@string/sign_up_here"-->
+        <!--android:textColor="@color/color_text_black"-->
+        <!--android:textSize="17sp"-->
+        <!--/>-->
 </RelativeLayout>

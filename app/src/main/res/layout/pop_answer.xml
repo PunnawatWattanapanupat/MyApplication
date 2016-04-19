@@ -14,15 +14,15 @@
         android:id="@+id/Answer_text"
         >
         <TextView
-
+            style="@style/TextViewStyle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Answer"
             android:layout_gravity="left"
-            android:textSize="20sp"
             android:layout_marginLeft="40dp"
             />
         <EditText
+            style="@style/EditTextStyle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/Answertext"
@@ -33,6 +33,7 @@
 
     <LinearLayout
         android:id="@+id/button_done_back"
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity = "center"
@@ -48,11 +49,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/DoneAnswer"
             android:text="Done"
-
+            style="@style/TextButtonStyle1"
+            android:layout_marginRight="25dp"
+            android:background="@color/color_text_green"
             />
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_black"
             android:id="@+id/Back"
             android:text="Back"/>
         </LinearLayout>

@@ -38,17 +38,22 @@ and
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/TextViewStyle1"
                 android:text="Question Name"
                 android:id="@+id/question_name" />
 
 
             <EditText
+                style="@style/EditTextStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/question_name_text" />
@@ -56,10 +61,12 @@ and
 
         </LinearLayout>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create Quiz"
             android:id="@+id/createQuizButton"
+            style="@style/TextButtonStyle1"
+            android:background="@color/color_text_blue"
             android:layout_gravity="center"/>
 
 

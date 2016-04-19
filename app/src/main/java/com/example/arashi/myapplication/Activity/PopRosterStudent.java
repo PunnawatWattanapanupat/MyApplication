@@ -27,7 +27,7 @@ public class PopRosterStudent extends AppCompatActivity {
         int width = dm.widthPixels;
         int heighht = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.6),(int)(heighht*.6));
+        getWindow().setLayout((int)(width*.8),(int)(heighht*.5));
 
         fullName_text = (TextView) findViewById(R.id.fullName_text);
         username_text = (TextView) findViewById(R.id.username_text);

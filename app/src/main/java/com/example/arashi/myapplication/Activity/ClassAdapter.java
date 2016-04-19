@@ -46,12 +46,15 @@ public class ClassAdapter extends BaseAdapter {
             view = mInflater.inflate(R.layout.class_list_view, parent, false);
 
         TextView textView = (TextView)view.findViewById(R.id.textView1);
+        TextView textView2 = (TextView)view.findViewById(R.id.textView2);
 
         Class showClass = strData.get(position);
 
         String ClassData = showClass.classname;
         textView.setText(ClassData);
 
+        String ClassCode = showClass.class_code;
+        textView2.setText(ClassCode);
 
 //        ImageView imageView = (ImageView)view.findViewById(R.id.imageView1);
 //        imageView.setBackgroundResource(resId[position]);

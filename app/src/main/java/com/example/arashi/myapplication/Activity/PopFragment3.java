@@ -50,7 +50,7 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
         int width = dm.widthPixels;
         int heighht = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(heighht*.8));
+        getWindow().setLayout((int)(width*.8),(int)(heighht*.4));
         Questiontext = (EditText) findViewById(R.id.Questiontext);
 
         Done = (Button)findViewById(R.id.Done);

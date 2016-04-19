@@ -27,13 +27,14 @@ import com.example.arashi.myapplication.Store.UserLocalStore;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
 public class TabFragment1 extends Fragment {
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
-    private EditText fromDateEtxt;
+   // private EditText fromDateEtxt;
     private View mViewGroup;
    // private CheckBox testcheck;
     //    private EditText toDateEtxt;
@@ -41,7 +42,7 @@ public class TabFragment1 extends Fragment {
 
     GridView gridView_roster;
     ArrayList<User> listItem_roster;
-    TextView textClassName, textClassCode, textNumberStudent;
+    TextView textClassName, textClassCode, textNumberStudent, fromDateEtxt;
     Button btn_checked_student;
     SeverRequests severRequests;
     Class classroom;
@@ -59,7 +60,8 @@ public class TabFragment1 extends Fragment {
 
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        fromDateEtxt = (EditText) v.findViewById(R.id.etxt_fromdate);
+        fromDateEtxt = (TextView) v.findViewById(R.id.etxt_fromdate);
+       // fromDateEtxt = (EditText) v.findViewById(R.id.etxt_fromdate);
         textClassName = (TextView) v.findViewById(R.id.textClassName);
         textClassCode = (TextView) v.findViewById(R.id.textClassCode);
         textNumberStudent = (TextView) v.findViewById(R.id.textNumberStudent);
@@ -152,18 +154,22 @@ public class TabFragment1 extends Fragment {
         }
 
 
-        //Tin's Part
-        fromDateEtxt.setInputType(InputType.TYPE_NULL);
-        fromDateEtxt.requestFocus();
-
-
-        setDateTimeField();
-        fromDateEtxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fromDatePickerDialog.show();
-            }
-        });
+        //show date
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        fromDateEtxt.setText(date);
+//Present
+//        //Tin's Part
+//        fromDateEtxt.setInputType(InputType.TYPE_NULL);
+//        fromDateEtxt.requestFocus();
+//
+//
+//        setDateTimeField();
+//        fromDateEtxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                fromDatePickerDialog.show();
+//            }
+//        });
 
         mViewGroup = v.findViewById(R.id.viewsContainer);
        // testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
@@ -204,19 +210,19 @@ public class TabFragment1 extends Fragment {
 
         return v;
     }
-
-    private void setDateTimeField() {
-        Calendar newCalendar = Calendar.getInstance();
-        fromDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                fromDateEtxt.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
+//Present
+//    private void setDateTimeField() {
+//        Calendar newCalendar = Calendar.getInstance();
+//        fromDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+//
+//            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                Calendar newDate = Calendar.getInstance();
+//                newDate.set(year, monthOfYear, dayOfMonth);
+//                fromDateEtxt.setText(dateFormatter.format(newDate.getTime()));
+//            }
+//
+//        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+//    }
 
 
 }

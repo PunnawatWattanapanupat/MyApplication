@@ -91,7 +91,7 @@ public class Pop extends Activity  {
         int width = dm.widthPixels;
         int heighht = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(heighht*.8));
+        getWindow().setLayout((int)(width*.8),(int)(heighht*.6));
 
 
         sp1 = getSharedPreferences(testPREFTOPIC1, Context.MODE_PRIVATE);
@@ -132,16 +132,16 @@ public class Pop extends Activity  {
 
 
 
-        imageToUpload = (ImageView) findViewById(R.id.imageToUpload);
+     //   imageToUpload = (ImageView) findViewById(R.id.imageToUpload);
        // bUploadImage = (Button) v.findViewById(R.id.bUploadImage);
 
-        imageToUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
-            }
-        });
+//        imageToUpload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
+//            }
+//        });
 
         announceLocalStore = new AnnounceLocalStore(this);
         classLocalStore = new ClassLocalStore(this);

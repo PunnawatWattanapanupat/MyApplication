@@ -59,7 +59,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="20dp"
-
+        style="@style/TextButtonStyle1"
         android:text="What is the most popular DBMS for using in the company?"
         android:textSize="15sp"
         android:layout_gravity="center"

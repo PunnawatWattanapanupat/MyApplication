@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
-    tools:context="com.example.arashi.myapplication.Activity.ClassActivity">
+    tools:context="com.example.arashi.myapplication.Activity.ClassActivity"
+    android:background="#FFFFFF">
 
     <Button
 
@@ -19,31 +20,7 @@
         android:background="@color/color_text_green"
         />
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="New Text"-->
-        <!--android:id="@+id/txt_class_id"-->
-        <!--android:layout_below="@+id/btn_add_class"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="39dp" />-->
 
-    <!--<TableRow-->
-        <!--android:id="@+id/tableRow1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/btn_add_class">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/textView1"-->
-            <!--android:layout_below="@+id/btn_add_class"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="20sp"-->
-            <!--android:textColor="#000000"-->
-            <!--android:text="TextView" />-->
-
-    <!--</TableRow>-->
 
     <ListView
         android:id="@+id/listView1"

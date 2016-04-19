@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#dbe7e6"
+    android:background="@drawable/square"
     tools:context="com.example.arashi.myapplication.Activity.PopAnnounceDetail">
 
     <TextView
@@ -16,6 +16,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/topic_announce"
+        android:textColor="@color/color_text_blue"
+        style="@style/HeaderStyle1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -23,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
+        style="@style/TextViewStyle1"
         android:id="@+id/detail_announce"
         android:layout_below="@+id/topic_announce"
         android:layout_centerHorizontal="true"
@@ -47,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_weight="1"
-        android:background="@color/color_text_green"
+        android:background="@color/color_text_black"
         android:text="OK"
         android:layout_below="@+id/button_layout"
         android:layout_alignParentRight="true"

@@ -17,12 +17,13 @@
             android:id="@+id/textClassName"
             android:text=""
             android:layout_marginTop="25dp"
+            style="@style/TextViewStyle1"
+            android:textSize="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
             android:textColor="@color/color_text_black"
-            android:textSize="25sp"
 
             />
 
