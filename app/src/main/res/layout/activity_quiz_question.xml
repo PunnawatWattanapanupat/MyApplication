@@ -334,7 +334,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp">
 
-            <Button android:id="@+id/student_add_question"
+            <Button android:id="@+id/student_next_question"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Next Question"
@@ -356,7 +356,7 @@
             </Button>
 
             <Button
-                android:id="@+id/student_finishButton"
+                android:id="@+id/student_Submit_Quiz_Button"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Submit Quiz"

@@ -73,6 +73,18 @@ Button Submit_Edit_Button;
 
     RadioButton choice_a_radio,choice_b_radio,choice_c_radio,choice_d_radio;
 
+// student
+    TextView student_question_text;
+    TextView student_choice_a_text;
+    TextView student_choice_b_text;
+    TextView student_choice_c_text;
+    TextView student_choice_d_text;
+    RadioButton student_choice_a_radio;
+    RadioButton student_choice_b_radio;
+    RadioButton student_choice_c_radio;
+    RadioButton student_choice_d_radio;
+    Button student_next_question;
+    Button student_Submit_Quiz_Button;
 
 
     @Override
@@ -97,6 +109,35 @@ Button Submit_Edit_Button;
 
         teacherQuiz = (LinearLayout) findViewById(R.id.teacherQuiz) ;
         studentQuiz = (LinearLayout) findViewById(R.id.studentQuiz) ;
+
+
+        //student
+
+
+        student_question_text = (TextView) findViewById(R.id.student_question_text);
+        student_choice_a_text = (TextView) findViewById(R.id.student_choice_a_text);
+        student_choice_b_text = (TextView) findViewById(R.id.student_choice_b_text);
+        student_choice_c_text = (TextView) findViewById(R.id.student_choice_c_text);
+        student_choice_d_text = (TextView) findViewById(R.id.student_choice_d_text);
+        student_choice_a_radio = (RadioButton) findViewById(R.id.student_choice_a_radio);
+        student_choice_b_radio = (RadioButton) findViewById(R.id.student_choice_b_radio);
+        student_choice_c_radio = (RadioButton) findViewById(R.id.student_choice_c_radio);
+        student_choice_d_radio = (RadioButton) findViewById(R.id.student_choice_d_radio);
+
+        student_next_question = (Button) findViewById(R.id.student_next_question);
+        student_Submit_Quiz_Button = (Button) findViewById(R.id.student_Submit_Quiz_Button);
+
+
+
+
+
+
+
+
+
+
+
+
         userLocalStore = new UserLocalStore(this);
         final AlertDialog.Builder alertYesNo_Edit = new AlertDialog.Builder(this);
         Bundle bundle = getIntent().getExtras();
