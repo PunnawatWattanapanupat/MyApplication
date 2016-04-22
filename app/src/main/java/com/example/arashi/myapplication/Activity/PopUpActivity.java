@@ -81,6 +81,11 @@ public class PopUpActivity extends Activity {
 
             }
         });
+
+//        listView = (ListView) findViewById(R.id.listView1);
+//        adapter = new ClassAdapter(this, listItem);
+//        listView.setAdapter(adapter);
+
         //cancel
         cancelButton = (Button) findViewById(R.id.CancelClassButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {

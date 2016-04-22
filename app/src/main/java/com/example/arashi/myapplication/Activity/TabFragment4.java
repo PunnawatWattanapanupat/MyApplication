@@ -88,17 +88,18 @@ public class TabFragment4 extends Fragment{
     Cursor mCursor;
     Quiz quiz;
     ClassLocalStore classLocalStore;
+    ServerRequestQuizQuestion serverRequestQuizQuestion;
     int questnum=1;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
        // Button testbtn = (Button) v.findViewById(R.id.testbtn);
-        quiz = new Quiz("",1,1,4);
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
 
         //ListViewShow Question_alreadyCreate
         listView1 = (ListView)v.findViewById(R.id.Quiz_alreadyCreate);
-
+        serverRequestQuizQuestion = new ServerRequestQuizQuestion(getActivity());
+        classLocalStore = new ClassLocalStore(getActivity());
 //        testbtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -149,14 +150,22 @@ public class TabFragment4 extends Fragment{
         listView1.setAdapter(adapterDir);
 
 
+        //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
+        quiz = new Quiz(question_name_text.getText().toString(),classLocalStore.getJoinedInClass().class_id);
+
         createQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                //Toast.makeText(getActivity(), choice_a_text.getText().toString(), Toast.LENGTH_LONG).show();
                 String question_name_text_value = question_name_text.getText().toString();
                 quiz.quiz_name = question_name_text_value;
+
+                serverRequestQuizQuestion.storeQuizDataInBackground(quiz, "Post_Quiz.php", new GetQuizCallback() {
+                    @Override
+                    public void done(Quiz returnQuiz) {
+                    }
+                });
+
+
 //                String question_text_value = question_text.getText().toString();
 //                String choice_a_text_value = choice_a_text.getText().toString();
 //                String choice_b_text_value = choice_b_text.getText().toString();

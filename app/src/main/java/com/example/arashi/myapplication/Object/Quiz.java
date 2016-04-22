@@ -17,6 +17,12 @@ public class Quiz {
         this.is_active=is_active;
         this.class_id=class_id;
 }
+    public Quiz (String quiz_name,int class_id){
+        questionArray = new ArrayList<>();
+        this.quiz_name=quiz_name;
+        this.class_id=class_id;
+    }
+
 
     public void addQuestionforQuiz(String q,String a1,String a2,String a3,String a4,String correctAnswer){
        questionArray.add(new Question(q,a1,a2,a3,a4,correctAnswer));

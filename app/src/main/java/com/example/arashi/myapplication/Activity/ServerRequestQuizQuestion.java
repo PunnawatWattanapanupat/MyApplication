@@ -86,10 +86,9 @@ public class ServerRequestQuizQuestion {
         @Override
         protected Quiz doInBackground(Void... params){
             Map<String, String> dataToSend = new HashMap<>();
-            dataToSend.put("quiz_id","" + quiz.quizID);
-            dataToSend.put("quiz_name", quiz.quiz_name);
+            dataToSend.put("quizname", quiz.quiz_name);
             dataToSend.put("is_active", ""+ quiz.is_active);
-            dataToSend.put("question", quiz.QuizConcat());
+            dataToSend.put("class_id", ""+ quiz.class_id);
 
             Quiz returnQuiz = null;
 
@@ -129,12 +128,12 @@ public class ServerRequestQuizQuestion {
                         }
                     }
                 }
-                Log.i("custom_check", line);
+                Log.i("custom_check1", line);
 
                 JSONObject jObj = new JSONObject(line);
 
                 if (jObj.length() != 0) {
-                    String quiz_name = jObj.getString("quiz_name");
+                    String quiz_name = jObj.getString("quizname");
                     int quizID = jObj.getInt("quizID");
                     int is_active = jObj.getInt("is_active");
                     int class_id=  jObj.getInt("class_id");
@@ -142,7 +141,7 @@ public class ServerRequestQuizQuestion {
                     returnQuiz = new Quiz(quiz_name,quizID,is_active,class_id);
                 }
             } catch (Exception e) {
-                Log.e("custom_check", e.toString());
+                Log.e("custom_check2", e.toString());
             }
 
             return returnQuiz;
