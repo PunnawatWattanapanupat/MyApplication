@@ -25,6 +25,7 @@
             android:text="1"
             android:id="@+id/NumberCount"
             android:textSize="20dp"
+            style="@style/TextViewStyle1"
             android:layout_margin="10dp"/>
 
 
@@ -39,7 +40,7 @@
             android:text="Text"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:textColor="#000000" />
+            style="@style/TextViewStyle1" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,6 +57,7 @@
             android:layout_height="wrap_content"
             android:text="A"
             android:id="@+id/choiceA"
+            style="@style/TextViewStyle1"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
 
@@ -63,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="choiceA"
+            style="@style/TextViewStyle1"
             android:id="@+id/textChoiceA"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
@@ -72,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="B"
+            style="@style/TextViewStyle1"
             android:id="@+id/choiceB"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
@@ -79,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="choiceB"
+            style="@style/TextViewStyle1"
             android:id="@+id/textChoiceB"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
@@ -99,6 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="C"
+            style="@style/TextViewStyle1"
             android:id="@+id/choiceC"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
@@ -107,6 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="choiceC"
+            style="@style/TextViewStyle1"
             android:id="@+id/textChoiceC"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
@@ -117,12 +124,14 @@
             android:layout_height="wrap_content"
             android:text="D"
             android:id="@+id/choiceD"
+            style="@style/TextViewStyle1"
             android:textSize="20dp"
             android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="choiceD"
+            style="@style/TextViewStyle1"
             android:id="@+id/textChoiceD"
             android:textSize="20dp"
             android:layout_margin="10dp"/>

@@ -54,6 +54,10 @@ public class CustomAdapterQuizQuestion extends BaseAdapter {
         TextView textChoiceB = (TextView)view.findViewById(R.id.textChoiceB);
         TextView textChoiceC = (TextView)view.findViewById(R.id.textChoiceC);
         TextView textChoiceD = (TextView)view.findViewById(R.id.textChoiceD);
+        TextView choiceA = (TextView)view.findViewById(R.id.choiceA);
+        TextView choiceB = (TextView)view.findViewById(R.id.choiceB);
+        TextView choiceC = (TextView)view.findViewById(R.id.choiceC);
+        TextView choiceD = (TextView)view.findViewById(R.id.choiceD);
 
         numberCount.setText(Integer.toString(position+1));
         text_name_question.setText(questionText);
@@ -67,24 +71,40 @@ public class CustomAdapterQuizQuestion extends BaseAdapter {
             textChoiceB.setTextColor(Color.BLACK);
             textChoiceC.setTextColor(Color.BLACK);
             textChoiceD.setTextColor(Color.BLACK);
+            choiceA.setTextColor(Color.RED);
+            choiceB.setTextColor(Color.BLACK);
+            choiceC.setTextColor(Color.BLACK);
+            choiceD.setTextColor(Color.BLACK);
         }
         else if(correct_ans.equals(ans2)){
             textChoiceA.setTextColor(Color.BLACK);
             textChoiceB.setTextColor(Color.RED);
             textChoiceC.setTextColor(Color.BLACK);
             textChoiceD.setTextColor(Color.BLACK);
+            choiceA.setTextColor(Color.BLACK);
+            choiceB.setTextColor(Color.RED);
+            choiceC.setTextColor(Color.BLACK);
+            choiceD.setTextColor(Color.BLACK);
         }
         else if(correct_ans.equals(ans3)){
             textChoiceA.setTextColor(Color.BLACK);
             textChoiceB.setTextColor(Color.BLACK);
             textChoiceC.setTextColor(Color.RED);
             textChoiceD.setTextColor(Color.BLACK);
+            choiceA.setTextColor(Color.BLACK);
+            choiceB.setTextColor(Color.BLACK);
+            choiceC.setTextColor(Color.RED);
+            choiceD.setTextColor(Color.BLACK);
         }
         else if(correct_ans.equals(ans4)){
             textChoiceA.setTextColor(Color.BLACK);
             textChoiceB.setTextColor(Color.BLACK);
             textChoiceC.setTextColor(Color.BLACK);
             textChoiceD.setTextColor(Color.RED);
+            choiceA.setTextColor(Color.BLACK);
+            choiceB.setTextColor(Color.BLACK);
+            choiceC.setTextColor(Color.BLACK);
+            choiceD.setTextColor(Color.RED);
         }
 
         return view;
