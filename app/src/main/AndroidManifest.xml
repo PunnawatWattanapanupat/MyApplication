@@ -79,6 +79,9 @@
             android:name=".PopFragment3"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
+            android:name=".ResultQuiz"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity
             android:name=".PopAnswer"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity

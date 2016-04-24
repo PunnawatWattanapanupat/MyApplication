@@ -57,8 +57,8 @@ public class QuizQuestionActivity extends Activity{
    Button Cancel_Edit_Button;
     TextView NumberCount;
     String passedVar=null;
-String correctAnswer;
-Button Submit_Edit_Button;
+    String correctAnswer;
+    Button Submit_Edit_Button;
 
     ListView listView;
     TextView textClassName;
@@ -85,7 +85,7 @@ Button Submit_Edit_Button;
     Button student_next_question;
     Button student_Submit_Quiz_Button;
 
-
+Button seeResultButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +129,7 @@ Button Submit_Edit_Button;
         student_Submit_Quiz_Button = (Button) findViewById(R.id.student_Submit_Quiz_Button);
 
 
-
+        seeResultButton = (Button) findViewById(R.id.seeResultButton);
 
 
 
@@ -144,6 +144,10 @@ Button Submit_Edit_Button;
         final int quiz_id = bundle.getInt("quizID");
 
         question_name_text.setText(text);
+
+
+
+
 
         if(userLocalStore.getLoggedInUser().is_teacher == 1){ //Teacher
             teacherQuiz.setVisibility(View.VISIBLE);
@@ -171,6 +175,12 @@ Button Submit_Edit_Button;
             add_question = (Button) findViewById(R.id.add_question);
             quiz = new Quiz("",-1,0,4);
 
+            seeResultButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(QuizQuestionActivity.this,ResultQuiz.class));
+                }
+            });
 
             Submit_Edit_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
