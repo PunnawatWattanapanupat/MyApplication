@@ -32,13 +32,14 @@ public class Question {
         this.ans3=ans3;
         this.ans4=ans4;
     }
-    public Question (int quizquestionpack_id,String question,String ans1,String ans2,String ans3,String ans4){
+    public Question (int quizquestionpack_id,String question,String ans1,String ans2,String ans3,String ans4, String correctaAnswer){
         this.quizquestionpack_id=quizquestionpack_id;
         this.question=question;
         this.ans1=ans1;
         this.ans2=ans2;
         this.ans3=ans3;
         this.ans4=ans4;
+        this.correctaAnswer=correctaAnswer;
     }
     public Question (int quiz_id){
         this.question="";

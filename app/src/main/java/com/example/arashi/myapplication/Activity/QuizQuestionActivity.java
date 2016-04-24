@@ -41,7 +41,7 @@ public class QuizQuestionActivity extends Activity{
     Question question_obj;
     EditText choice_c_text;
     EditText choice_d_text;
-    TextView question_name_text;
+    TextView question_name_text,quiz_question_id;
     Integer count=1;
     ListView listViewTest;
    // ListView listView1;
@@ -91,7 +91,9 @@ Button Submit_Edit_Button;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_question);
         finishButton = (Button) findViewById(R.id.finishButton);
-        question_name_text= (TextView) findViewById(R.id.question_name_text);
+
+        quiz_question_id = (TextView) findViewById(R.id.quiz_question_id );
+        question_name_text = (TextView) findViewById(R.id.question_name_text);
         question_text = (EditText) findViewById(R.id.question_text);
         choice_a_text = (EditText) findViewById(R.id.choice_a_text);
         choice_b_text = (EditText) findViewById(R.id.choice_b_text);
@@ -134,7 +136,6 @@ Button Submit_Edit_Button;
 
 
 
-
         serverRequestQuizQuestion = new ServerRequestQuizQuestion(this);
         userLocalStore = new UserLocalStore(this);
         final AlertDialog.Builder alertYesNo_Edit = new AlertDialog.Builder(this);
@@ -152,9 +153,21 @@ Button Submit_Edit_Button;
             adapter = new CustomAdapterQuizQuestion(this,listItem);
             listViewTest.setAdapter(adapter);
 
+            question_obj = new Question(quiz_id);
+            serverRequestQuizQuestion.showQuizQuestionDataInBackground(question_obj, new GetShowQuestionCallback() {
+                @Override
+                public void done(ArrayList<Question> returnShowQuestion) {
+                    if (returnShowQuestion.size() > 0) {
+                        listItem = returnShowQuestion;
+                        adapter.setListData(listItem);
+                        count = returnShowQuestion.size()+1;
+                        QuestionNumber.setText(""+count);
+                    }
+                }
+            });
+
             Cancel_Edit_Button = (Button) findViewById(R.id.Cancel_Edit_Button);
             Submit_Edit_Button = (Button) findViewById(R.id.Submit_Edit_Button);
-            QuestionNumber.setText(""+count);
             add_question = (Button) findViewById(R.id.add_question);
             quiz = new Quiz("",-1,0,4);
 
@@ -189,6 +202,7 @@ Button Submit_Edit_Button;
                             Log.d("choice_d_radio_value",choice_d_radio_value);
 
 
+                            int quiz_questionpack_id = Integer.parseInt(quiz_question_id.getText().toString());
                             String question_name_text_value = question_name_text.getText().toString();
                             String question_text_value = question_text.getText().toString();
                             String choice_a_text_value = choice_a_text.getText().toString();
@@ -230,13 +244,24 @@ Button Submit_Edit_Button;
                                     Submit_Edit_Button.setVisibility(View.GONE);
                                     finishButton.setVisibility(View.VISIBLE);
                                     Cancel_Edit_Button.setVisibility(View.GONE);
-                                    question_obj = new Question(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer, quiz_id);
-
-
-//                                    listItem.set(questionPosition, question_obj);
-//                                    listItem = quiz.questionArray;
-//                                    adapter.setListData(listItem);
-
+                                    question_obj = new Question(quiz_questionpack_id, question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer, quiz_id);
+                                    serverRequestQuizQuestion.updateQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
+                                        @Override
+                                        public void done(Question returnQuestion) {
+                                            Toast.makeText(QuizQuestionActivity.this, "Question is Update", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    question_obj = new Question(quiz_id);
+                                    serverRequestQuizQuestion.showQuizQuestionDataInBackground(question_obj, new GetShowQuestionCallback() {
+                                        @Override
+                                        public void done(ArrayList<Question> returnShowQuestion) {
+                                            if (returnShowQuestion.size() > 0) {
+                                                listItem = returnShowQuestion;
+                                                adapter.setListData(listItem);
+                                                count = returnShowQuestion.size();
+                                            }
+                                        }
+                                    });
 
 
                                     choice_a_radio.setChecked(true);
@@ -249,6 +274,8 @@ Button Submit_Edit_Button;
                                     choice_b_text.setText("");
                                     choice_c_text.setText("");
                                     choice_d_text.setText("");
+
+                                    count++;
 
                                     QuestionNumber.setText("" + count);
 
@@ -290,11 +317,13 @@ Button Submit_Edit_Button;
 
                     questionPosition = arg2;
                     question_obj = (Question) arg0.getItemAtPosition(arg2);
+                    quiz_question_id.setText(question_obj.quizquestionpack_id+"");
                     question_text.setText(question_obj.question);
                     choice_a_text.setText(question_obj.ans1);
                     choice_b_text.setText(question_obj.ans2);
                     choice_c_text.setText(question_obj.ans3);
                     choice_d_text.setText(question_obj.ans4);
+
 
 //                String choice_a_radio_value =   String.valueOf(choice_a_radio.isChecked());
 //                String choice_b_radio_value =   String.valueOf(choice_b_radio.isChecked());
@@ -303,7 +332,7 @@ Button Submit_Edit_Button;
 
 
 //                    String question_name_text_value = question_name_text.getText().toString();
-//                    String question_text_value = question_text.getText().toString();
+  //                  String question_text_value = question_text.getText().toString();
 //                    String choice_a_text_value = choice_a_text.getText().toString();
 //                    String choice_b_text_value = choice_b_text.getText().toString();
 //                    String choice_c_text_value = choice_c_text.getText().toString();
@@ -311,36 +340,30 @@ Button Submit_Edit_Button;
 
                     correctAnswer = question_obj.correctaAnswer;
 
+                   // Toast.makeText(QuizQuestionActivity.this, correctAnswer+" "+question_obj.ans1 +" ", Toast.LENGTH_LONG).show();
 
+                    if (question_obj.correctaAnswer.equals(question_obj.ans1)){
 
+                        choice_a_radio.setChecked(true);
 
+                    }
+                    else if (question_obj.correctaAnswer.equals(question_obj.ans2)){
+                        choice_b_radio.setChecked(true);
+                        Log.d("EEEEEEEEEE","BBB");
+                    }
+                    else if (question_obj.correctaAnswer.equals(question_obj.ans3)){
+                        choice_c_radio.setChecked(true);
+                        Log.d("EEEEEEEEEE","CCC");
+                    }
+                    else if (question_obj.correctaAnswer.equals(question_obj.ans4)){
+                        choice_d_radio.setChecked(true);
+                        Log.d("EEEEEEEEEE","DDD");
+                    }
 
                     add_question.setVisibility(View.GONE);
                     Submit_Edit_Button.setVisibility(View.VISIBLE);
                     finishButton.setVisibility(View.GONE);
                     Cancel_Edit_Button.setVisibility(View.VISIBLE);
-
-
-
-//                    if (correctAnswer.equals(choice_a_text_value)){
-//
-//                        choice_a_radio.setChecked(true);
-//
-//                    }
-//                    else if (correctAnswer.equals(choice_b_text_value)){
-//                        choice_b_radio.setChecked(true);
-//                        Log.d("EEEEEEEEEE","BBB");
-//                    }
-//                    else if (correctAnswer.equals(choice_c_text_value)){
-//                        choice_c_radio.setChecked(true);
-//                        Log.d("EEEEEEEEEE","CCC");
-//                    }
-//                    else if (correctAnswer.equals(choice_d_text_value)){
-//                        choice_d_radio.setChecked(true);
-//                        Log.d("EEEEEEEEEE","DDD");
-//                    }
-
-
                     QuestionNumber.setText(""+ (arg2+1));
 
 
@@ -417,6 +440,18 @@ Button Submit_Edit_Button;
                                 //    Log.d("Checkkk", returnQuestion.quiz_id+"");
                                 }
                             });
+                            //show
+                            question_obj = new Question(quiz_id);
+                            serverRequestQuizQuestion.showQuizQuestionDataInBackground(question_obj, new GetShowQuestionCallback() {
+                                @Override
+                                public void done(ArrayList<Question> returnShowQuestion) {
+                                    if (returnShowQuestion.size() > 0) {
+                                        listItem = returnShowQuestion;
+                                        adapter.setListData(listItem);
+                                        count = returnShowQuestion.size();
+                                    }
+                                }
+                            });
 
                             //SQL Lite
                             quiz.addQuestionforQuiz(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id);
@@ -443,17 +478,6 @@ Button Submit_Edit_Button;
 
                     }
 
-                }
-            });
-            //show
-            question_obj = new Question(quiz_id);
-            serverRequestQuizQuestion.showQuizQuestionDataInBackground(question_obj, new GetShowQuestionCallback() {
-                @Override
-                public void done(ArrayList<Question> returnShowQuestion) {
-                    if (returnShowQuestion.size() > 0) {
-                        listItem = returnShowQuestion;
-                        adapter.setListData(listItem);
-                    }
                 }
             });
 

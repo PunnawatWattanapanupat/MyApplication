@@ -18,7 +18,14 @@
             android:text="Question Name"
             style="@style/TextViewStyle1"
             android:id="@+id/question_name" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:visibility="gone"
+            style="@style/TextViewStyle1"
+            android:id="@+id/quiz_question_id" />
 
         <TextView
             android:layout_width="match_parent"

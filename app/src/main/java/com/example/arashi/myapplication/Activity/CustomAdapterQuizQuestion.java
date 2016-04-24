@@ -5,6 +5,7 @@ package com.example.arashi.myapplication.Activity;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class CustomAdapterQuizQuestion extends BaseAdapter {
         String ans2 = question.ans2;
         String ans3 = question.ans3;
         String ans4 = question.ans4;
+        String correct_ans = question.correctaAnswer;
 
         TextView numberCount = (TextView)view.findViewById(R.id.NumberCount);
         TextView text_name_question = (TextView)view.findViewById(R.id.text_name_question);
@@ -59,6 +61,32 @@ public class CustomAdapterQuizQuestion extends BaseAdapter {
         textChoiceB.setText(ans2);
         textChoiceC.setText(ans3);
         textChoiceD.setText(ans4);
+
+        if(correct_ans.equals(ans1)){
+            textChoiceA.setTextColor(Color.RED);
+            textChoiceB.setTextColor(Color.BLACK);
+            textChoiceC.setTextColor(Color.BLACK);
+            textChoiceD.setTextColor(Color.BLACK);
+        }
+        else if(correct_ans.equals(ans2)){
+            textChoiceA.setTextColor(Color.BLACK);
+            textChoiceB.setTextColor(Color.RED);
+            textChoiceC.setTextColor(Color.BLACK);
+            textChoiceD.setTextColor(Color.BLACK);
+        }
+        else if(correct_ans.equals(ans3)){
+            textChoiceA.setTextColor(Color.BLACK);
+            textChoiceB.setTextColor(Color.BLACK);
+            textChoiceC.setTextColor(Color.RED);
+            textChoiceD.setTextColor(Color.BLACK);
+        }
+        else if(correct_ans.equals(ans4)){
+            textChoiceA.setTextColor(Color.BLACK);
+            textChoiceB.setTextColor(Color.BLACK);
+            textChoiceC.setTextColor(Color.BLACK);
+            textChoiceD.setTextColor(Color.RED);
+        }
+
         return view;
     }
     public void setListData(ArrayList<Question> questionData){

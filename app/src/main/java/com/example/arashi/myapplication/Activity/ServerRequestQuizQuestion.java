@@ -318,9 +318,8 @@ public class ServerRequestQuizQuestion {
                     String ans4 = jObj.getString("choice_d");
                     String correctaAnswer = jObj.getString("correct_choice");
                     int quiz_id =  jObj.getInt("quiz_id");
-                    int quizquestionpack_id  = jObj.getInt("quizquestionpack_id");
 
-                    returnQuestion = new Question(quizquestionpack_id, quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id);
+                    returnQuestion = new Question( quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id);
                 }
             } catch (Exception e) {
                 Log.e("custom_check2", e.toString());
@@ -495,8 +494,9 @@ public class ServerRequestQuizQuestion {
                     String ans2 = quiz_question.getString("choice_b");
                     String ans3 = quiz_question.getString("choice_c");
                     String ans4 = quiz_question.getString("choice_d");
+                    String correctAnswer = quiz_question.getString("correct_choice");
 
-                    question = new Question(quizquestion_id,quizquestion_text, ans1, ans2, ans3, ans4);
+                    question = new Question(quizquestion_id,quizquestion_text, ans1, ans2, ans3, ans4,correctAnswer);
                     showQuestion.add(question);
                 }
             } catch (Exception e) {
