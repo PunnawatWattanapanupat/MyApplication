@@ -139,6 +139,7 @@ Button seeResultButton;
         serverRequestQuizQuestion = new ServerRequestQuizQuestion(this);
         userLocalStore = new UserLocalStore(this);
         final AlertDialog.Builder alertYesNo_Edit = new AlertDialog.Builder(this);
+        final AlertDialog.Builder ShowScoreStudent = new AlertDialog.Builder(this);
         Bundle bundle = getIntent().getExtras();
         String text = bundle.getString("MyValue");
         final int quiz_id = bundle.getInt("quizID");
@@ -512,6 +513,19 @@ Button seeResultButton;
         }
         else{  //Student
 
+            teacherQuiz.setVisibility(View.GONE);
+            studentQuiz.setVisibility(View.VISIBLE);
+            student_Submit_Quiz_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowScoreStudent.setTitle("Score Result");
+
+                    ShowScoreStudent.setMessage("Your Score is X/10");
+
+                    ShowScoreStudent.setPositiveButton("Ok",null);
+                    ShowScoreStudent.show();
+                }
+            });
         }
         //question_name_text.setText(""+text);
 
