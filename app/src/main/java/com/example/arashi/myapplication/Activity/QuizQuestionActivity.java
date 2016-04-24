@@ -62,12 +62,11 @@ Button Submit_Edit_Button;
 
     ListView listView;
     TextView textClassName;
-    SeverRequests severRequests;
+    ServerRequestQuizQuestion serverRequestQuizQuestion;
     UserLocalStore userLocalStore;
     ClassLocalStore classLocalStore;
     //AnnounceLocalStore announceLocalStore;
     Class classroom;
-
     LinearLayout teacherQuiz;
     LinearLayout studentQuiz;
 
@@ -136,24 +135,14 @@ Button Submit_Edit_Button;
 
 
 
-
-
+        serverRequestQuizQuestion = new ServerRequestQuizQuestion(this);
         userLocalStore = new UserLocalStore(this);
         final AlertDialog.Builder alertYesNo_Edit = new AlertDialog.Builder(this);
         Bundle bundle = getIntent().getExtras();
         String text = bundle.getString("MyValue");
-        Toast.makeText(QuizQuestionActivity.this, text, Toast.LENGTH_LONG).show();
+        final int quiz_id = bundle.getInt("quizID");
 
-        if(text.contains(".\t\t")){
-
-            text=text.substring(4,text.length()); //substring Number
-            while(text.contains("\t")){
-                text=text.substring(1,text.length()); //substring Number
-            }
-            text=text.substring(0,text.length()-26); //substring Release to Student
-            Toast.makeText(QuizQuestionActivity.this,text , Toast.LENGTH_LONG).show();
-        }
-        question_name_text.setText(""+text);
+        question_name_text.setText(text);
 
         if(userLocalStore.getLoggedInUser().is_teacher == 1){ //Teacher
             teacherQuiz.setVisibility(View.VISIBLE);
@@ -228,7 +217,7 @@ Button Submit_Edit_Button;
                             }
                             else {
 
-                                if (        choice_a_text_value.equals(choice_b_text_value) ||
+                                if (    choice_a_text_value.equals(choice_b_text_value) ||
                                         choice_a_text_value.equals(choice_c_text_value) ||
                                         choice_a_text_value.equals(choice_d_text_value)||
                                         choice_b_text_value.equals(choice_c_text_value) ||
@@ -241,11 +230,12 @@ Button Submit_Edit_Button;
                                     Submit_Edit_Button.setVisibility(View.GONE);
                                     finishButton.setVisibility(View.VISIBLE);
                                     Cancel_Edit_Button.setVisibility(View.GONE);
-                                    question_obj = new Question(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer);
+                                    question_obj = new Question(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer, quiz_id);
 
-                                    listItem.set(questionPosition, question_obj);
-                                    listItem = quiz.questionArray;
-                                    adapter.setListData(listItem);
+
+//                                    listItem.set(questionPosition, question_obj);
+//                                    listItem = quiz.questionArray;
+//                                    adapter.setListData(listItem);
 
 
 
@@ -312,12 +302,12 @@ Button Submit_Edit_Button;
 //                String choice_d_radio_value =   String.valueOf(choice_d_radio.isChecked());
 
 
-                    String question_name_text_value = question_name_text.getText().toString();
-                    String question_text_value = question_text.getText().toString();
-                    String choice_a_text_value = choice_a_text.getText().toString();
-                    String choice_b_text_value = choice_b_text.getText().toString();
-                    String choice_c_text_value = choice_c_text.getText().toString();
-                    String choice_d_text_value = choice_d_text.getText().toString();
+//                    String question_name_text_value = question_name_text.getText().toString();
+//                    String question_text_value = question_text.getText().toString();
+//                    String choice_a_text_value = choice_a_text.getText().toString();
+//                    String choice_b_text_value = choice_b_text.getText().toString();
+//                    String choice_c_text_value = choice_c_text.getText().toString();
+//                    String choice_d_text_value = choice_d_text.getText().toString();
 
                     correctAnswer = question_obj.correctaAnswer;
 
@@ -332,23 +322,23 @@ Button Submit_Edit_Button;
 
 
 
-                    if (correctAnswer.equals(choice_a_text_value)){
-
-                        choice_a_radio.setChecked(true);
-
-                    }
-                    else if (correctAnswer.equals(choice_b_text_value)){
-                        choice_b_radio.setChecked(true);
-                        Log.d("EEEEEEEEEE","BBB");
-                    }
-                    else if (correctAnswer.equals(choice_c_text_value)){
-                        choice_c_radio.setChecked(true);
-                        Log.d("EEEEEEEEEE","CCC");
-                    }
-                    else if (correctAnswer.equals(choice_d_text_value)){
-                        choice_d_radio.setChecked(true);
-                        Log.d("EEEEEEEEEE","DDD");
-                    }
+//                    if (correctAnswer.equals(choice_a_text_value)){
+//
+//                        choice_a_radio.setChecked(true);
+//
+//                    }
+//                    else if (correctAnswer.equals(choice_b_text_value)){
+//                        choice_b_radio.setChecked(true);
+//                        Log.d("EEEEEEEEEE","BBB");
+//                    }
+//                    else if (correctAnswer.equals(choice_c_text_value)){
+//                        choice_c_radio.setChecked(true);
+//                        Log.d("EEEEEEEEEE","CCC");
+//                    }
+//                    else if (correctAnswer.equals(choice_d_text_value)){
+//                        choice_d_radio.setChecked(true);
+//                        Log.d("EEEEEEEEEE","DDD");
+//                    }
 
 
                     QuestionNumber.setText(""+ (arg2+1));
@@ -419,10 +409,20 @@ Button Submit_Edit_Button;
                                 correctAnswer = choice_d_text_value;
                             }
 
-                            quiz.addQuestionforQuiz(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer);
+                            question_obj = new Question(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id);
+
+                            serverRequestQuizQuestion.storeQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
+                                @Override
+                                public void done(Question returnQuestion) {
+                                //    Log.d("Checkkk", returnQuestion.quiz_id+"");
+                                }
+                            });
+
+                            //SQL Lite
+                            quiz.addQuestionforQuiz(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id);
                             Log.d("TESTESS", "" + correctAnswer);
-                            listItem = quiz.questionArray;
-                            adapter.setListData(listItem);
+                           // listItem = quiz.questionArray;
+                           // adapter.setListData(listItem);
                             question_text.setText("");
                             choice_a_text.setText("");
                             choice_b_text.setText("");
@@ -443,6 +443,17 @@ Button Submit_Edit_Button;
 
                     }
 
+                }
+            });
+            //show
+            question_obj = new Question(quiz_id);
+            serverRequestQuizQuestion.showQuizQuestionDataInBackground(question_obj, new GetShowQuestionCallback() {
+                @Override
+                public void done(ArrayList<Question> returnShowQuestion) {
+                    if (returnShowQuestion.size() > 0) {
+                        listItem = returnShowQuestion;
+                        adapter.setListData(listItem);
+                    }
                 }
             });
 

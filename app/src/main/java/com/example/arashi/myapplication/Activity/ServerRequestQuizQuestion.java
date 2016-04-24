@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Class;
+import com.example.arashi.myapplication.Object.Question;
 import com.example.arashi.myapplication.Object.Quiz;
 import com.example.arashi.myapplication.Object.Roster;
 import com.example.arashi.myapplication.Object.User;
@@ -48,8 +49,22 @@ public class ServerRequestQuizQuestion {
         progressDialog.show();
         new StoreQuizDataAsyncTask(quiz, phpfile, quizCallback).execute();
     }
-
-
+    public void fetchQuizDataInBackground(Quiz quiz, GetQuizCallback quizCallback){
+        progressDialog.show();
+        new FetchQuizDataAsyncTask(quiz, quizCallback).execute();
+    }
+    public void storeQuizQuestionDataInBackground(Question question, GetQuestionCallback getQuestionCallback){
+        progressDialog.show();
+        new StoreQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
+    }
+    public void updateQuizQuestionDataInBackground(Question question,  GetQuestionCallback getQuestionCallback){
+        progressDialog.show();
+        new UpdateQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
+    }
+    public void showQuizQuestionDataInBackground(Question question, GetShowQuestionCallback getShowQuestionCallback){
+        progressDialog.show();
+        new ShowQuizQuestionDataAsyncTask(question, getShowQuestionCallback).execute();
+    }
 
 
     public String getEncodeData(Map<String, String> data) {
@@ -134,7 +149,7 @@ public class ServerRequestQuizQuestion {
 
                 if (jObj.length() != 0) {
                     String quiz_name = jObj.getString("quizname");
-                    int quizID = jObj.getInt("quizID");
+                    int quizID = jObj.getInt("quiz_id");
                     int is_active = jObj.getInt("is_active");
                     int class_id=  jObj.getInt("class_id");
 
@@ -152,6 +167,350 @@ public class ServerRequestQuizQuestion {
             progressDialog.dismiss();
             quizCallback.done(returnQuiz);
             super.onPostExecute(returnQuiz);
+        }
+    }
+    public class FetchQuizDataAsyncTask extends AsyncTask<Void, Void, Quiz> {
+        Quiz quiz;
+        GetQuizCallback quizCallback;
+
+        public FetchQuizDataAsyncTask(Quiz quiz, GetQuizCallback quizCallback){
+            this.quiz = quiz;
+            this.quizCallback = quizCallback;
+
+        }
+        @Override
+        protected Quiz doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quizname", quiz.quiz_name);
+            dataToSend.put("class_id", ""+ quiz.class_id);
+
+            Quiz returnQuiz = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchQuizData.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String quiz_name = jObj.getString("quizname");
+                    int quizID = jObj.getInt("quiz_id");
+                    int is_active = jObj.getInt("is_active");
+                    int class_id=  jObj.getInt("class_id");
+
+                    returnQuiz = new Quiz(quiz.quiz_name,quizID,is_active,quiz.class_id);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2", e.toString());
+            }
+
+            return returnQuiz;
+        }
+
+
+        protected void onPostExecute(Quiz returnQuiz){
+            progressDialog.dismiss();
+            quizCallback.done(returnQuiz);
+            super.onPostExecute(returnQuiz);
+        }
+    }
+    public class StoreQuizQuestionDataAsyncTask extends AsyncTask<Void, Void, Question> {
+        Question quiz_question;
+        GetQuestionCallback questionCallback;
+
+        public StoreQuizQuestionDataAsyncTask(Question quiz_question, GetQuestionCallback questionCallback){
+            this.quiz_question = quiz_question;
+            this.questionCallback = questionCallback;
+
+        }
+        @Override
+        protected Question doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quizquestion_text", quiz_question.question);
+            dataToSend.put("choice_a",  quiz_question.ans1);
+            dataToSend.put("choice_b",  quiz_question.ans2);
+            dataToSend.put("choice_c", quiz_question.ans3);
+            dataToSend.put("choice_d",  quiz_question.ans4);
+            dataToSend.put("correct_choice", quiz_question.correctaAnswer);
+            dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+
+            Question returnQuestion = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "Post_Quiz_Question.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String quizquestion_text = jObj.getString("quizquestion_text");
+                    String ans1 = jObj.getString("choice_a");
+                    String ans2 = jObj.getString("choice_b");
+                    String ans3 = jObj.getString("choice_c");
+                    String ans4 = jObj.getString("choice_d");
+                    String correctaAnswer = jObj.getString("correct_choice");
+                    int quiz_id =  jObj.getInt("quiz_id");
+                    int quizquestionpack_id  = jObj.getInt("quizquestionpack_id");
+
+                    returnQuestion = new Question(quizquestionpack_id, quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2", e.toString());
+            }
+
+            return returnQuestion;
+        }
+
+
+        protected void onPostExecute(Question returnQuestion){
+            progressDialog.dismiss();
+            questionCallback.done(returnQuestion);
+            super.onPostExecute(returnQuestion);
+        }
+    }
+
+    public class UpdateQuizQuestionDataAsyncTask extends AsyncTask<Void, Void, Question> {
+        Question quiz_question;
+        GetQuestionCallback questionCallback;
+
+        public UpdateQuizQuestionDataAsyncTask(Question quiz_question, GetQuestionCallback questionCallback){
+            this.quiz_question = quiz_question;
+            this.questionCallback = questionCallback;
+
+        }
+        @Override
+        protected Question doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quizquestionpack_id", quiz_question.quizquestionpack_id+"");
+            dataToSend.put("quizquestion_text", quiz_question.question);
+            dataToSend.put("choice_a",  quiz_question.ans1);
+            dataToSend.put("choice_b",  quiz_question.ans2);
+            dataToSend.put("choice_c", quiz_question.ans3);
+            dataToSend.put("choice_d",  quiz_question.ans4);
+            dataToSend.put("correct_choice", quiz_question.correctaAnswer);
+            dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+
+            Question returnQuestion = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "Update_Quiz_Question.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String quizquestion_text = jObj.getString("quizquestion_text");
+                    String ans1 = jObj.getString("choice_a");
+                    String ans2 = jObj.getString("choice_b");
+                    String ans3 = jObj.getString("choice_c");
+                    String ans4 = jObj.getString("choice_d");
+                    String correctaAnswer = jObj.getString("correct_choice");
+                    int quiz_id =  jObj.getInt("quiz_id");
+
+                    returnQuestion = new Question(quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2", e.toString());
+            }
+
+            return returnQuestion;
+        }
+
+
+        protected void onPostExecute(Question returnQuestion){
+            progressDialog.dismiss();
+            questionCallback.done(returnQuestion);
+            super.onPostExecute(returnQuestion);
+        }
+    }
+
+    public class ShowQuizQuestionDataAsyncTask extends AsyncTask<Void, Void, ArrayList<Question>> {
+
+        GetShowQuestionCallback getShowQuestionCallback;
+        ArrayList<Question> showQuestion;
+        Question question;
+
+
+        public ShowQuizQuestionDataAsyncTask(Question question,  GetShowQuestionCallback getShowQuestionCallback) {
+            this.question = question;
+            this.getShowQuestionCallback = getShowQuestionCallback;
+            showQuestion = new ArrayList<>();
+
+        }
+        @Override
+        protected ArrayList<Question> doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quiz_id", ""+ question.quiz_id);
+
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "showQuizQuestion.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+                JSONArray noticeArray = jObj.getJSONArray("show_quiz_question");
+                Question question;
+                for (int i = 0; i < noticeArray.length(); i++) {
+                    JSONObject quiz_question = noticeArray.getJSONObject(i);
+                    int quizquestion_id = quiz_question.getInt("quizquestionpack_id");
+                    String quizquestion_text = quiz_question.getString("quizquestion_text");
+                    String ans1 = quiz_question.getString("choice_a");
+                    String ans2 = quiz_question.getString("choice_b");
+                    String ans3 = quiz_question.getString("choice_c");
+                    String ans4 = quiz_question.getString("choice_d");
+
+                    question = new Question(quizquestion_id,quizquestion_text, ans1, ans2, ans3, ans4);
+                    showQuestion.add(question);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return showQuestion;
+        }
+
+
+        protected void onPostExecute(ArrayList<Question> returnedQuestion){
+            progressDialog.dismiss();
+            getShowQuestionCallback.done(returnedQuestion);
+            super.onPostExecute(returnedQuestion);
         }
     }
 }

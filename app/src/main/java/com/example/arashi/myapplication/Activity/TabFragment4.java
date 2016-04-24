@@ -318,12 +318,32 @@ public class TabFragment4 extends Fragment{
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                // startActivity(new Intent(getActivity(),QuizQuestionActivity.class));
-                Intent intent = new Intent(getActivity(), QuizQuestionActivity.class);
-                String str=listView1.getItemAtPosition(arg2).toString();
-                intent.putExtra("MyValue", str);
-                Log.i("Myvalueanswer",str);
-                startActivityForResult(intent,1);
+                String text =listView1.getItemAtPosition(arg2).toString();
+                //substring
+                if(text.contains(".\t\t")){
+
+                    text=text.substring(4,text.length()); //substring Number
+                    while(text.contains("\t")){
+                        text=text.substring(1,text.length()); //substring Number
+                    }
+                    text=text.substring(0,text.length()-26); //substring Release to Student
+                }
+                quiz = new Quiz(text, classLocalStore.getJoinedInClass().class_id);
+                //Toast.makeText(getActivity(),quiz.quiz_name+" "+quiz.class_id, Toast.LENGTH_SHORT).show();
+                serverRequestQuizQuestion.fetchQuizDataInBackground(quiz, new GetQuizCallback() {
+                    @Override
+                    public void done(Quiz returnQuiz) {
+                        Intent intent = new Intent(getActivity(), QuizQuestionActivity.class);
+                      //  Toast.makeText(getActivity(),Integer.toString(returnQuiz.quizID), Toast.LENGTH_SHORT).show();
+                        intent.putExtra("MyValue", returnQuiz.quiz_name);
+                        intent.putExtra("quizID", returnQuiz.quizID);
+                        startActivityForResult(intent,1);
+                    }
+                });
+
+
                 //startActivity(intent);
+
             }
         });
 

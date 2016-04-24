@@ -24,8 +24,8 @@ public class Quiz {
     }
 
 
-    public void addQuestionforQuiz(String q,String a1,String a2,String a3,String a4,String correctAnswer){
-       questionArray.add(new Question(q,a1,a2,a3,a4,correctAnswer));
+    public void addQuestionforQuiz(String q,String a1,String a2,String a3,String a4,String correctAnswer,int quizID){
+       questionArray.add(new Question(q,a1,a2,a3,a4,correctAnswer, quizID));
     }
 
     public String QuizConcat() {

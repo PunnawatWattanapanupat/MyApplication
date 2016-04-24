@@ -81,6 +81,7 @@ public class ClassActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
+                adapter.setListData(listItem);
             }
         });
 
