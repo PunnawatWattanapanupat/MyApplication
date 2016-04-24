@@ -179,7 +179,7 @@ Button seeResultButton;
             seeResultButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(QuizQuestionActivity.this,ResultQuiz.class));
+                    startActivity(new Intent(QuizQuestionActivity.this,Popup_Result__Quiz_First_Page.class));
                 }
             });
 

@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/square">
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/chart"
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/bar2chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="25dp"/>

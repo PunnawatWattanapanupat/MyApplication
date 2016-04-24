@@ -85,6 +85,9 @@
             android:name=".PopAnswer"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
+            android:name=".Popup_Result__Quiz_First_Page"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity
             android:name=".PopAnnounceDetail"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
