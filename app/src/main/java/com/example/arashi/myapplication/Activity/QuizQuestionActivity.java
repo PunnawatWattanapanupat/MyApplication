@@ -138,6 +138,7 @@ Button seeResultButton;
 
         serverRequestQuizQuestion = new ServerRequestQuizQuestion(this);
         userLocalStore = new UserLocalStore(this);
+        classLocalStore = new ClassLocalStore(this);
         final AlertDialog.Builder alertYesNo_Edit = new AlertDialog.Builder(this);
         final AlertDialog.Builder ShowScoreStudent = new AlertDialog.Builder(this);
         Bundle bundle = getIntent().getExtras();
@@ -499,13 +500,41 @@ Button seeResultButton;
                     String strSend;
                     if(CheckboxRelease.isChecked()==true){
                         strSend = "Yes";
-                    }else strSend="No";
+                        quiz.is_active = 1;
+
+                    }else {
+                        strSend="No";
+                        quiz.is_active = 0;
+                    }
+                    quiz.quizID = quiz_id;
+                    quiz.class_id = classLocalStore.getJoinedInClass().class_id ;
+                    serverRequestQuizQuestion.updateQuizDataInBackground(quiz, new GetQuizCallback() {
+                        @Override
+                        public void done(Quiz returnQuiz) {
+                            // Toast.makeText(QuizQuestionActivity.this, returnQuiz.quizID+"", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("result",strSend);
                     setResult(Activity.RESULT_OK,returnIntent);
 
                     Log.e("dddddddddddddddddd",quiz.QuizConcat());
                     finish();
+                }
+            });
+
+            //Active checkbox
+            quiz = new Quiz(text,classLocalStore.getJoinedInClass().class_id);
+            serverRequestQuizQuestion.fetchQuizDataInBackground(quiz, new GetQuizCallback() {
+                @Override
+                public void done(Quiz returnQuiz) {
+                    if(returnQuiz.is_active == 1){
+                        CheckboxRelease.setChecked(true);
+                    }
+                    else{
+                        CheckboxRelease.setChecked(false);
+                    }
                 }
             });
 

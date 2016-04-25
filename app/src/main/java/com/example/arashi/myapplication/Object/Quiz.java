@@ -16,7 +16,13 @@ public class Quiz {
         this.quizID=quizID;
         this.is_active=is_active;
         this.class_id=class_id;
-}
+    }
+    public Quiz (int quizID,int is_active,int class_id){
+        questionArray = new ArrayList<>();
+        this.quizID=quizID;
+        this.is_active=is_active;
+        this.class_id=class_id;
+    }
     public Quiz (String quiz_name,int class_id){
         questionArray = new ArrayList<>();
         this.quiz_name=quiz_name;

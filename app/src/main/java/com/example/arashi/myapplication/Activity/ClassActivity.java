@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,9 +27,10 @@ import java.util.ArrayList;
 public class ClassActivity extends Activity {
   //  TextView txt_class_id;
     ListView listView;
-    Button addClass;
+    Button addClass, joinClass;
     ArrayList<Class> listItem = new ArrayList<>();
     SeverRequests severRequests;
+    LinearLayout linearbutton1, linearbutton2;
     ClassLocalStore classLocalStore;
     UserLocalStore userLocalStore;
     ClassAdapter adapter;
@@ -48,21 +50,21 @@ public class ClassActivity extends Activity {
 
         adapter = new ClassAdapter(this, listItem);
         listView.setAdapter(adapter);
-//        Bundle bundle = getIntent().getExtras();
-//        userId = bundle.getInt("userId");
 
+        addClass = (Button) findViewById(R.id.btn_add_class);
+        joinClass = (Button) findViewById(R.id.btn_join_class);
 
-        severRequests.showClassListInBackground(user, new GetShowClassCallback() {
-            @Override
-            public void done(ArrayList<Class> returnedShowClass) {
-                if (returnedShowClass.size() > 0) {
-                    listItem = returnedShowClass;
-                    adapter.setListData(listItem);
-                } else {
-                    Toast.makeText(ClassActivity.this,"No Data", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        linearbutton1 = (LinearLayout) findViewById(R.id.linearButton1);
+        linearbutton2 = (LinearLayout) findViewById(R.id.linearButton2);
+        //show button
+        if(user.is_teacher == 1){
+            linearbutton1.setVisibility(View.VISIBLE);
+            linearbutton2.setVisibility(View.INVISIBLE);
+        }
+        else {
+            linearbutton2.setVisibility(View.VISIBLE);
+            linearbutton1.setVisibility(View.INVISIBLE);
+        }
 
         //OnClickListView
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -76,12 +78,31 @@ public class ClassActivity extends Activity {
         });
 
         //Add Class Button Click
-        addClass = (Button) findViewById(R.id.btn_add_class);
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
                 adapter.setListData(listItem);
+            }
+        });
+        //Join Class Button Click
+        joinClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ClassActivity.this,PopUpActivity.class));
+                adapter.setListData(listItem);
+            }
+        });
+
+        severRequests.showClassListInBackground(user, new GetShowClassCallback() {
+            @Override
+            public void done(ArrayList<Class> returnedShowClass) {
+                if (returnedShowClass.size() > 0) {
+                    listItem = returnedShowClass;
+                    adapter.setListData(listItem);
+                } else {
+                    Toast.makeText(ClassActivity.this,"No Data", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

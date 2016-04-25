@@ -39,5 +39,4 @@ public class User {
         this.email = email;
         this.is_teacher = -1;
     }
-
 }

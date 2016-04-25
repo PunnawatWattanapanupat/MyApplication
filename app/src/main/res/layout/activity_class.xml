@@ -7,7 +7,12 @@
     android:padding="16dp"
     tools:context="com.example.arashi.myapplication.Activity.ClassActivity"
     android:background="#FFFFFF">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/linearButton1"
+    android:visibility="visible"
+    android:orientation="vertical">
     <Button
 
         android:text="Add Class"
@@ -17,14 +22,40 @@
         android:layout_height="40dp"
         android:layout_margin="5dp"
         android:layout_weight="1"
+
         android:background="@color/color_text_green"
         />
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearButton2"
+        android:visibility="invisible"
+        android:orientation="vertical">
+
+
+        <Button
+            android:text="Join Class"
+            android:id="@+id/btn_join_class"
+            style="@style/TextButtonStyle1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+
+            android:background="@color/color_text_green"
+            />
+    </LinearLayout>
+
+
 
 
 
     <ListView
         android:id="@+id/listView1"
-        android:layout_below="@+id/btn_add_class"
+        android:layout_below="@+id/linearButton1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >

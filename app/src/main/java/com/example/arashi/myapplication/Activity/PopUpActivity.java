@@ -101,8 +101,8 @@ public class PopUpActivity extends Activity {
 
             public void done(Class returnedClass){
                 Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
-                finish();
+                startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
+                //finish();
             }
         });
     }
