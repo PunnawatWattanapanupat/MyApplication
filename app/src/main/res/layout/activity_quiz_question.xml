@@ -36,24 +36,7 @@
 
 
     </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <Button android:id="@+id/seeResultButton"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="See Result"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            style="@style/TextButtonStyle1"
-            android:background="@color/color_text_green"
-            android:layout_gravity="center"
-            android:layout_weight="2"></Button>
-
-
-    </LinearLayout>
 
 
 
@@ -64,7 +47,24 @@
         android:orientation="vertical"
         android:visibility="visible">
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <Button android:id="@+id/seeResultButton"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="See Result"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                style="@style/TextButtonStyle1"
+                android:background="@color/color_text_green"
+                android:layout_gravity="center"
+                android:layout_weight="2"></Button>
+
+
+        </LinearLayout>
 
         <LinearLayout
 

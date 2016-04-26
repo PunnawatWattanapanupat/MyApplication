@@ -20,6 +20,7 @@ import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Quiz;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -68,6 +69,7 @@ public class TabFragment4 extends Fragment{
     //public final static String ID_Extra="com.example.arashi.myapplication.Activity.TabFragment4._ID";
     EditText question_name_text;
     // Integer count=1;
+    TextView question_name;
     ListView listView1;
     Button createQuizButton;
     SQLiteDatabase mDb;
@@ -76,6 +78,7 @@ public class TabFragment4 extends Fragment{
     Cursor mCursor;
     Quiz quiz;
     ClassLocalStore classLocalStore;
+    UserLocalStore userLocalStore;
     ServerRequestQuizQuestion serverRequestQuizQuestion;
     ArrayList<Quiz> listItem;
     CustomAdapterQuiz adapter;
@@ -86,19 +89,23 @@ public class TabFragment4 extends Fragment{
        // Button testbtn = (Button) v.findViewById(R.id.testbtn);
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
-
+        question_name = (TextView) v.findViewById(R.id.question_name);
         //ListViewShow Question_alreadyCreate
         listView1 = (ListView)v.findViewById(R.id.Quiz_alreadyCreate);
         serverRequestQuizQuestion = new ServerRequestQuizQuestion(getActivity());
         classLocalStore = new ClassLocalStore(getActivity());
-
+        userLocalStore = new UserLocalStore(getActivity());
         listItem = new ArrayList<>();
         adapter = new CustomAdapterQuiz(getActivity(),listItem);
         listView1.setAdapter(adapter);
 
         createQuizButton = (Button) v.findViewById(R.id.createQuizButton);
 
-
+        if(userLocalStore.getLoggedInUser().is_teacher == 0){
+            createQuizButton.setVisibility(View.GONE);
+            question_name_text.setVisibility(View.GONE);
+            question_name.setVisibility(View.GONE);
+        }
 
 
         quiz = new Quiz(question_name_text.getText().toString(),classLocalStore.getJoinedInClass().class_id);

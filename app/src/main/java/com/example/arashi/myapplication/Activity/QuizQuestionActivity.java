@@ -147,7 +147,7 @@ Button seeResultButton;
 
         question_name_text.setText(text);
 
-
+        QuestionNumber.setText("" + count);
 
 
 
@@ -449,7 +449,7 @@ Button seeResultButton;
                             serverRequestQuizQuestion.storeQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
                                 @Override
                                 public void done(Question returnQuestion) {
-                                //    Log.d("Checkkk", returnQuestion.quiz_id+"");
+                                    //Log.d("Checkkk", returnQuestion.quiz_id+"");
                                 }
                             });
                             //show
