@@ -82,6 +82,7 @@ public class TabFragment4 extends Fragment{
     ServerRequestQuizQuestion serverRequestQuizQuestion;
     ArrayList<Quiz> listItem;
     CustomAdapterQuiz adapter;
+    String php_file;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,6 +106,9 @@ public class TabFragment4 extends Fragment{
             createQuizButton.setVisibility(View.GONE);
             question_name_text.setVisibility(View.GONE);
             question_name.setVisibility(View.GONE);
+            php_file = "ShowQuizStudent.php";
+        }else{
+            php_file = "ShowQuiz.php";
         }
 
 
@@ -119,7 +123,7 @@ public class TabFragment4 extends Fragment{
                     serverRequestQuizQuestion.storeQuizDataInBackground(quiz, "Post_Quiz.php", new GetQuizCallback() {
                         @Override
                          public void done(Quiz returnQuiz) {
-                            serverRequestQuizQuestion.showQuizDataInBackground(quiz, new GetShowQuizCallback() {
+                            serverRequestQuizQuestion.showQuizDataInBackground(quiz, php_file, new GetShowQuizCallback() {
                                 @Override
                                 public void done(ArrayList<Quiz> returnedShowQuiz) {
                                     listItem = returnedShowQuiz;
@@ -133,7 +137,8 @@ public class TabFragment4 extends Fragment{
             }
         });
 
-        serverRequestQuizQuestion.showQuizDataInBackground(quiz, new GetShowQuizCallback() {
+
+        serverRequestQuizQuestion.showQuizDataInBackground(quiz, php_file, new GetShowQuizCallback() {
             @Override
             public void done(ArrayList<Quiz> returnedShowQuiz) {
                 listItem = returnedShowQuiz;

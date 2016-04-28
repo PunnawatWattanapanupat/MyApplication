@@ -11,6 +11,8 @@ import com.example.arashi.myapplication.Object.Question;
 import com.example.arashi.myapplication.Object.Quiz;
 import com.example.arashi.myapplication.Object.Roster;
 import com.example.arashi.myapplication.Object.User;
+import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.example.arashi.myapplication.Store.UserLocalStore;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,9 +55,9 @@ public class ServerRequestQuizQuestion {
         progressDialog.show();
         new FetchQuizDataAsyncTask(quiz, quizCallback).execute();
     }
-    public void showQuizDataInBackground(Quiz quiz, GetShowQuizCallback showQuizCallback){
+    public void showQuizDataInBackground(Quiz quiz, String php_file, GetShowQuizCallback showQuizCallback){
         progressDialog.show();
-        new ShowQuizDataAsyncTask(quiz, showQuizCallback).execute();
+        new ShowQuizDataAsyncTask(quiz, php_file, showQuizCallback).execute();
     }
     public void updateQuizDataInBackground(Quiz quiz, GetQuizCallback quizCallback){
         progressDialog.show();
@@ -262,12 +264,14 @@ public class ServerRequestQuizQuestion {
         GetShowQuizCallback getShowQuizCallback;
         ArrayList<Quiz> showQuiz;
         Quiz quiz;
+        String php_file;
 
 
-        public ShowQuizDataAsyncTask(Quiz quiz,  GetShowQuizCallback getShowQuizCallback) {
+        public ShowQuizDataAsyncTask(Quiz quiz, String php_file,  GetShowQuizCallback getShowQuizCallback) {
             this.quiz = quiz;
             this.getShowQuizCallback = getShowQuizCallback;
             showQuiz = new ArrayList<>();
+            this.php_file = php_file;
 
         }
         @Override
@@ -283,7 +287,7 @@ public class ServerRequestQuizQuestion {
                 String line = "";
 
                 try {
-                    URL url = new URL(SERVER_ADDRESS + "showQuiz.php");
+                    URL url = new URL(SERVER_ADDRESS + php_file);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
                     con.setRequestMethod("POST");
