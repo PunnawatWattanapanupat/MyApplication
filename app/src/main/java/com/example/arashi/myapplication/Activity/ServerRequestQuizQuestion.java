@@ -67,6 +67,11 @@ public class ServerRequestQuizQuestion {
         progressDialog.show();
         new StoreQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
     }
+
+    public void fetchQuizQuestionDataInBackground(Question question, GetQuestionCallback getQuestionCallback){
+        progressDialog.show();
+        new FetchQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
+    }
     public void updateQuizQuestionDataInBackground(Question question,  GetQuestionCallback getQuestionCallback){
         progressDialog.show();
         new UpdateQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
@@ -117,7 +122,7 @@ public class ServerRequestQuizQuestion {
 
             Quiz returnQuiz = null;
 
-             try {
+            try {
 
                 String encode = getEncodeData(dataToSend);
                 BufferedReader reader = null; // Read some data from server
@@ -166,7 +171,7 @@ public class ServerRequestQuizQuestion {
                     returnQuiz = new Quiz(quiz_name,quizID,is_active,class_id);
                 }
             } catch (Exception e) {
-                Log.e("custom_check2", e.toString());
+                Log.e("custom_check2_storeQ", e.toString());
             }
 
             return returnQuiz;
@@ -245,7 +250,7 @@ public class ServerRequestQuizQuestion {
                     returnQuiz = new Quiz(quiz.quiz_name,quizID,is_active,quiz.class_id);
                 }
             } catch (Exception e) {
-                Log.e("custom_check2", e.toString());
+                Log.e("custom_check2FetchQ", e.toString());
             }
 
             return returnQuiz;
@@ -446,6 +451,7 @@ public class ServerRequestQuizQuestion {
             dataToSend.put("choice_d",  quiz_question.ans4);
             dataToSend.put("correct_choice", quiz_question.correctaAnswer);
             dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+            dataToSend.put("number_question", ""+ quiz_question.numberQuestion);
 
             Question returnQuestion = null;
 
@@ -497,11 +503,12 @@ public class ServerRequestQuizQuestion {
                     String ans4 = jObj.getString("choice_d");
                     String correctaAnswer = jObj.getString("correct_choice");
                     int quiz_id =  jObj.getInt("quiz_id");
+                    int numberQuestion = jObj.getInt("number_question");
 
-                    returnQuestion = new Question( quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id);
+                    returnQuestion = new Question( quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id, numberQuestion);
                 }
             } catch (Exception e) {
-                Log.e("custom_check2", e.toString());
+                Log.e("custom_check2_storeQQ", e.toString());
             }
 
             return returnQuestion;
@@ -514,6 +521,88 @@ public class ServerRequestQuizQuestion {
             super.onPostExecute(returnQuestion);
         }
     }
+
+    public class FetchQuizQuestionDataAsyncTask extends AsyncTask<Void, Void, Question> {
+        Question quiz_question;
+        GetQuestionCallback questionCallback;
+
+        public FetchQuizQuestionDataAsyncTask(Question quiz_question, GetQuestionCallback questionCallback){
+            this.quiz_question = quiz_question;
+            this.questionCallback = questionCallback;
+
+        }
+        @Override
+        protected Question doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+            dataToSend.put("number_question", ""+ quiz_question.numberQuestion);
+
+            Question returnQuestion = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchQuizQuestionData.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String quizquestion_text = jObj.getString("quizquestion_text");
+                    String ans1 = jObj.getString("choice_a");
+                    String ans2 = jObj.getString("choice_b");
+                    String ans3 = jObj.getString("choice_c");
+                    String ans4 = jObj.getString("choice_d");
+
+                    returnQuestion = new Question(quizquestion_text, ans1, ans2, ans3, ans4);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2_UpdateFQ", e.toString());
+            }
+
+            return returnQuestion;
+        }
+
+
+        protected void onPostExecute(Question returnQuestion){
+            progressDialog.dismiss();
+            questionCallback.done(returnQuestion);
+            super.onPostExecute(returnQuestion);
+        }
+    }
+
 
     public class UpdateQuizQuestionDataAsyncTask extends AsyncTask<Void, Void, Question> {
         Question quiz_question;
@@ -535,6 +624,7 @@ public class ServerRequestQuizQuestion {
             dataToSend.put("choice_d",  quiz_question.ans4);
             dataToSend.put("correct_choice", quiz_question.correctaAnswer);
             dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+            dataToSend.put("number_question", ""+ quiz_question.numberQuestion);
 
             Question returnQuestion = null;
 
@@ -586,11 +676,12 @@ public class ServerRequestQuizQuestion {
                     String ans4 = jObj.getString("choice_d");
                     String correctaAnswer = jObj.getString("correct_choice");
                     int quiz_id =  jObj.getInt("quiz_id");
+                    int numberQuestion = jObj.getInt("number_question");
 
-                    returnQuestion = new Question(quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id);
+                    returnQuestion = new Question(quizquestion_text, ans1, ans2, ans3, ans4, correctaAnswer, quiz_id , numberQuestion);
                 }
             } catch (Exception e) {
-                Log.e("custom_check2", e.toString());
+                Log.e("custom_check2_UpdateQQ", e.toString());
             }
 
             return returnQuestion;

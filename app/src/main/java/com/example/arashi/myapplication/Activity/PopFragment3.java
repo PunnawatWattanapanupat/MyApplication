@@ -102,7 +102,7 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
             @Override
             public void done(String booboo) {
                 if(booboo == null){
-                    showErrorMessage("Fuck");
+                    showErrorMessage("Error");
                 }
                 else{
                     finish();

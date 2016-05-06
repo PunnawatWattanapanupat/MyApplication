@@ -20,7 +20,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
 import com.example.arashi.myapplication.Object.Question;
 import com.example.arashi.myapplication.Object.Quiz;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
@@ -44,17 +43,16 @@ public class QuizQuestionActivity extends Activity{
     TextView question_name_text,quiz_question_id;
     Integer count=1;
     ListView listViewTest;
-   // ListView listView1;
+    // ListView listView1;
     CheckBox CheckboxRelease;
     Button finishButton;
     int arrayIndex=0;
     SQLiteDatabase mDb;
     ArrayList<Question> listItem;
-    MyDbHelper mHelper;
     Cursor mCursor;
     CustomAdapterQuizQuestion adapter;
     Button add_question;
-   Button Cancel_Edit_Button;
+    Button Cancel_Edit_Button;
     TextView NumberCount;
     String passedVar=null;
     String correctAnswer;
@@ -72,8 +70,8 @@ public class QuizQuestionActivity extends Activity{
 
     RadioButton choice_a_radio,choice_b_radio,choice_c_radio,choice_d_radio;
 
-// student
-    TextView student_question_text;
+    // student
+    TextView student_QuestionNumber,student_question_text;
     TextView student_choice_a_text;
     TextView student_choice_b_text;
     TextView student_choice_c_text;
@@ -85,7 +83,7 @@ public class QuizQuestionActivity extends Activity{
     Button student_next_question;
     Button student_Submit_Quiz_Button;
 
-Button seeResultButton;
+    Button seeResultButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,9 +102,9 @@ Button seeResultButton;
         CheckboxRelease = (CheckBox) findViewById(R.id.CheckboxRelease);
 
         choice_a_radio = (RadioButton)   findViewById(R.id.choice_a_radio);
-         choice_b_radio = (RadioButton)   findViewById(R.id.choice_b_radio);
-         choice_c_radio = (RadioButton)   findViewById(R.id.choice_c_radio);
-         choice_d_radio = (RadioButton)   findViewById(R.id.choice_d_radio);
+        choice_b_radio = (RadioButton)   findViewById(R.id.choice_b_radio);
+        choice_c_radio = (RadioButton)   findViewById(R.id.choice_c_radio);
+        choice_d_radio = (RadioButton)   findViewById(R.id.choice_d_radio);
 
         teacherQuiz = (LinearLayout) findViewById(R.id.teacherQuiz) ;
         studentQuiz = (LinearLayout) findViewById(R.id.studentQuiz) ;
@@ -114,7 +112,7 @@ Button seeResultButton;
 
         //student
 
-
+        student_QuestionNumber = (TextView) findViewById(R.id.student_QuestionNumber);
         student_question_text = (TextView) findViewById(R.id.student_question_text);
         student_choice_a_text = (TextView) findViewById(R.id.student_choice_a_text);
         student_choice_b_text = (TextView) findViewById(R.id.student_choice_b_text);
@@ -256,7 +254,7 @@ Button seeResultButton;
                                     Submit_Edit_Button.setVisibility(View.GONE);
                                     finishButton.setVisibility(View.VISIBLE);
                                     Cancel_Edit_Button.setVisibility(View.GONE);
-                                    question_obj = new Question(quiz_questionpack_id, question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer, quiz_id);
+                                    question_obj = new Question(quiz_questionpack_id, question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer, quiz_id, Integer.parseInt(QuestionNumber.getText().toString()));
                                     serverRequestQuizQuestion.updateQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
                                         @Override
                                         public void done(Question returnQuestion) {
@@ -271,6 +269,8 @@ Button seeResultButton;
                                                 listItem = returnShowQuestion;
                                                 adapter.setListData(listItem);
                                                 count = returnShowQuestion.size();
+                                                count++;
+                                                QuestionNumber.setText("" + count);
                                             }
                                         }
                                     });
@@ -344,7 +344,7 @@ Button seeResultButton;
 
 
 //                    String question_name_text_value = question_name_text.getText().toString();
-  //                  String question_text_value = question_text.getText().toString();
+                    //                  String question_text_value = question_text.getText().toString();
 //                    String choice_a_text_value = choice_a_text.getText().toString();
 //                    String choice_b_text_value = choice_b_text.getText().toString();
 //                    String choice_c_text_value = choice_c_text.getText().toString();
@@ -352,7 +352,7 @@ Button seeResultButton;
 
                     correctAnswer = question_obj.correctaAnswer;
 
-                   // Toast.makeText(QuizQuestionActivity.this, correctAnswer+" "+question_obj.ans1 +" ", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(QuizQuestionActivity.this, correctAnswer+" "+question_obj.ans1 +" ", Toast.LENGTH_LONG).show();
 
                     if (question_obj.correctaAnswer.equals(question_obj.ans1)){
 
@@ -444,7 +444,7 @@ Button seeResultButton;
                                 correctAnswer = choice_d_text_value;
                             }
 
-                            question_obj = new Question(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id);
+                            question_obj = new Question(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id,Integer.parseInt(QuestionNumber.getText().toString()));
 
                             serverRequestQuizQuestion.storeQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
                                 @Override
@@ -461,15 +461,16 @@ Button seeResultButton;
                                         listItem = returnShowQuestion;
                                         adapter.setListData(listItem);
                                         count = returnShowQuestion.size();
+                                        count++;
                                     }
                                 }
                             });
 
                             //SQL Lite
-                            quiz.addQuestionforQuiz(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id);
+                            quiz.addQuestionforQuiz(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id, count);
                             Log.d("TESTESS", "" + correctAnswer);
-                           // listItem = quiz.questionArray;
-                           // adapter.setListData(listItem);
+                            // listItem = quiz.questionArray;
+                            // adapter.setListData(listItem);
                             question_text.setText("");
                             choice_a_text.setText("");
                             choice_b_text.setText("");
@@ -492,6 +493,7 @@ Button seeResultButton;
 
                 }
             });
+
 
 
             finishButton.setOnClickListener(new View.OnClickListener() {
@@ -553,6 +555,40 @@ Button seeResultButton;
 
                     ShowScoreStudent.setPositiveButton("Ok",null);
                     ShowScoreStudent.show();
+                }
+            });
+            student_next_question.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    count++;
+                    student_QuestionNumber.setText(count.toString());
+                    //show quiz question
+                    question_obj = new Question(quiz_id, count);
+                    serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
+                        @Override
+                        public void done(Question returnQuestion) {
+                            student_QuestionNumber.setText(count+" ");
+                            student_question_text.setText(returnQuestion.question);
+                            student_choice_a_radio.setText(returnQuestion.ans1);
+                            student_choice_b_radio.setText(returnQuestion.ans2);
+                            student_choice_c_radio.setText(returnQuestion.ans3);
+                            student_choice_d_radio.setText(returnQuestion.ans4);
+                        }
+                    });
+                }
+            });
+
+            //show quiz question
+            question_obj = new Question(quiz_id, count);
+            serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
+                @Override
+                public void done(Question returnQuestion) {
+                    student_QuestionNumber.setText(count+" ");
+                    student_question_text.setText(returnQuestion.question);
+                    student_choice_a_radio.setText(returnQuestion.ans1);
+                    student_choice_b_radio.setText(returnQuestion.ans2);
+                    student_choice_c_radio.setText(returnQuestion.ans3);
+                    student_choice_d_radio.setText(returnQuestion.ans4);
                 }
             });
         }

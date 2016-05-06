@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/teacherQuiz"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -290,17 +290,75 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/color_text_black"
+                android:textSize="20dp"
                 android:id="@+id/student_question_text" />
         </LinearLayout>
-        <ListView
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp"
+
+        <LinearLayout
+
+
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listviewStudentQuiz">
-        </ListView>
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/student_choices_radio_group">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="20dp"
+                    android:id="@+id/student_choice_a_radio"
+                    android:checked="true" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="20dp"
+                    android:id="@+id/student_choice_b_radio"
+                    android:checked="false" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="20dp"
+                    android:id="@+id/student_choice_c_radio" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="20dp"
+                    android:id="@+id/student_choice_d_radio" />
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/student_choice_a_text" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/student_choice_b_text" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/student_choice_c_text" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/student_choice_d_text" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -354,7 +412,15 @@
 
         </LinearLayout>
 
-
+        <ListView
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/student_Question_TEST">
+        </ListView>
 
     </LinearLayout>
 

@@ -16,7 +16,6 @@
 
 package com.example.arashi.myapplication.Activity;
 
-import com.example.arashi.myapplication.MySQLLiteDatabase.MyDbHelper;
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Quiz;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
@@ -74,7 +73,6 @@ public class TabFragment4 extends Fragment{
     Button createQuizButton;
     SQLiteDatabase mDb;
     Boolean Tvalue = true;
-    MyDbHelper mHelper;
     Cursor mCursor;
     Quiz quiz;
     ClassLocalStore classLocalStore;
