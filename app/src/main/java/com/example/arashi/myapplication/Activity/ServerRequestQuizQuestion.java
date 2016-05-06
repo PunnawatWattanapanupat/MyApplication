@@ -72,6 +72,12 @@ public class ServerRequestQuizQuestion {
         progressDialog.show();
         new FetchQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
     }
+
+    public void checkLastDataInBackground(Question question, GetQuestionCallback getQuestionCallback){
+        progressDialog.show();
+        new CheckLastDataAsyncTask(question, getQuestionCallback).execute();
+    }
+
     public void updateQuizQuestionDataInBackground(Question question,  GetQuestionCallback getQuestionCallback){
         progressDialog.show();
         new UpdateQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
@@ -587,6 +593,84 @@ public class ServerRequestQuizQuestion {
                     String ans4 = jObj.getString("choice_d");
 
                     returnQuestion = new Question(quizquestion_text, ans1, ans2, ans3, ans4);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2_UpdateFQ", e.toString());
+            }
+
+            return returnQuestion;
+        }
+
+
+        protected void onPostExecute(Question returnQuestion){
+            progressDialog.dismiss();
+            questionCallback.done(returnQuestion);
+            super.onPostExecute(returnQuestion);
+        }
+    }
+
+
+    public class CheckLastDataAsyncTask extends AsyncTask<Void, Void, Question> {
+        Question quiz_question;
+        GetQuestionCallback questionCallback;
+
+        public CheckLastDataAsyncTask(Question quiz_question, GetQuestionCallback questionCallback){
+            this.quiz_question = quiz_question;
+            this.questionCallback = questionCallback;
+
+        }
+        @Override
+        protected Question doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+
+            Question returnQuestion = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchCheckLastQuizQuestionData.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    int quiz_id = jObj.getInt("quiz_id");
+                    int count_question = jObj.getInt("count_question");
+
+                    returnQuestion = new Question(quiz_id, count_question);
                 }
             } catch (Exception e) {
                 Log.e("custom_check2_UpdateFQ", e.toString());

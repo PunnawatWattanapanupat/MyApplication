@@ -80,7 +80,7 @@ public class QuizQuestionActivity extends Activity{
     RadioButton student_choice_b_radio;
     RadioButton student_choice_c_radio;
     RadioButton student_choice_d_radio;
-    Button student_next_question;
+    Button student_next_question,student_prev_question;
     Button student_Submit_Quiz_Button;
 
     Button seeResultButton;
@@ -124,6 +124,7 @@ public class QuizQuestionActivity extends Activity{
         student_choice_d_radio = (RadioButton) findViewById(R.id.student_choice_d_radio);
 
         student_next_question = (Button) findViewById(R.id.student_next_question);
+        student_prev_question = (Button) findViewById(R.id.student_prev_question);
         student_Submit_Quiz_Button = (Button) findViewById(R.id.student_Submit_Quiz_Button);
 
 
@@ -546,6 +547,13 @@ public class QuizQuestionActivity extends Activity{
 
             teacherQuiz.setVisibility(View.GONE);
             studentQuiz.setVisibility(View.VISIBLE);
+            if(count == 1){
+                student_prev_question.setVisibility(View.INVISIBLE);
+                student_Submit_Quiz_Button.setVisibility(View.GONE);
+            }
+//            else if (count < 1){
+//                student_prev_question.setVisibility(View.INVISIBLE);
+//            }
             student_Submit_Quiz_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -560,7 +568,48 @@ public class QuizQuestionActivity extends Activity{
             student_next_question.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(count > 0){
+                        student_prev_question.setVisibility(View.VISIBLE);
+                    }
                     count++;
+                    student_QuestionNumber.setText(count.toString());
+                    //show quiz question
+                    question_obj = new Question(quiz_id, count);
+                    serverRequestQuizQuestion.checkLastDataInBackground(question_obj, new GetQuestionCallback() {
+                        @Override
+                        public void done(Question returnQuestion) {
+                            if(returnQuestion.numberQuestion == count){
+                                student_next_question.setVisibility(View.GONE);
+                                student_Submit_Quiz_Button.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+                    serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
+                        @Override
+                        public void done(Question returnQuestion) {
+                            student_QuestionNumber.setText(count+" ");
+                            student_question_text.setText(returnQuestion.question);
+                            student_choice_a_radio.setText(returnQuestion.ans1);
+                            student_choice_b_radio.setText(returnQuestion.ans2);
+                            student_choice_c_radio.setText(returnQuestion.ans3);
+                            student_choice_d_radio.setText(returnQuestion.ans4);
+                        }
+                    });
+                }
+            });
+            student_prev_question.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(count > 1){
+                        if(count == 2)student_prev_question.setVisibility(View.INVISIBLE);
+                        student_next_question.setVisibility(View.VISIBLE);
+                        student_Submit_Quiz_Button.setVisibility(View.GONE);
+                    }
+//                    else {
+//                        student_prev_question.setVisibility(View.INVISIBLE);
+//                    }
+                    count--;
                     student_QuestionNumber.setText(count.toString());
                     //show quiz question
                     question_obj = new Question(quiz_id, count);
@@ -601,6 +650,7 @@ public class QuizQuestionActivity extends Activity{
 
         //ListViewShow Question_alreadyCreate
 //        listView1 = (ListView)findViewById(R.id.Question_alreadyCreate);
+
 
     }
     public void onPause() {
