@@ -4,49 +4,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_height="wrap_content">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal">
-
-
-    <TextView
-        android:id="@+id/textClassName"
-        style="@style/TextViewStyle1"
-        android:layout_marginTop="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:text="Class"
+        android:id="@+id/partClassAndCode"
         android:layout_weight="2"
-        />
+        android:orientation="vertical">
+
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/headPartClass"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textNumberStudent"
-            android:text=""
+            android:id="@+id/classOnlyText"
             style="@style/TextViewStyle1"
+            android:layout_marginTop="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-           android:layout_weight="0.5"
-
+            android:layout_marginBottom="30dp"
+            android:text="Class : "
             />
-
-
-
-
+        <TextView
+            android:id="@+id/textClassName"
+            style="@style/TextViewStyle1"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="Class"
+            android:layout_weight="2"
+            />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal">
 
 
 
@@ -59,18 +55,46 @@
             android:layout_weight="2"
             android:text="Code"/>
 
-    <TextView
-        android:id="@+id/Student"
-        style="@style/TextViewStyle1"
-        android:text="Students"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_weight="0.5"
-        />
-
     </LinearLayout>
 
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:layout_toRightOf="@id/partClassAndCode"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/color_light"
+            >
+
+            <TextView
+                android:id="@+id/textNumberStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="30dp"
+                android:text="40"
+                style="@style/TextViewStyle1"
+                android:textColor="@color/color_text_black"
+
+                />
+            <TextView
+                android:id="@+id/Student"
+                style="@style/TextViewStyle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Student"
+                android:layout_below="@+id/textNumberStudent"
+                android:textColor="@color/color_text_black"
+                />
+
+        </RelativeLayout>
+
+</LinearLayout>
 
 
    <LinearLayout
