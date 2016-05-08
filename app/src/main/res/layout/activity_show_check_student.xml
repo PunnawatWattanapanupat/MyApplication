@@ -11,10 +11,57 @@
     tools:context="com.example.arashi.myapplication.Activity.ShowCheckStudent"
     android:gravity="center">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Present List"
+            android:layout_weight="0.5"
+            android:background="@color/color_text_light_green"
+            android:layout_marginRight="20dp"
+            android:id="@+id/presentButton"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Absent List"
+            android:layout_weight="0.5"
+            android:background="@color/color_text_orange"
+            android:id="@+id/absentButton"
+            />
+
+    </LinearLayout>
+    <TextView
+    android:text="Present Student List"
+        android:id="@+id/presentText"
+    style="@style/TextViewStyle1"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:textSize="30dp"
+    android:layout_marginTop="30dp"
+    android:textColor="#234B2D"
+    />
+    <TextView
+        android:text="Absent Student List"
+        style="@style/TextViewStyle1"
+        android:id="@+id/absentText"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:layout_marginTop="30dp"
+        android:textColor="#9F3413" />
+
     <TableRow
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:id="@+id/tableTextHead">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +95,6 @@
 
     <LinearLayout
         android:id="@+id/down"
-        android:layout_below="@id/up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -65,6 +111,8 @@
         android:layout_margin="20dp" />
 
 </LinearLayout>
+
+
 
 
 </TableLayout>
