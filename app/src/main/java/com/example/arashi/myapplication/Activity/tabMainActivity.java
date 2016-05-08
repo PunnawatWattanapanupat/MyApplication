@@ -64,7 +64,7 @@ public class tabMainActivity extends AppCompatActivity {
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Students"));
+        tabLayout.addTab(tabLayout.newTab().setText("Roster"));
         tabLayout.addTab(tabLayout.newTab().setText("Announcements"));
         tabLayout.addTab(tabLayout.newTab().setText("Q&A"));
         tabLayout.addTab(tabLayout.newTab().setText("Quiz"));

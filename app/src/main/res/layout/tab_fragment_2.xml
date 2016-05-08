@@ -6,37 +6,102 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:orientation="horizontal">-->
 
-
-        <TextView
-            android:id="@+id/textClassName"
-            android:text=""
-            android:layout_marginTop="25dp"
-            style="@style/TextViewStyle1"
-            android:textSize="25dp"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/color_text_black"
+            android:gravity="center"
+            android:id="@+id/linearBigCreateAnn"
+            android:layout_marginTop="25dp"
+           >
 
-            />
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/announceiconnew"
+
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    >
+                    <TextView
+                        android:id="@+id/textClassOnly"
+                        android:text="Class : "
+                        style="@style/TextViewStyle1"
+                        android:textSize="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#00008B"
+                        />
+                    <TextView
+                        android:id="@+id/textClassName"
+                        android:text="ddd"
+                        style="@style/TextViewStyle1"
+                        android:textSize="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#00008B"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/partCreateAnnounce"
+                    android:layout_gravity="center"
+                    >
+
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/textClickCreate"
+                        android:layout_gravity="center"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Click here to add Announcement."
+                        />
+                    <ImageView
+                        android:id="@+id/createAnnounce"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/plus"
+                        android:layout_gravity="center"
+
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
-
-        <ImageView
-            android:id="@+id/createAnnounce"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/plus"
-            android:layout_gravity="center"
-
-            />
 
 
         <ListView

@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,8 +75,8 @@ public class TabFragment2 extends Fragment {
 
 
         ImageView createAnnounce = (ImageView) v.findViewById(R.id.createAnnounce);
-
-
+        TextView textClickCreate = (TextView) v.findViewById(R.id.textClickCreate);
+        LinearLayout linearBigCreateAnn = (LinearLayout) v.findViewById(R.id.linearBigCreateAnn);
 
         adapter = new CustomAdapter(getActivity(),listItem);
         listView.setAdapter(adapter);
@@ -108,9 +109,10 @@ public class TabFragment2 extends Fragment {
         //Student cannot Add announcement
         if(userLocalStore.getLoggedInUser().is_teacher != 1){
             createAnnounce.setVisibility(View.GONE);
+            textClickCreate.setVisibility(View.GONE);
         }
         //Add announcement button
-        createAnnounce.setOnClickListener(new View.OnClickListener() {
+        linearBigCreateAnn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
@@ -119,6 +121,7 @@ public class TabFragment2 extends Fragment {
                 startActivity(new Intent(getActivity(),Pop.class));
             }
         });
+
 
         return v;
     }
