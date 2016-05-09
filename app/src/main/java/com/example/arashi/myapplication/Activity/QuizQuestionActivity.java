@@ -726,27 +726,31 @@ public class QuizQuestionActivity extends Activity{
     }
 
     protected void exitByBackKey() {
+        if(userLocalStore.getLoggedInUser().is_teacher != 1) {
+            AlertDialog alertbox = new AlertDialog.Builder(this)
+                    .setMessage("Do you want to exit to do quiz?(Your quiz data will be delete)")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-        AlertDialog alertbox = new AlertDialog.Builder(this)
-                .setMessage("Do you want to exit application?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        // do something when the button is clicked
+                        public void onClick(DialogInterface arg0, int arg1) {
 
-                    // do something when the button is clicked
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        finish();
-                        //close();
+                            finish();
+                            //close();
 
 
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
 
-                    // do something when the button is clicked
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    }
-                })
-                .show();
+                        // do something when the button is clicked
+                        public void onClick(DialogInterface arg0, int arg1) {
+                        }
+                    })
+                    .show();
+        }
+        else {
+            finish();
+        }
 
     }
 

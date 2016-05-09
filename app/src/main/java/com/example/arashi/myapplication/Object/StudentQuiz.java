@@ -7,6 +7,13 @@ public class StudentQuiz {
     public int student_quiz_id, quiz_id, quizquestionpack_id, user_id;
     public String student_answer;
 
+    public StudentQuiz(int quiz_id){
+        this.student_answer = "";
+        this.quiz_id = quiz_id;
+        this.quizquestionpack_id = -1;
+        this.user_id = -1;
+    }
+
     public StudentQuiz(String student_answer, int quiz_id, int quizquestionpack_id, int user_id){
         this.student_answer = student_answer;
         this.quiz_id = quiz_id;

@@ -92,7 +92,10 @@ public class ServerRequestQuizQuestion {
         progressDialog.show();
         new StoreStudentQuizDataAsyncTask(studentQuiz, phpFile, getStudentQuizCallback).execute();
     }
-
+    public void deleteStudentQuizDataInBackground(StudentQuiz studentQuiz, GetStudentQuizCallback getStudentQuizCallback){
+        progressDialog.show();
+        new deleteStudentQuizDataAsyncTask(studentQuiz, getStudentQuizCallback).execute();
+    }
 
     public String getEncodeData(Map<String, String> data) {
         StringBuilder sb = new StringBuilder();
@@ -943,6 +946,86 @@ public class ServerRequestQuizQuestion {
                     int user_id =  jObj.getInt("user_id");
 
                     returnStudentQuiz = new StudentQuiz( student_answer, quiz_id, quizquestionpack_id, user_id);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2_storeSQQ", e.toString());
+            }
+
+            return returnStudentQuiz;
+        }
+
+
+        protected void onPostExecute(StudentQuiz returnQuestion){
+            progressDialog.dismiss();
+            getStudentQuizCallback.done(returnQuestion);
+            super.onPostExecute(returnQuestion);
+        }
+    }
+
+    public class deleteStudentQuizDataAsyncTask extends AsyncTask<Void, Void, StudentQuiz> {
+        StudentQuiz studentQuiz;
+        String phpFile;
+        GetStudentQuizCallback getStudentQuizCallback;
+
+        public deleteStudentQuizDataAsyncTask(StudentQuiz studentQuiz, GetStudentQuizCallback getStudentQuizCallback){
+            this.studentQuiz = studentQuiz;
+            this.getStudentQuizCallback = getStudentQuizCallback;
+
+        }
+        @Override
+        protected StudentQuiz doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quiz_id", studentQuiz.quiz_id+"");
+
+            StudentQuiz returnStudentQuiz = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "Delete_student_Quiz.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+//                    String student_answer = jObj.getString("student_answer");
+                    int quiz_id =  jObj.getInt("quiz_id");
+//                    int quizquestionpack_id = jObj.getInt("quizquestionpack_id");
+//                    int user_id =  jObj.getInt("user_id");
+
+                    returnStudentQuiz = new StudentQuiz(quiz_id);
                 }
             } catch (Exception e) {
                 Log.e("custom_check2_storeSQQ", e.toString());
