@@ -188,11 +188,31 @@ public class tabMainActivity extends AppCompatActivity {
 //                userLocalStore.cleanUserData();
 //                announceLocalStore.cleanAnnounceData();
 //                classLocalStore.cleanClassData();
-                startActivity(new Intent(this,MainActivity.class));
+                AlertDialog alertbox = new AlertDialog.Builder(this)
+                        .setMessage("Do you want to exit application?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            // do something when the button is clicked
+                            public void onClick(DialogInterface arg0, int arg1) {
+
+                                startActivity(new Intent(tabMainActivity.this,MainActivity.class));
+                                //close();
+
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                            // do something when the button is clicked
+                            public void onClick(DialogInterface arg0, int arg1) {
+                            }
+                        })
+                        .show();
                // finish();
                 return true;
             case R.id.action_settings:
                 // Settings option clicked.
+                startActivity(new Intent(this,home.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

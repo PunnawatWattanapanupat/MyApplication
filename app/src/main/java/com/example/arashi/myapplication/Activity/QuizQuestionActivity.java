@@ -2,12 +2,14 @@ package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Question;
 import com.example.arashi.myapplication.Object.Quiz;
+import com.example.arashi.myapplication.Object.StudentQuiz;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
@@ -42,10 +45,12 @@ public class QuizQuestionActivity extends Activity{
     EditText choice_d_text;
     TextView question_name_text,quiz_question_id;
     Integer count=1;
+    Integer quizquestionpack_id;
     ListView listViewTest;
     // ListView listView1;
     CheckBox CheckboxRelease;
     Button finishButton;
+    int count_prev=0;
     int arrayIndex=0;
     SQLiteDatabase mDb;
     ArrayList<Question> listItem;
@@ -55,7 +60,7 @@ public class QuizQuestionActivity extends Activity{
     Button Cancel_Edit_Button;
     TextView NumberCount;
     String passedVar=null;
-    String correctAnswer;
+    String correctAnswer,student_answer;
     Button Submit_Edit_Button;
 
     ListView listView;
@@ -65,6 +70,7 @@ public class QuizQuestionActivity extends Activity{
     ClassLocalStore classLocalStore;
     //AnnounceLocalStore announceLocalStore;
     Class classroom;
+    StudentQuiz studentQuizQuestion;
     LinearLayout teacherQuiz;
     LinearLayout studentQuiz;
 
@@ -563,6 +569,15 @@ public class QuizQuestionActivity extends Activity{
 
                     ShowScoreStudent.setPositiveButton("Ok",null);
                     ShowScoreStudent.show();
+
+                    //insert
+                    studentQuizQuestion = new StudentQuiz(student_answer, quiz_id, quizquestionpack_id, userLocalStore.getLoggedInUser().user_id);
+                    serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Post_Student_Quiz.php", new GetStudentQuizCallback() {
+                        @Override
+                        public void done(StudentQuiz studentQuiz) {
+                            Toast.makeText(QuizQuestionActivity.this, "Your answer1", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             });
             student_next_question.setOnClickListener(new View.OnClickListener() {
@@ -584,18 +599,59 @@ public class QuizQuestionActivity extends Activity{
                             }
                         }
                     });
+                    show_student_quiz_question(quiz_id);
+                    //quizquestionpack_id = show_student_quiz_question(quiz_id);
 
-                    serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
-                        @Override
-                        public void done(Question returnQuestion) {
-                            student_QuestionNumber.setText(count+" ");
-                            student_question_text.setText(returnQuestion.question);
-                            student_choice_a_radio.setText(returnQuestion.ans1);
-                            student_choice_b_radio.setText(returnQuestion.ans2);
-                            student_choice_c_radio.setText(returnQuestion.ans3);
-                            student_choice_d_radio.setText(returnQuestion.ans4);
-                        }
-                    });
+                    String choice_a_radio_value =   String.valueOf(student_choice_a_radio.isChecked());
+                    String choice_b_radio_value =   String.valueOf(student_choice_b_radio.isChecked());
+                    String choice_c_radio_value =   String.valueOf(student_choice_c_radio.isChecked());
+                    String choice_d_radio_value =   String.valueOf(student_choice_d_radio.isChecked());
+
+
+
+
+
+                    if (choice_a_radio_value.equals("true")){
+                        student_answer = student_choice_a_radio.getText().toString();
+                    }
+                    else if (choice_b_radio_value.equals("true")){
+                        student_answer = student_choice_b_radio.getText().toString();
+                    }
+                    else if (choice_c_radio_value.equals("true")){
+                        student_answer = student_choice_c_radio.getText().toString();
+                    }
+                    else if (choice_d_radio_value.equals("true")){
+                        student_answer = student_choice_d_radio.getText().toString();
+                    }
+                    else{
+                        Toast.makeText(QuizQuestionActivity.this, "Please choose your choice!", Toast.LENGTH_LONG).show();
+                    }
+
+                   // Toast.makeText(QuizQuestionActivity.this, student_answer + quizquestionpack_id + userLocalStore.getLoggedInUser().user_id, Toast.LENGTH_LONG).show();
+
+                    if(count_prev == 0) {
+                        //insert
+                        studentQuizQuestion = new StudentQuiz(student_answer, quiz_id, quizquestionpack_id, userLocalStore.getLoggedInUser().user_id);
+                        serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Post_Student_Quiz.php", new GetStudentQuizCallback() {
+                            @Override
+                            public void done(StudentQuiz studentQuiz) {
+                                Toast.makeText(QuizQuestionActivity.this, "Your answer1", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        //update
+                        studentQuizQuestion = new StudentQuiz(student_answer, quiz_id, quizquestionpack_id, userLocalStore.getLoggedInUser().user_id);
+                        serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Update_Student_Quiz.php", new GetStudentQuizCallback() {
+                            @Override
+                            public void done(StudentQuiz studentQuiz) {
+                                Toast.makeText(QuizQuestionActivity.this, "Your answer2", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        count_prev--;
+                    }
+
                 }
             });
             student_prev_question.setOnClickListener(new View.OnClickListener() {
@@ -611,36 +667,15 @@ public class QuizQuestionActivity extends Activity{
 //                    }
                     count--;
                     student_QuestionNumber.setText(count.toString());
-                    //show quiz question
-                    question_obj = new Question(quiz_id, count);
-                    serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
-                        @Override
-                        public void done(Question returnQuestion) {
-                            student_QuestionNumber.setText(count+" ");
-                            student_question_text.setText(returnQuestion.question);
-                            student_choice_a_radio.setText(returnQuestion.ans1);
-                            student_choice_b_radio.setText(returnQuestion.ans2);
-                            student_choice_c_radio.setText(returnQuestion.ans3);
-                            student_choice_d_radio.setText(returnQuestion.ans4);
-                        }
-                    });
+                    show_student_quiz_question(quiz_id);
+                    count_prev++;
                 }
             });
 
-            //show quiz question
-            question_obj = new Question(quiz_id, count);
-            serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
-                @Override
-                public void done(Question returnQuestion) {
-                    student_QuestionNumber.setText(count+" ");
-                    student_question_text.setText(returnQuestion.question);
-                    student_choice_a_radio.setText(returnQuestion.ans1);
-                    student_choice_b_radio.setText(returnQuestion.ans2);
-                    student_choice_c_radio.setText(returnQuestion.ans3);
-                    student_choice_d_radio.setText(returnQuestion.ans4);
-                }
-            });
+            show_student_quiz_question(quiz_id);
         }
+
+
         //question_name_text.setText(""+text);
 
 //        if (text.contains("Release to Student?:Yes")&& text.contains("Release to Student?:No")){
@@ -658,4 +693,63 @@ public class QuizQuestionActivity extends Activity{
 //        mHelper.close();
 //        mDb.close();
     }
+
+    public void show_student_quiz_question(int quiz_id){
+        question_obj = new Question(quiz_id, count);
+        serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
+            @Override
+            public void done(Question returnQuestion) {
+                quizquestionpack_id = returnQuestion.quizquestionpack_id;
+                student_QuestionNumber.setText(count+" ");
+                student_question_text.setText(returnQuestion.question);
+                student_choice_a_radio.setText(returnQuestion.ans1);
+                student_choice_b_radio.setText(returnQuestion.ans2);
+                student_choice_c_radio.setText(returnQuestion.ans3);
+                student_choice_d_radio.setText(returnQuestion.ans4);
+            }
+        });
+    }
+
+
+
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByBackKey();
+
+            //moveTaskToBack(false);
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    protected void exitByBackKey() {
+
+        AlertDialog alertbox = new AlertDialog.Builder(this)
+                .setMessage("Do you want to exit application?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        finish();
+                        //close();
+
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                })
+                .show();
+
+    }
+
+
+
 }

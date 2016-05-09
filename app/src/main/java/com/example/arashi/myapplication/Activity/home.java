@@ -2,10 +2,13 @@ package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,8 +95,25 @@ public class home extends Activity implements View.OnClickListener  {
                 startActivity(new Intent(this, ClassActivity.class));
                 break;
             case R.id.button_sign_out:
+                AlertDialog alertbox = new AlertDialog.Builder(this)
+                        .setMessage("Do you want to exit application?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            // do something when the button is clicked
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                finish();
+                                //close();
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                            // do something when the button is clicked
+                            public void onClick(DialogInterface arg0, int arg1) {
+                            }
+                        })
+                        .show();
                 userLocalStore.cleanUserData();
-                finish();
                 break;
 
         }
@@ -119,6 +139,42 @@ public class home extends Activity implements View.OnClickListener  {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByBackKey();
+
+            //moveTaskToBack(false);
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    protected void exitByBackKey() {
+
+        AlertDialog alertbox = new AlertDialog.Builder(this)
+                .setMessage("Do you want to exit application?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        finish();
+                        //close();
+
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    // do something when the button is clicked
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                })
+                .show();
+
     }
 
 }
