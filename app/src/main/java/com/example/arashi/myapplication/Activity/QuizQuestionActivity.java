@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -563,21 +564,61 @@ public class QuizQuestionActivity extends Activity{
             student_Submit_Quiz_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ShowScoreStudent.setTitle("Score Result");
 
-                    ShowScoreStudent.setMessage("Your Score is X/10");
 
-                    ShowScoreStudent.setPositiveButton("Ok",null);
-                    ShowScoreStudent.show();
+
+
+                    String choice_a_radio_value =   String.valueOf(student_choice_a_radio.isChecked());
+                    String choice_b_radio_value =   String.valueOf(student_choice_b_radio.isChecked());
+                    String choice_c_radio_value =   String.valueOf(student_choice_c_radio.isChecked());
+                    String choice_d_radio_value =   String.valueOf(student_choice_d_radio.isChecked());
+
+
+
+
+
+                    if (choice_a_radio_value.equals("true")){
+                        student_answer = student_choice_a_radio.getText().toString();
+                    }
+                    else if (choice_b_radio_value.equals("true")){
+                        student_answer = student_choice_b_radio.getText().toString();
+                    }
+                    else if (choice_c_radio_value.equals("true")){
+                        student_answer = student_choice_c_radio.getText().toString();
+                    }
+                    else if (choice_d_radio_value.equals("true")){
+                        student_answer = student_choice_d_radio.getText().toString();
+                    }
+                    else{
+                        Toast.makeText(QuizQuestionActivity.this, "Please choose your choice!", Toast.LENGTH_LONG).show();
+                    }
 
                     //insert
                     studentQuizQuestion = new StudentQuiz(student_answer, quiz_id, quizquestionpack_id, userLocalStore.getLoggedInUser().user_id);
                     serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Post_Student_Quiz.php", new GetStudentQuizCallback() {
                         @Override
                         public void done(StudentQuiz studentQuiz) {
-                            Toast.makeText(QuizQuestionActivity.this, "Your answer1", Toast.LENGTH_LONG).show();
                         }
                     });
+                    studentQuizQuestion = new StudentQuiz(quiz_id,userLocalStore.getLoggedInUser().user_id );
+                    serverRequestQuizQuestion.checkStudentQuizInBackground(studentQuizQuestion, new GetStudentQuizCallback() {
+                        @Override
+                        public void done(StudentQuiz studentQuiz) {
+                            //show score dialog
+                            ShowScoreStudent.setTitle("Score Result");
+                            ShowScoreStudent.setMessage("Your Score is "+ studentQuiz.student_score +"/"+count);
+                            ShowScoreStudent.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                // do something when the button is clicked
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    finish();
+                                    //close();
+                                }
+                            });
+                            ShowScoreStudent.show();
+
+                        }
+                    });
+
                 }
             });
             student_next_question.setOnClickListener(new View.OnClickListener() {
@@ -635,7 +676,7 @@ public class QuizQuestionActivity extends Activity{
                         serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Post_Student_Quiz.php", new GetStudentQuizCallback() {
                             @Override
                             public void done(StudentQuiz studentQuiz) {
-                                Toast.makeText(QuizQuestionActivity.this, "Your answer1", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(QuizQuestionActivity.this, "Your answer1", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -646,7 +687,7 @@ public class QuizQuestionActivity extends Activity{
                         serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Update_Student_Quiz.php", new GetStudentQuizCallback() {
                             @Override
                             public void done(StudentQuiz studentQuiz) {
-                                Toast.makeText(QuizQuestionActivity.this, "Your answer2", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(QuizQuestionActivity.this, "Your answer2", Toast.LENGTH_LONG).show();
                             }
                         });
                         count_prev--;
@@ -726,18 +767,23 @@ public class QuizQuestionActivity extends Activity{
     }
 
     protected void exitByBackKey() {
+        Bundle bundle = getIntent().getExtras();
+        final int quiz_id = bundle.getInt("quizID");
         if(userLocalStore.getLoggedInUser().is_teacher != 1) {
             AlertDialog alertbox = new AlertDialog.Builder(this)
                     .setMessage("Do you want to exit to do quiz?(Your quiz data will be delete)")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
                         // do something when the button is clicked
                         public void onClick(DialogInterface arg0, int arg1) {
+                            studentQuizQuestion = new StudentQuiz(quiz_id,userLocalStore.getLoggedInUser().user_id );
+                            serverRequestQuizQuestion.deleteStudentQuizDataInBackground(studentQuizQuestion, new GetStudentQuizCallback() {
+                                @Override
+                                public void done(StudentQuiz studentQuiz) {
 
+                                }
+                            });
                             finish();
                             //close();
-
-
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {

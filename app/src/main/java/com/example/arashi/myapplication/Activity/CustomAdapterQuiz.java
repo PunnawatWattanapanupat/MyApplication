@@ -46,11 +46,19 @@ public class CustomAdapterQuiz extends BaseAdapter {
         }
         else {
             quiz_status = "No";
+
         }
+
+
 
         TextView numberCount = (TextView)view.findViewById(R.id.NumberCount);
         TextView quiz_name = (TextView)view.findViewById(R.id.quiz_name);
         TextView status = (TextView)view.findViewById(R.id.status);
+        TextView score_text = (TextView) view.findViewById(R.id.score_text);
+        TextView score_num = (TextView) view.findViewById(R.id.score_num);
+
+        score_text.setVisibility(View.GONE);
+        score_num.setVisibility(View.GONE);
 
         numberCount.setText(Integer.toString(quizData.size()-position));
         quiz_name.setText(quiz_text);

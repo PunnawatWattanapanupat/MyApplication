@@ -68,7 +68,7 @@ public class TabFragment4 extends Fragment{
     //public final static String ID_Extra="com.example.arashi.myapplication.Activity.TabFragment4._ID";
     EditText question_name_text;
     // Integer count=1;
-    TextView question_name;
+    TextView question_name, score_text, score_num;
     ListView listView1;
     Button createQuizButton;
     SQLiteDatabase mDb;
@@ -89,6 +89,8 @@ public class TabFragment4 extends Fragment{
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
         question_name = (TextView) v.findViewById(R.id.question_name);
+        score_text = (TextView) v.findViewById(R.id.score_text);
+        score_num = (TextView) v.findViewById(R.id.score_num);
         //ListViewShow Question_alreadyCreate
         listView1 = (ListView)v.findViewById(R.id.Quiz_alreadyCreate);
         serverRequestQuizQuestion = new ServerRequestQuizQuestion(getActivity());
@@ -108,6 +110,7 @@ public class TabFragment4 extends Fragment{
         }else{
             php_file = "ShowQuiz.php";
         }
+
 
 
         quiz = new Quiz(question_name_text.getText().toString(),classLocalStore.getJoinedInClass().class_id);
@@ -177,9 +180,6 @@ public class TabFragment4 extends Fragment{
 
             }
         });
-
-
-
 
 
         return v;

@@ -41,6 +41,31 @@
                 android:layout_gravity="center"
                 android:textSize="20sp"
                 style="@style/TextViewStyle1" />
+
+            <TextView
+                android:id="@+id/score_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:text="Score :"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                style="@style/TextViewStyle1" />
+            <TextView
+                android:id="@+id/score_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:text="0/10"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                style="@style/TextViewStyle1" />
+
         </LinearLayout>
 
         <LinearLayout

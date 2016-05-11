@@ -101,7 +101,7 @@ public class home extends Activity implements View.OnClickListener  {
 
                             // do something when the button is clicked
                             public void onClick(DialogInterface arg0, int arg1) {
-                                finish();
+                                startActivity(new Intent(home.this, MainActivity.class));
                                 //close();
 
                             }
