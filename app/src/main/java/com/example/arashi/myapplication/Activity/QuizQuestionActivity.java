@@ -186,7 +186,22 @@ public class QuizQuestionActivity extends Activity{
             seeResultButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(QuizQuestionActivity.this,Popup_Result__Quiz_First_Page.class));
+
+                    question_obj = new Question(quiz_id);
+                    serverRequestQuizQuestion.checkLastDataInBackground(question_obj, new GetQuestionCallback() {
+                        @Override
+                        public void done(Question returnQuestion) {
+                            Intent intent = new Intent(QuizQuestionActivity.this,Popup_Result__Quiz_First_Page.class);
+                            intent.putExtra("count_choice", returnQuestion.numberQuestion);
+                            intent.putExtra("quizID", quiz_id);
+                            startActivityForResult(intent,1);
+                            //Toast.makeText(QuizQuestionActivity.this, "fff "+ returnQuestion.numberQuestion, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    //Toast.makeText(QuizQuestionActivity.this, "fff ", Toast.LENGTH_LONG).show();
+
+
                 }
             });
 
@@ -630,7 +645,7 @@ public class QuizQuestionActivity extends Activity{
                     count++;
                     student_QuestionNumber.setText(count.toString());
                     //show quiz question
-                    question_obj = new Question(quiz_id, count);
+                    question_obj = new Question(quiz_id);
                     serverRequestQuizQuestion.checkLastDataInBackground(question_obj, new GetQuestionCallback() {
                         @Override
                         public void done(Question returnQuestion) {

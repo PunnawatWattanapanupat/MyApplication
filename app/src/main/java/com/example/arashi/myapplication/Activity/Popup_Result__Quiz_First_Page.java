@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.arashi.myapplication.Object.Question;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
@@ -25,20 +27,21 @@ import java.util.ArrayList;
 public class Popup_Result__Quiz_First_Page extends Activity{
 
     Button choiceGraphButton;
+    Question question, find_question_id;
+    ServerRequestQuizQuestion serverRequestQuizQuestion;
+    ArrayList<BarEntry> entries = new ArrayList<>();
+    ArrayList<String> labels = new ArrayList<String>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_result_quiz_first_page);
         choiceGraphButton = (Button) findViewById(R.id.choiceGraphButton);
 
-//        DisplayMetrics dm =new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//
-//
-//        int width = dm.widthPixels;
-//        int heighht = dm.heightPixels;
-//
-//        getWindow().setLayout((int)(width*.8),(int)(heighht*.4));
-        //Questiontext = (EditText) findViewById(R.id.Questiontext);
+
+        Bundle bundle = getIntent().getExtras();
+        final int count_choice = bundle.getInt("count_choice");
+
+        final int quiz_id = bundle.getInt("quizID");
+        serverRequestQuizQuestion = new ServerRequestQuizQuestion(this);
 
         DisplayMetrics dm =new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -50,28 +53,58 @@ public class Popup_Result__Quiz_First_Page extends Activity{
         getWindow().setLayout((int)(width*.8),(int)(heighht*.4));
         //Questiontext = (EditText) findViewById(R.id.Questiontext);
 
-        BarChart barChart = (BarChart) findViewById(R.id.bar1chart);
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(4f, 0));
-        entries.add(new BarEntry(8f, 1));
-        entries.add(new BarEntry(6f, 2));
-        entries.add(new BarEntry(12f, 3));
-        BarDataSet dataset = new BarDataSet(entries, "# of Answers");
 
 
-        // creating labels
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("A");
-        labels.add("B");
-        labels.add("C");
-        labels.add("D");
+                for(int i = 1; i <= count_choice; i++){
+                    //find quizquestionpack_id for checking correct choice number
+                    question = new Question(quiz_id,i);
+                    serverRequestQuizQuestion.fetchQuizQuestionDataInBackground(question, new GetQuestionCallback() {
+                        @Override
+                        public void done(Question returnQuestion) {
+                            //check correct choice number in quiz by using quizquestionpack_id
+                            find_question_id = new Question(returnQuestion.quizquestionpack_id, quiz_id, returnQuestion.numberQuestion);
+                            serverRequestQuizQuestion.checkCorrectChoiceInBackground(find_question_id, new GetQuestionCallback() {
+                                @Override
+                                public void done(Question returnQuestion) {
+                                    //Toast.makeText(Popup_Result__Quiz_First_Page.this, "Hello " + returnQuestion.count_question +" "+ returnQuestion.numberQuestion, Toast.LENGTH_LONG).show();
+                                    //entries.add(new BarEntry(returnQuestion.numberQuestion, i));
+                                    BarChart barChart = (BarChart) findViewById(R.id.bar1chart);
+                                    // creating labels
+
+                                    entries.add(new BarEntry(returnQuestion.count_question, returnQuestion.numberQuestion-1));
+                                    labels.add(Integer.toString(returnQuestion.numberQuestion));
 
 
-        barChart.setDescription("Description");  // set the description
+                                    BarDataSet dataset = new BarDataSet(entries, "# of Answers");
 
-        barChart.animateY(1000);
-        BarData data = new BarData(labels, dataset);
-        barChart.setData(data); // set the data and list of lables into chart
+
+                                   // barChart.setDescription("Description");  // set the description
+
+                                    barChart.animateY(1000);
+                                    BarData data = new BarData(labels, dataset);
+                                    barChart.setData(data); // set the data and list of lables into chart
+
+                                }
+                            });
+                        }
+                   // Toast.makeText(Popup_Result__Quiz_First_Page.this, "Hello "+ quizquestionpack_id, Toast.LENGTH_LONG).show();
+                    });
+
+                    //entries.add(new BarEntry(correct_choice, i));
+                }
+
+
+
+
+
+//        BarChart barChart = (BarChart) findViewById(R.id.bar1chart);
+//        ArrayList<BarEntry> entries = new ArrayList<>();
+//        entries.add(new BarEntry(4f, 0));
+//        entries.add(new BarEntry(8f, 1));
+//        entries.add(new BarEntry(6f, 2));
+//        entries.add(new BarEntry(12f, 3));
+//        BarDataSet dataset = new BarDataSet(entries, "# of Answers");
+
 
 
 

@@ -84,6 +84,12 @@ public class ServerRequestQuizQuestion {
         new checkStudentQuizAsyncTask(studentQuiz, getStudentQuizCallback).execute();
     }
 
+    public void checkCorrectChoiceInBackground(Question question, GetQuestionCallback getQuestionCallback){
+        progressDialog.show();
+        new CheckCorrectChoiceAsyncTask(question, getQuestionCallback).execute();
+    }
+
+
     public void updateQuizQuestionDataInBackground(Question question,  GetQuestionCallback getQuestionCallback){
         progressDialog.show();
         new UpdateQuizQuestionDataAsyncTask(question, getQuestionCallback).execute();
@@ -606,8 +612,11 @@ public class ServerRequestQuizQuestion {
                     String ans2 = jObj.getString("choice_b");
                     String ans3 = jObj.getString("choice_c");
                     String ans4 = jObj.getString("choice_d");
+                    String correct_choice = jObj.getString("correct_choice");
+                    int quiz_id = jObj.getInt("quiz_id");
+                    int number_question = jObj.getInt("number_question");
 
-                    returnQuestion = new Question(quizquestionpack_id, quizquestion_text, ans1, ans2, ans3, ans4);
+                    returnQuestion = new Question(quizquestionpack_id, quizquestion_text, ans1, ans2, ans3, ans4, correct_choice, quiz_id, number_question);
                 }
             } catch (Exception e) {
                 Log.e("custom_check2_UpdateFQ", e.toString());
@@ -776,6 +785,86 @@ public class ServerRequestQuizQuestion {
         protected void onPostExecute(StudentQuiz returnQuestion){
             progressDialog.dismiss();
             getStudentQuizCallback.done(returnQuestion);
+            super.onPostExecute(returnQuestion);
+        }
+    }
+
+    public class CheckCorrectChoiceAsyncTask extends AsyncTask<Void, Void, Question> {
+        Question quiz_question;
+        GetQuestionCallback questionCallback;
+
+        public CheckCorrectChoiceAsyncTask(Question quiz_question, GetQuestionCallback questionCallback){
+            this.quiz_question = quiz_question;
+            this.questionCallback = questionCallback;
+
+        }
+        @Override
+        protected Question doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("quizquestionpack_id", ""+ quiz_question.quizquestionpack_id);
+            dataToSend.put("quiz_id", ""+ quiz_question.quiz_id);
+            dataToSend.put("number_question", ""+ quiz_question.numberQuestion);
+
+            Question returnQuestion = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchCheckCorrectChoice.php" );
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check1", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    int quizquestionpack_id = jObj.getInt("quizquestionpack_id");
+                    int quiz_id = jObj.getInt("quiz_id");
+                    int count_question = jObj.getInt("count_question");
+                    int number_question = jObj.getInt("number_question");
+                    returnQuestion = new Question(quizquestionpack_id, quiz_id, count_question, number_question);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check2_UpdateFQ", e.toString());
+            }
+
+            return returnQuestion;
+        }
+
+
+        protected void onPostExecute(Question returnQuestion){
+            progressDialog.dismiss();
+            questionCallback.done(returnQuestion);
             super.onPostExecute(returnQuestion);
         }
     }
