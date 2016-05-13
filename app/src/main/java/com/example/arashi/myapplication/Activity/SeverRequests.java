@@ -1161,8 +1161,10 @@ public class SeverRequests {
         @Override
         protected ArrayList<Roster> doInBackground(Void... params){
             Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("user_id", roster.user_id+"");
             dataToSend.put("class_id", roster.class_id+"");
-            dataToSend.put("class_id", roster.date+"");
+            dataToSend.put("check_student", roster.check_student+"");
+            dataToSend.put("date", roster.date);
             try {
 
                 String encode = getEncodeData(dataToSend);
@@ -1170,7 +1172,7 @@ public class SeverRequests {
                 String line = "";
 
                 try {
-                    URL url = new URL(SERVER_ADDRESS + "showCheckStudent.php");
+                    URL url = new URL(SERVER_ADDRESS + "ShowCheckStudent.php");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
                     con.setRequestMethod("POST");

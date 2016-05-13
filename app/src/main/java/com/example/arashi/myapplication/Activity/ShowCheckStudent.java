@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.arashi.myapplication.Object.Class;
@@ -80,7 +81,63 @@ public class ShowCheckStudent extends AppCompatActivity {
         updateDisplay();
 
 
+//        roster = new Roster(0, classLocalStore.getJoinedInClass().class_id, 1,mDateDisplay.getText().toString() );
+//       // roster = new Roster(0, 4, 1,"13-05-2016" );
+//        severRequests.showCheckedStudentListInBackground(roster, new GetShowCheckedStudent() {
+//            @Override
+//            public void done(ArrayList<Roster> returnedListRoster) {
+//                if(returnedListRoster.size() > 0){
+//                    listItem = returnedListRoster;
+//                    adapter.setListData(listItem);
+//
+//                }
+//            }
+//        });
+
+
+
+
+    }
+
+    private void updateDisplay() {
+        if(mMonth < 9 && mDay < 10) {
+            this.mDateDisplay.setText(
+                    new StringBuilder()
+                            // Month is 0 based so add 1
+                            .append(0)
+                            .append(mDay).append("-")
+                            .append(0)
+                            .append(mMonth + 1).append("-")
+                            .append(mYear).append(" "));
+        }
+        else if(mDay < 10){
+            this.mDateDisplay.setText(
+                    new StringBuilder()
+                            // Month is 0 based so add 1
+                            .append(0)
+                            .append(mDay).append("-")
+                            .append(mMonth + 1).append("-")
+                            .append(mYear).append(" "));
+        }
+        else if(mMonth < 9){
+            this.mDateDisplay.setText(
+                    new StringBuilder()
+                            // Month is 0 based so add 1
+                            .append(mDay).append("-")
+                            .append(0)
+                            .append(mMonth + 1).append("-")
+                            .append(mYear).append(" "));
+        }
+        else {
+            this.mDateDisplay.setText(
+                    new StringBuilder()
+                            // Month is 0 based so add 1
+                            .append(mDay).append("-")
+                            .append(mMonth + 1).append("-")
+                            .append(mYear).append(" "));
+        }
         roster = new Roster(0, classLocalStore.getJoinedInClass().class_id, 1,mDateDisplay.getText().toString() );
+        // roster = new Roster(0, 4, 1,"13-05-2016" );
         severRequests.showCheckedStudentListInBackground(roster, new GetShowCheckedStudent() {
             @Override
             public void done(ArrayList<Roster> returnedListRoster) {
@@ -91,19 +148,6 @@ public class ShowCheckStudent extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
-    }
-
-    private void updateDisplay() {
-        this.mDateDisplay.setText(
-                new StringBuilder()
-                        // Month is 0 based so add 1
-                        .append(mDay).append("-")
-                        .append(mMonth + 1).append("-")
-                        .append(mYear).append(" "));
     }
 
     private DatePickerDialog.OnDateSetListener mDateSetListener =
@@ -114,6 +158,8 @@ public class ShowCheckStudent extends AppCompatActivity {
                     mMonth = monthOfYear;
                     mDay = dayOfMonth;
                     updateDisplay();
+
+
                 }
             };
 

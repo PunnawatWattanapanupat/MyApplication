@@ -629,10 +629,11 @@ public class QuizQuestionActivity extends Activity{
                                     //close();
                                 }
                             });
+                            ShowScoreStudent.setCancelable(false);
                             ShowScoreStudent.show();
-
                         }
                     });
+
 
                 }
             });
