@@ -42,7 +42,7 @@ public class TabFragment1 extends Fragment {
 
     GridView gridView_roster;
     ArrayList<User> listItem_roster;
-    TextView textClassName, textClassCode, textNumberStudent, fromDateEtxt;
+    TextView textClassName, textClassCode, textNumberStudent, fromDateEtxt, textTeacherName;
     Button btn_checked_student;
     SeverRequests severRequests;
     Class classroom;
@@ -65,6 +65,7 @@ public class TabFragment1 extends Fragment {
         textClassName = (TextView) v.findViewById(R.id.textClassName);
         textClassCode = (TextView) v.findViewById(R.id.textClassCode);
         textNumberStudent = (TextView) v.findViewById(R.id.textNumberStudent);
+        textTeacherName = (TextView) v.findViewById(R.id.textTeacherName);
         gridView_roster = (GridView) v.findViewById(R.id.grid_roster);
         btn_checked_student = (Button) v.findViewById(R.id.btn_checked_student);
 
@@ -81,9 +82,20 @@ public class TabFragment1 extends Fragment {
         textClassName.setText( classLocalStore.getJoinedInClass().classname);
         textClassCode.setText("Code : " + classLocalStore.getJoinedInClass().class_code);
 
+        //show teacher name
+        classroom = new Class(classLocalStore.getJoinedInClass().classname, classLocalStore.getJoinedInClass().class_code);
+        //Toast.makeText(getActivity(),classLocalStore.getJoinedInClass().classname + " "+ classLocalStore.getJoinedInClass().class_code ,Toast.LENGTH_LONG).show();
+       severRequests.fetchClassForFullnameInBackground(classroom, new GetUserCallback() {
+         @Override
+          public void done(User returnedUser) {
+               textTeacherName.setText(returnedUser.name);
+//               // Toast.makeText(getActivity(),returnedUser.name ,Toast.LENGTH_LONG).show();
+            }
+        });
 
         final CheckBox checkBox = (CheckBox) v.findViewById(R.id.check_activate);
         final CheckBox checkRoster = (CheckBox) v.findViewById(R.id.check_roster);
+
 
         //for check active //teacher
         checkBox.setOnClickListener(new View.OnClickListener() {
@@ -120,8 +132,13 @@ public class TabFragment1 extends Fragment {
                     severRequests.updateRosterDataInBackground(roster, new GetRosterCallback() {
                         @Override
                         public void done(Roster returnedRoster) {
-                            Toast.makeText(getActivity(), "You are checked",Toast.LENGTH_LONG).show();
-                            checkRoster.setVisibility(getView().GONE);
+                            severRequests.storeRosterShowDataInBackground(roster, new GetRosterCallback() {
+                                @Override
+                                public void done(Roster returnedRoster) {
+                                    Toast.makeText(getActivity(), "You are checked",Toast.LENGTH_LONG).show();
+                                    checkRoster.setVisibility(getView().GONE);
+                                }
+                            });
                         }
                     });
                 }
@@ -175,6 +192,7 @@ public class TabFragment1 extends Fragment {
        // testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
 
         //show roster
+        classroom = new Class(classLocalStore.getJoinedInClass().class_id);
         severRequests.showRosterStudentListInBackground(classroom, new GetShowRosterStudentCallback() {
             @Override
             public void done(ArrayList<User> returnedRosterStudent) {

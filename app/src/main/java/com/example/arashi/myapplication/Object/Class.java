@@ -26,4 +26,10 @@ public class Class {
         this.class_code = class_code;
         this.user_id = -1;
     }
+    public Class (int class_id){
+        this.class_id = class_id;
+        this.classname = "";
+        this.class_code = "";
+        this.user_id = -1;
+    }
 }

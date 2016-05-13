@@ -39,4 +39,12 @@ public class User {
         this.email = email;
         this.is_teacher = -1;
     }
+    public User (String name){
+        this.user_id = -1;
+        this.username = "";
+        this.name = name;
+        this.password = "";
+        this.email = "";
+        this.is_teacher = -1;
+    }
 }

@@ -4,26 +4,26 @@
     android:layout_height="match_parent"
     android:background="@drawable/square">
 
-    <LinearLayout
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+    <!--<LinearLayout-->
+        <!--android:layout_marginTop="25dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--&gt;-->
 
-        <Button android:id="@+id/choiceGraphButton"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="See choice graph button"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+        <!--<Button android:id="@+id/choiceGraphButton"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="See choice graph button"-->
+            <!--android:layout_marginLeft="25dp"-->
+            <!--android:layout_marginRight="25dp"-->
 
-            style="@style/TextButtonStyle1"
-            android:background="@color/color_text_green"
-            android:layout_gravity="center"
-            android:layout_weight="2"></Button>
+            <!--style="@style/TextButtonStyle1"-->
+            <!--android:background="@color/color_text_green"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="2"></Button>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar1chart"
         android:layout_width="match_parent"

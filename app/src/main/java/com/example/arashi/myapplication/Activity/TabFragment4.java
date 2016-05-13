@@ -163,7 +163,7 @@ public class TabFragment4 extends Fragment{
 //                }
 
                 quiz = new Quiz(text.quiz_name, text.class_id);
-                Toast.makeText(getActivity(),quiz.quiz_name+" "+quiz.class_id, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(),quiz.quiz_name+" "+quiz.class_id, Toast.LENGTH_SHORT).show();
                 serverRequestQuizQuestion.fetchQuizDataInBackground(quiz, new GetQuizCallback() {
                     @Override
                     public void done(Quiz returnQuiz) {

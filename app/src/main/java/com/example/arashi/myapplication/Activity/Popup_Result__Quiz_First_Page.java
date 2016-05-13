@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class Popup_Result__Quiz_First_Page extends Activity{
 
-    Button choiceGraphButton;
+    //Button choiceGraphButton;
     Question question, find_question_id;
     ServerRequestQuizQuestion serverRequestQuizQuestion;
     ArrayList<BarEntry> entries = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Popup_Result__Quiz_First_Page extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_result_quiz_first_page);
-        choiceGraphButton = (Button) findViewById(R.id.choiceGraphButton);
+    //    choiceGraphButton = (Button) findViewById(R.id.choiceGraphButton);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -78,7 +78,7 @@ public class Popup_Result__Quiz_First_Page extends Activity{
                                     BarDataSet dataset = new BarDataSet(entries, "# of Answers");
 
 
-                                   // barChart.setDescription("Description");  // set the description
+                                    barChart.setDescription("");  // set the description
 
                                     barChart.animateY(1000);
                                     BarData data = new BarData(labels, dataset);
@@ -109,13 +109,13 @@ public class Popup_Result__Quiz_First_Page extends Activity{
 
 
 
-        choiceGraphButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Popup_Result__Quiz_First_Page.this,ResultQuiz.class));
-            }
-        });
-
+//        choiceGraphButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(Popup_Result__Quiz_First_Page.this,ResultQuiz.class));
+//            }
+//        });
+//
 
 
 

@@ -1,9 +1,12 @@
 package com.example.arashi.myapplication.Activity;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableRow;
@@ -15,8 +18,18 @@ import com.example.arashi.myapplication.Object.Roster;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ShowCheckStudent extends AppCompatActivity {
+
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+
+    private TextView mDateDisplay;
+    private Button mPickDate;
+
+    static final int DATE_DIALOG_ID = 0;
 
     ListView listView;
     ArrayList<Roster> listItem;
@@ -24,21 +37,17 @@ public class ShowCheckStudent extends AppCompatActivity {
     ClassLocalStore classLocalStore;
     SeverRequests severRequests;
     Class classroom;
-    Button presentButton,absentButton;
+    Roster roster;
     TableRow tableTextHead;
     LinearLayout down;
-    TextView presentText,absentText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_check_student);
 
-        absentButton = (Button) findViewById(R.id.absentButton);
-        presentButton = (Button) findViewById(R.id.presentButton);
         tableTextHead = (TableRow) findViewById(R.id.tableTextHead);
         down = (LinearLayout) findViewById(R.id.down);
-        presentText = (TextView) findViewById(R.id.presentText);
-        absentText = (TextView) findViewById(R.id.absentText);
 
         listView = (ListView) findViewById(R.id.listView1);
         listItem = new ArrayList<>();
@@ -49,39 +58,73 @@ public class ShowCheckStudent extends AppCompatActivity {
         listView.setAdapter(adapter);
         classroom = classLocalStore.getJoinedInClass();
 
-        tableTextHead.setVisibility(View.INVISIBLE);
-        down.setVisibility(View.INVISIBLE);
-        presentText.setVisibility(View.INVISIBLE);
-        absentText.setVisibility(View.INVISIBLE);
 
 
-        severRequests.showCheckedStudentListInBackground(classroom, new GetShowCheckedStudent() {
+        //Choose date
+        mDateDisplay = (TextView) findViewById(R.id.showMyDate);
+        mPickDate = (Button) findViewById(R.id.myDatePickerButton);
+
+        mPickDate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
+
+        // get the current date
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        // display the current date
+        updateDisplay();
+
+
+        roster = new Roster(0, classLocalStore.getJoinedInClass().class_id, 1,mDateDisplay.getText().toString() );
+        severRequests.showCheckedStudentListInBackground(roster, new GetShowCheckedStudent() {
             @Override
             public void done(ArrayList<Roster> returnedListRoster) {
                 if(returnedListRoster.size() > 0){
                     listItem = returnedListRoster;
                     adapter.setListData(listItem);
+
                 }
             }
         });
-        presentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tableTextHead.setVisibility(View.VISIBLE);
-                down.setVisibility(View.VISIBLE);
-                presentText.setVisibility(View.VISIBLE);
-                absentText.setVisibility(View.GONE);
-            }
-        });
-        absentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tableTextHead.setVisibility(View.VISIBLE);
-                down.setVisibility(View.VISIBLE);
-                presentText.setVisibility(View.GONE);
-                absentText.setVisibility(View.VISIBLE);
-            }
-        });
 
+
+
+
+    }
+
+    private void updateDisplay() {
+        this.mDateDisplay.setText(
+                new StringBuilder()
+                        // Month is 0 based so add 1
+                        .append(mDay).append("-")
+                        .append(mMonth + 1).append("-")
+                        .append(mYear).append(" "));
+    }
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker view, int year,
+                                      int monthOfYear, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    updateDisplay();
+                }
+            };
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                return new DatePickerDialog(this,
+                        mDateSetListener,
+                        mYear, mMonth, mDay);
+        }
+        return null;
     }
 }

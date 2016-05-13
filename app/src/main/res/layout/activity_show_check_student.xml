@@ -14,29 +14,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_marginBottom="20dp"
         >
-        <Button
+        <TextView android:id="@+id/showMyDate"
+            style="@style/TextViewStyle1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="dfdf"
+            android:gravity="center"/>
+
+        <Button android:id="@+id/myDatePickerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Present List"
-            android:layout_weight="0.5"
-            android:background="@color/color_text_light_green"
-            android:layout_marginRight="20dp"
-            android:id="@+id/presentButton"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Absent List"
-            android:layout_weight="0.5"
-            android:background="@color/color_text_orange"
-            android:id="@+id/absentButton"
-            />
+            android:background="@color/color_text_green"
+            android:textColor="@color/color_light"
+            android:text="Choose Date"/>
+
 
     </LinearLayout>
+
+
     <TextView
     android:text="Present Student List"
         android:id="@+id/presentText"
@@ -47,15 +48,7 @@
     android:layout_marginTop="30dp"
     android:textColor="#234B2D"
     />
-    <TextView
-        android:text="Absent Student List"
-        style="@style/TextViewStyle1"
-        android:id="@+id/absentText"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:layout_marginTop="30dp"
-        android:textColor="#9F3413" />
+
 
     <TableRow
         android:layout_height="wrap_content"

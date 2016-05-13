@@ -66,6 +66,11 @@ public class SeverRequests {
         new  fetchClassDataAsyncTask(classroom, classCallback).execute();
     }
 
+    public void fetchClassForFullnameInBackground(Class classroom, GetUserCallback getUserCallback){
+        progressDialog.show();
+        new  fetchClassForFullnameAsyncTask(classroom, getUserCallback).execute();
+    }
+
     public void showClassListInBackground(User user, GetShowClassCallback showClassCallback) {
         new showClassListAsyncTask(user, showClassCallback).execute();
     }
@@ -73,6 +78,11 @@ public class SeverRequests {
     public void storeRosterDataInBackground(Roster roster, GetRosterCallback rosterCallback){
         progressDialog.show();
         new  storeRosterDataAsyncTask(roster, rosterCallback).execute();
+    }
+
+    public void storeRosterShowDataInBackground(Roster roster, GetRosterCallback rosterCallback){
+        progressDialog.show();
+        new  storeRosterShowDataAsyncTask(roster, rosterCallback).execute();
     }
 
     public void updateRosterDataInBackground(Roster roster, GetRosterCallback rosterCallback){
@@ -89,8 +99,8 @@ public class SeverRequests {
         new showRosterStudentListAsyncTask(classroom, getShowRosterStudentCallback).execute();
     }
 
-    public void showCheckedStudentListInBackground(Class classroom,GetShowCheckedStudent  getShowCheckedStudent) {
-        new showCheckedStudentListAsyncTask(classroom, getShowCheckedStudent).execute();
+    public void showCheckedStudentListInBackground(Roster roster,GetShowCheckedStudent  getShowCheckedStudent) {
+        new showCheckedStudentListAsyncTask(roster, getShowCheckedStudent).execute();
     }
 
 
@@ -542,6 +552,86 @@ public class SeverRequests {
         }
     }
 
+    public class fetchClassForFullnameAsyncTask extends AsyncTask<Void, Void, User> {
+        Class classroom;
+        GetUserCallback getUserCallback;
+
+
+        public fetchClassForFullnameAsyncTask(Class classroom, GetUserCallback getUserCallback) {
+            this.classroom = classroom;
+            this.getUserCallback = getUserCallback;
+
+        }
+        @Override
+        protected User doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("classname", classroom.classname);
+            dataToSend.put("class_code", classroom.class_code);
+
+            User returnUser = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchClassForFullname.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    // int user_id = jObj.getInt("user_id");
+                    String name = jObj.getString("name");
+
+                    returnUser = new User(name);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnUser;
+        }
+
+
+        protected void onPostExecute(User returnUser){
+            progressDialog.dismiss();
+            getUserCallback.done(returnUser);
+            super.onPostExecute(returnUser);
+        }
+    }
+
     public class showClassListAsyncTask extends AsyncTask<Void, Void, ArrayList<Class>> {
 
         GetShowClassCallback showClassCallback;
@@ -706,6 +796,90 @@ public class SeverRequests {
 
 
                     returnRoster = new Roster(user_id,class_id);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnRoster;
+        }
+
+
+        protected void onPostExecute(Roster returnRoster){
+            progressDialog.dismiss();
+            rosterCallback.done(returnRoster);
+            super.onPostExecute(returnRoster);
+        }
+    }
+
+    public class storeRosterShowDataAsyncTask extends AsyncTask<Void, Void, Roster> {
+        Roster roster;
+        GetRosterCallback rosterCallback;
+
+
+        public storeRosterShowDataAsyncTask(Roster roster, GetRosterCallback rosterCallback) {
+            this.roster = roster;
+            this.rosterCallback = rosterCallback;
+
+        }
+        @Override
+        protected Roster doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("user_id", roster.user_id+"");
+            dataToSend.put("class_id", roster.class_id+"");
+            dataToSend.put("check_student", roster.check_student+"");
+
+
+            Roster returnRoster = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "Post_Roster_Show.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
+                    int check_student = jObj.getInt("check_student");
+                    String date = jObj.getString("date");
+
+                    returnRoster = new Roster( user_id, class_id, check_student, date);
                 }
             } catch (Exception e) {
                 Log.e("custom_check", e.toString());
@@ -957,7 +1131,7 @@ public class SeverRequests {
                     showRosterStudent.add(roster_student);
                 }
             } catch (Exception e) {
-                Log.e("custom_check", e.toString());
+                Log.e("custom_check_roster", e.toString());
             }
 
             return showRosterStudent;
@@ -975,11 +1149,11 @@ public class SeverRequests {
 
         GetShowCheckedStudent getShowCheckedStudent;
         ArrayList<Roster> showRosterStudent;
-        Class classroom;
+        Roster roster;
 
 
-        public showCheckedStudentListAsyncTask(Class classroom, GetShowCheckedStudent getShowCheckedStudent) {
-            this.classroom = classroom;
+        public showCheckedStudentListAsyncTask(Roster roster, GetShowCheckedStudent getShowCheckedStudent) {
+            this.roster = roster;
             this.getShowCheckedStudent = getShowCheckedStudent;
             showRosterStudent = new ArrayList<>();
 
@@ -987,9 +1161,8 @@ public class SeverRequests {
         @Override
         protected ArrayList<Roster> doInBackground(Void... params){
             Map<String, String> dataToSend = new HashMap<>();
-            dataToSend.put("class_id", classroom.class_id+"");
-
-
+            dataToSend.put("class_id", roster.class_id+"");
+            dataToSend.put("class_id", roster.date+"");
             try {
 
                 String encode = getEncodeData(dataToSend);

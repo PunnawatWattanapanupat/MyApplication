@@ -110,17 +110,22 @@ public class TabFragment2 extends Fragment {
         if(userLocalStore.getLoggedInUser().is_teacher != 1){
             createAnnounce.setVisibility(View.GONE);
             textClickCreate.setVisibility(View.GONE);
+            //linearBigCreateAnn.setVisibility(View.GONE);
         }
-        //Add announcement button
-        linearBigCreateAnn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                installation.put("classAnnounce",true);
-                installation.saveInBackground();
-                startActivity(new Intent(getActivity(),Pop.class));
-            }
-        });
+        //Teacher can add announcement
+        else{
+            //Add announcement button
+            linearBigCreateAnn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                    installation.put("classAnnounce",true);
+                    installation.saveInBackground();
+                    startActivity(new Intent(getActivity(),Pop.class));
+                }
+            });
+        }
+
 
 
         return v;
