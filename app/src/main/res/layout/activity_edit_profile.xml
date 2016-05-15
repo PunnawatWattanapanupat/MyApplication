@@ -58,40 +58,13 @@
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/username_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fullName_layout"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
 
-        <TextView
-            android:id="@+id/username"
-            style="@style/TextViewStyle1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:text="@string/username" />
-
-
-        <EditText
-            android:id="@+id/username_text"
-            style="@style/EditTextStyle1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Username"
-            android:textColor="@color/color_text_black"
-            />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/email_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/username_layout"
+        android:layout_below="@id/fullName_layout"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">

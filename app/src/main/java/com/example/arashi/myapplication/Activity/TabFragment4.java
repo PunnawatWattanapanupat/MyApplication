@@ -18,6 +18,7 @@ package com.example.arashi.myapplication.Activity;
 
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Quiz;
+import com.example.arashi.myapplication.Object.StudentQuiz;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
 
@@ -75,6 +76,7 @@ public class TabFragment4 extends Fragment{
     Boolean Tvalue = true;
     Cursor mCursor;
     Quiz quiz;
+    StudentQuiz studentQuizQuestion;
     ClassLocalStore classLocalStore;
     UserLocalStore userLocalStore;
     ServerRequestQuizQuestion serverRequestQuizQuestion;
@@ -172,11 +174,17 @@ public class TabFragment4 extends Fragment{
                         intent.putExtra("MyValue", returnQuiz.quiz_name);
                         intent.putExtra("quizID", returnQuiz.quizID);
                         startActivityForResult(intent,1);
+
+                        if(userLocalStore.getLoggedInUser().is_teacher != 1) {
+                            studentQuizQuestion = new StudentQuiz(returnQuiz.quizID, userLocalStore.getLoggedInUser().user_id);
+                            serverRequestQuizQuestion.deleteStudentQuizDataInBackground(studentQuizQuestion, new GetStudentQuizCallback() {
+                                @Override
+                                public void done(StudentQuiz studentQuiz) {
+                                }
+                            });
+                        }
                     }
                 });
-
-
-                //startActivity(intent);
 
             }
         });

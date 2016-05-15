@@ -2,9 +2,14 @@ package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +20,9 @@ import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
 import com.example.arashi.myapplication.Store.UserLocalStore;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 
 import java.text.DateFormat;
@@ -27,16 +35,11 @@ import java.util.Date;
 
 public class PopFragment3 extends Activity implements View.OnClickListener /*implements View.OnClickListener */{
     EditText Questiontext;
-    String question,date;
+    String question;
     int user_id;
-    final String testPREFTOPIC1 = "SamplePreferences";
-    final String testTOPIC1 = "UserName";
-    SharedPreferences sp1;
-    SharedPreferences.Editor editor1;
     Button Done,Back;
     UserLocalStore userLocalStore;
     User user;
-    ServerRequestsQA serverRequestsQA;
     Class classroom;
     ClassLocalStore classLocalStore;
     @Override
@@ -62,22 +65,6 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
         user = userLocalStore.getLoggedInUser();
 
 
-//        sp1 = getSharedPreferences(testPREFTOPIC1, Context.MODE_PRIVATE);
-//        editor1 = sp1.edit();
-//
-//        edtTopic1 = (EditText)findViewById(R.id.Questiontext);
-//        edtTopic1.setText(sp1.getString(testTOPIC1, ""));
-//
-//        edtTopic1.addTextChangedListener(new TextWatcher() {
-//
-//            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-//
-//            public void afterTextChanged(Editable s) {
-//                editor1.putString(testTOPIC1, s.toString());
-//                editor1.commit();
-//            }
-//        });
     }
     @Override
     public void onClick(View v) {
@@ -85,10 +72,9 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
             case R.id.Done:
                 question = Questiontext.getText().toString();
                 user_id = user.user_id;
-                date = DateFormat.getDateTimeInstance().format(new Date());
                 classLocalStore = new ClassLocalStore(this);
                 classroom = classLocalStore.getJoinedInClass();
-                addquestion(question,user_id,date, classroom);
+                addquestion(question,user_id, classroom);
                 break;
             case R.id.Back:
                 onBackPressed();
@@ -96,9 +82,41 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
         }
     }
 
-    public void addquestion(String q,int uid,String dmy, Class classroom){
+    public void addquestion(String q,int uid, Class classroom){
+
+        // Create our Installation query
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("classQuestion", true);
+
+        // Send push notification to query
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery); // Set our Installation query
+        //  push.se
+        push.setMessage(q);
+        push.sendInBackground();
+
+        //
+
+        // Add custom intent
+        Intent cIntent = new Intent(this, TabFragment2.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Create custom notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setContentText("You have new Question")
+                .setContentTitle(q)
+                .setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        nm.notify(1410, notification);
+
+
+
         ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
-        serverRequestsQA.AddQuestion(q, uid, dmy,classroom, new GetAddQuestion() {
+        serverRequestsQA.AddQuestion(q, uid,classroom, new GetAddQuestion() {
             @Override
             public void done(String booboo) {
                 if(booboo == null){

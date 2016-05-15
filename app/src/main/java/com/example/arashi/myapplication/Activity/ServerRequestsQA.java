@@ -39,9 +39,9 @@ public class ServerRequestsQA {
         progressDialog.setMessage("Please wait...");
     }
 
-    public void AddQuestion(String question, int user_id, String date, Class classroom, GetAddQuestion getAddQuestion) {
+    public void AddQuestion(String question, int user_id, Class classroom, GetAddQuestion getAddQuestion) {
         progressDialog.show();
-        new AddQuestionAsyncTask(question, user_id, date, classroom, getAddQuestion).execute();
+        new AddQuestionAsyncTask(question, user_id, classroom, getAddQuestion).execute();
     }
 
     public void SelectQuestion(Class classroom, GetSelection getSelection) {
@@ -49,9 +49,9 @@ public class ServerRequestsQA {
         new SelectQuestionAsyncTask(classroom, getSelection).execute();
     }
 
-    public void AddAnswer(int qid,String answer,String dateanswer,String useranswer,GetAddAnswer getAddAnswer){
+    public void AddAnswer(int qid,String answer,String useranswer,GetAddAnswer getAddAnswer){
         progressDialog.show();
-        new AddAnswerAsyncTask(qid, answer, dateanswer, useranswer,getAddAnswer).execute();
+        new AddAnswerAsyncTask(qid, answer, useranswer,getAddAnswer).execute();
     };
 
     public void SelectAnswer(int question_id, Class classroom,GetSelectionAnswer getSelectionAnswer) {
@@ -80,15 +80,13 @@ public class ServerRequestsQA {
     public class AddQuestionAsyncTask extends AsyncTask<Void, Void, Void> {
         String question;
         int user_id;
-        String date;
         String php = "AddQuestion.php";
         GetAddQuestion getAddQuestion;
         Class classroom;
 
-        public AddQuestionAsyncTask(String question, int user_id, String date,Class classroom, GetAddQuestion getAddQuestion) {
+        public AddQuestionAsyncTask(String question, int user_id,Class classroom, GetAddQuestion getAddQuestion) {
             this.question = question;
             this.user_id = user_id;
-            this.date = date;
             this.classroom = classroom;
             this.getAddQuestion = getAddQuestion;
         }
@@ -98,7 +96,6 @@ public class ServerRequestsQA {
             Map<String, String> dataToSend = new HashMap<>();
             dataToSend.put("question", question);
             dataToSend.put("user_id", Integer.toString(user_id));
-            dataToSend.put("date", date);
             dataToSend.put("class_id", Integer.toString(classroom.class_id));
             String returnedAddQ = null;
             try {
@@ -226,24 +223,21 @@ public class ServerRequestsQA {
     public class AddAnswerAsyncTask extends AsyncTask<Void, Void, Void>{
         int qid;
         String answer;
-        String dateanswer;
         GetAddAnswer getAddAnswer;
         String useranswer;
-        public AddAnswerAsyncTask(int qid,String answer,String dateanswer,String useranswer,GetAddAnswer getAddAnswer){
+        public AddAnswerAsyncTask(int qid,String answer,String useranswer,GetAddAnswer getAddAnswer){
             this.qid=qid;
             this.answer=answer;
-            this.dateanswer=dateanswer;
             this.useranswer=useranswer;
             this.getAddAnswer=getAddAnswer;
 
         }
         @Override
         protected Void doInBackground(Void... params) {
-            Log.i("answer1",qid+answer+dateanswer+useranswer);
+            Log.i("answer1",qid+answer+useranswer);
             Map<String, String> dataToSend = new HashMap<>();
             dataToSend.put("question_id", Integer.toString(qid));
             dataToSend.put("answer", answer);
-            dataToSend.put("dateanswer", dateanswer);
             dataToSend.put("useranswer", useranswer);
             String returnedAddA = null;
             try {

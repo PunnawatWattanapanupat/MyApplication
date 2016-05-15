@@ -15,7 +15,7 @@ import com.example.arashi.myapplication.Store.UserLocalStore;
 
 public class EditProfile extends Activity implements View.OnClickListener {
 
-    public EditText txt_name,txt_username,txt_email,txt_password,txt_confirm_password;
+    public EditText txt_name,txt_email,txt_password,txt_confirm_password;
     public Button button_edit;
     UserLocalStore userLocalStore;
     Secure secure;
@@ -25,7 +25,6 @@ public class EditProfile extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_edit_profile);
 
         txt_name =  (EditText) findViewById(R.id.fullName_text);
-        txt_username = (EditText) findViewById(R.id.username_text);
         txt_email = (EditText) findViewById(R.id.email_text);
         txt_password = (EditText) findViewById(R.id.password_text);
         txt_confirm_password = (EditText) findViewById(R.id.repassword_text);
@@ -43,10 +42,10 @@ public class EditProfile extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button_edit:
                 String name = txt_name.getText().toString();
-                String username = txt_username.getText().toString();
                 String email = txt_email.getText().toString();
                 String password = txt_password.getText().toString();
                 String confirm_password = txt_confirm_password.getText().toString();
+                String username = userLocalStore.getLoggedInUser().username;//can not change username (unique)
                 int status = userLocalStore.getLoggedInUser().is_teacher ;
                 int user_id = userLocalStore.getLoggedInUser().user_id;
             //    Toast.makeText(this,Integer.toString(userLocalStore.getLoggedInUser().user_id) +" "+userLocalStore.getLoggedInUser().username , Toast.LENGTH_SHORT).show();
@@ -60,9 +59,6 @@ public class EditProfile extends Activity implements View.OnClickListener {
                             password = secure.getHash(password);
                         }
 
-                        if (username.isEmpty()) {
-                            username = userLocalStore.getLoggedInUser().username;
-                        }
                         if (name.isEmpty()) {
                             name = userLocalStore.getLoggedInUser().name;
                         }
@@ -74,6 +70,7 @@ public class EditProfile extends Activity implements View.OnClickListener {
                             Toast.makeText(this, "Please check your email!", Toast.LENGTH_SHORT).show();
 
                         }
+
                             User user = new User(user_id, username, name, password, email, status);
                             registerUser(user);
 

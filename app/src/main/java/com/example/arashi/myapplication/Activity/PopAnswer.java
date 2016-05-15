@@ -30,12 +30,8 @@ import java.util.Date;
 
 public class PopAnswer extends Activity implements View.OnClickListener {
 //    EditText edtTopic1;
-    String answer,date,useranswer;
+    String answer,useranswer;
     int question_id;
-//    final String testPREFTOPIC1 = "SamplePreferences";
-//    final String testTOPIC1 = "UserName";
-//    SharedPreferences sp1;
-//    SharedPreferences.Editor editor1;
     EditText Answertext;
     UserLocalStore userLocalStore;
     String qid;
@@ -69,7 +65,6 @@ public class PopAnswer extends Activity implements View.OnClickListener {
         Bundle bundle = getIntent().getExtras();
         qid = bundle.getString("MyValue");
         int question_id = Integer.parseInt(qid);
-        Toast.makeText(PopAnswer.this, qid, Toast.LENGTH_LONG).show();
         userLocalStore = new UserLocalStore(this);
         listitem = new ArrayList<>();
 
@@ -101,14 +96,13 @@ public class PopAnswer extends Activity implements View.OnClickListener {
                 question_id = Integer.parseInt(qid);
                 answer = Answertext.getText().toString();
                 useranswer = userLocalStore.getLoggedInUser().username;
-                date = DateFormat.getDateTimeInstance().format(new Date());
-                Log.i("answer",question_id+answer+date+useranswer);
+                Log.i("answer",question_id+answer+useranswer);
                 ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
-                serverRequestsQA.AddAnswer(question_id, answer, date, useranswer, new GetAddAnswer() {
+                serverRequestsQA.AddAnswer(question_id, answer, useranswer, new GetAddAnswer() {
                     @Override
                     public void done(String boobee) {
                         if (boobee == null) {
-                            showErrorMessage("Fuck");
+                            showErrorMessage("Error");
                         } else {
                             finish();
                         }

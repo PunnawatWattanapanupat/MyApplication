@@ -47,14 +47,12 @@ public class TabFragment3 extends Fragment {
                 Intent intent = new Intent(getActivity(),PopAnswer.class);
                 String qid = ((TextView) arg1.findViewById(R.id.qid)).getText().toString();
                 intent.putExtra("MyValue", qid);
-//                Log.i("Myvalueanswer",str);
                 startActivityForResult(intent,1);
             }
         });
 
         classroom = classLocalStore.getJoinedInClass();
         serverRequestsQA = new ServerRequestsQA(getActivity());
-        //Toast.makeText(getActivity(),Integer.toString(classroom.class_id), Toast.LENGTH_SHORT).show();
         serverRequestsQA.SelectQuestion(classroom, new GetSelection() {
             @Override
             public void done(ArrayList<Questionstack> returnedQuestionstack) {
@@ -72,18 +70,6 @@ public class TabFragment3 extends Fragment {
                 startActivity(new Intent(getActivity(),PopFragment3.class));
             }
         });
-
-//        int[] resId = { R.drawable.zeronumber
-//                , R.drawable.zeronumber, R.drawable.onenumber
-//                , R.drawable.onenumber, R.drawable.onenumber
-//                , R.drawable.onenumber, R.drawable.onenumber
-//                , R.drawable.zeronumber, R.drawable.zeronumber
-//                , R.drawable.zeronumber, R.drawable.zeronumber };
-//
-//        String[] list = { "What do you know about DBMS?", "What is Relation?", "What is Database"
-//                , "What is the mose popular DMBS?", "How to transform this table from 1st form to 5th form?", "What is the adventage of 1st form?"
-//                , "What is the important of Database in the present?", "How do you describe about 3rd normal form?"
-//                , "What is the benefit that you learn Database subject?" };
 
 
 
