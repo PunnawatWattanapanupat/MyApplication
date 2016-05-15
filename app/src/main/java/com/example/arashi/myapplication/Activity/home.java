@@ -14,20 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.arashi.myapplication.Activity.ClassActivity;
-import com.example.arashi.myapplication.Activity.EditProfile;
-import com.example.arashi.myapplication.Activity.MainActivity;
 import com.example.arashi.myapplication.Store.UserLocalStore;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
-import com.parse.ParseQuery;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class home extends Activity implements View.OnClickListener  {
@@ -41,7 +30,7 @@ public class home extends Activity implements View.OnClickListener  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        //getSupportActionBar().hide();
+
 //
 //        Parse.initialize(this);
 //        ParseInstallation.getCurrentInstallation().saveInBackground();
@@ -68,7 +57,6 @@ public class home extends Activity implements View.OnClickListener  {
     }
 
     public void onBegin(){
-        //String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         vUsername.setText(userLocalStore.getLoggedInUser().username);
         vName.setText(userLocalStore.getLoggedInUser().name);
         vEmail.setText(userLocalStore.getLoggedInUser().email);
@@ -89,9 +77,6 @@ public class home extends Activity implements View.OnClickListener  {
                 break;
             case R.id.button_class:
 
-//                Intent intent = new Intent(this, ClassActivity.class);
-//                intent.putExtra("userId", userLocalStore.getLoggedInUser().user_id);
-//                startActivity(intent);
                 startActivity(new Intent(this, ClassActivity.class));
                 break;
             case R.id.button_sign_out:

@@ -98,16 +98,21 @@ public class PopAnswer extends Activity implements View.OnClickListener {
                 useranswer = userLocalStore.getLoggedInUser().username;
                 Log.i("answer",question_id+answer+useranswer);
                 ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
-                serverRequestsQA.AddAnswer(question_id, answer, useranswer, new GetAddAnswer() {
-                    @Override
-                    public void done(String boobee) {
-                        if (boobee == null) {
-                            showErrorMessage("Error");
-                        } else {
-                            finish();
+                if(!answer.isEmpty()) {
+                    serverRequestsQA.AddAnswer(question_id, answer, useranswer, new GetAddAnswer() {
+                        @Override
+                        public void done(String boobee) {
+                            if (boobee == null) {
+                                showErrorMessage("Error");
+                            } else {
+                                finish();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                else {
+                    Toast.makeText(PopAnswer.this,"Please fill the Answer.", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
 

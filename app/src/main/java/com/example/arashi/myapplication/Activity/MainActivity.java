@@ -66,16 +66,6 @@ public class MainActivity extends Activity implements OnClickListener {
         secure = new Secure();
 
 
-//        setContentView(R.layout.main);
-//        Intent _inboundIndex = getIntent();//get
-//        String _username = _inboundIndex.getStringExtra("username");
-//        String _password = _inboundIndex.getStringExtra("password");
-//        Toast.makeText(getApplicationContext(),_username+":"+_password, Toast.LENGTH_SHORT).show();
-
-//        if(checkbox1.isChecked()){
-//            mUsername.setText(userLocalStore.getLoggedInUser().username);
-//            mPassword.setText(userLocalStore.getLoggedInUser().password);
-//        }
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.User;
 import com.example.arashi.myapplication.Object.Class;
@@ -84,6 +85,8 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
 
     public void addquestion(String q,int uid, Class classroom){
 
+        ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
+
         // Create our Installation query
         ParseQuery pushQuery = ParseInstallation.getQuery();
         pushQuery.whereEqualTo("classQuestion", true);
@@ -98,7 +101,7 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
         //
 
         // Add custom intent
-        Intent cIntent = new Intent(this, TabFragment2.class);
+        Intent cIntent = new Intent(this, TabFragment3.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -115,18 +118,22 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
 
 
 
-        ServerRequestsQA serverRequestsQA = new ServerRequestsQA(this);
-        serverRequestsQA.AddQuestion(q, uid,classroom, new GetAddQuestion() {
-            @Override
-            public void done(String booboo) {
-                if(booboo == null){
-                    showErrorMessage("Error");
+        if(!q.isEmpty()) {
+            serverRequestsQA.AddQuestion(q, uid, classroom, new GetAddQuestion() {
+                @Override
+                public void done(String booboo) {
+                    if (booboo == null) {
+                        showErrorMessage("Error");
+                    } else {
+                        startActivity(new Intent(PopFragment3.this, tabMainActivity.class));
+                        //finish();
+                    }
                 }
-                else{
-                    finish();
-                }
-            }
-        });
+            });
+        }
+        else{
+            Toast.makeText(PopFragment3.this,"Please fill the Question", Toast.LENGTH_SHORT).show();
+        }
     }
     private void showErrorMessage(String Errmes){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

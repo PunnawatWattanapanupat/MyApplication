@@ -3,8 +3,6 @@ package com.example.arashi.myapplication.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.ArrayMap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +10,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.arashi.myapplication.Object.Questionstack;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Store.ClassLocalStore;
+import com.parse.ParseInstallation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class TabFragment3 extends Fragment {
     ServerRequestsQA serverRequestsQA;
@@ -67,6 +63,9 @@ public class TabFragment3 extends Fragment {
         AddQAbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("classQuestion",true);
+                installation.saveInBackground();
                 startActivity(new Intent(getActivity(),PopFragment3.class));
             }
         });

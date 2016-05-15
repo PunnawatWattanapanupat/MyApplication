@@ -66,14 +66,7 @@ public class Pop extends Activity  {
     Button Done, Back;
 
 
-//    public tabMainActivity.FragmentRefreshListener getFragmentRefreshListener() {
-//        return fragmentRefreshListener;
-//    }
-//    public void setFragmentRefreshListener(tabMainActivity.FragmentRefreshListener fragmentRefreshListener) {
-//        this.fragmentRefreshListener = fragmentRefreshListener;
-//    }
-//
-//    tabMainActivity.FragmentRefreshListener fragmentRefreshListener;
+
 
 
 
@@ -199,7 +192,6 @@ public class Pop extends Activity  {
         push.setMessage(announcement.topic);
         push.sendInBackground();
 
-        //
 
         // Add custom intent
         Intent cIntent = new Intent(this, TabFragment2.class);
