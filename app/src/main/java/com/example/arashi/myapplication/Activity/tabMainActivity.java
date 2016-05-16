@@ -62,12 +62,16 @@ public class tabMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_main);
 
-
+        userLocalStore = new UserLocalStore(this);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Roster"));
+        tabLayout.addTab(tabLayout.newTab().setText("Attendance"));
         tabLayout.addTab(tabLayout.newTab().setText("Announcements"));
         tabLayout.addTab(tabLayout.newTab().setText("Q&A"));
         tabLayout.addTab(tabLayout.newTab().setText("Quiz"));
+        if(userLocalStore.getLoggedInUser().is_teacher == 0){
+            tabLayout.addTab(tabLayout.newTab().setText("Understand?"));
+        }
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
