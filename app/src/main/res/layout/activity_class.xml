@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
+    android:id="@+id/container"
     tools:context="com.example.arashi.myapplication.Activity.ClassActivity"
     android:background="#FFFFFF">
 <LinearLayout

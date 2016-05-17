@@ -1,6 +1,7 @@
 package com.example.arashi.myapplication.Activity;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,12 @@ public class ClassActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class);
+        if (savedInstanceState == null) {
+
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.add(R.id.container, FloatingViewControlFragment.newInstance());
+            ft.commit();
+        }
 
         severRequests = new SeverRequests(this);
         classLocalStore = new ClassLocalStore(this);

@@ -41,4 +41,18 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_main_class">Class</string>
+
+
+    <string name="chathead_content_title">chathead_content_title</string>
+    <string name="chathead_content_text">chathead_content_text</string>
+    <string name="ad_content_title">ad_content_title</string>
+    <string name="ad_content_text">ad_content_text</string>
+    <string name="charhead_click_message">charhead_click_message</string>
+    <string name="error_load_ad">error_load_ad</string>
+    <string name="ad_click_message">ad_click_message</string>
+    <string name="delete_demo">delete_demo</string>
+    <string name="show_demo">show_demo</string>
+    <string name="show_ad">show_ad</string>
+    <string name="ad_unit_id">ad_unit_id</string>
+    <string name="permission_denied">permission_denied</string>
 </resources>
