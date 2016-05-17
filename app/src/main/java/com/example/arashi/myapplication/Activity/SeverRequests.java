@@ -140,6 +140,11 @@ public class SeverRequests {
         new fetchCountUnderstandDataAsyncTask(understand, getUnderstandCallback).execute();
     }
 
+    public void deleteUnderstandDataInBackground(Understand understand, GetUnderstandCallback getUnderstandCallback){
+        progressDialog.show();
+        new deleteUnderstandDataAsyncTask(understand, getUnderstandCallback).execute();
+    }
+
     public String getEncodeData(Map<String, String> data) {
         StringBuilder sb = new StringBuilder();
         for (String key : data.keySet()) {
@@ -1771,6 +1776,82 @@ public class SeverRequests {
 
                 try {
                     URL url = new URL(SERVER_ADDRESS + "FetchCountUnderstand.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String understand = jObj.getString("understand");
+                    int class_id = jObj.getInt("class_id");
+                    int count_understand = jObj.getInt("count_understand");
+
+                    returnUnderstand = new Understand(understand, class_id, count_understand);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnUnderstand;
+        }
+
+
+        protected void onPostExecute(Understand returnUnderstand){
+            progressDialog.dismiss();
+            getUnderstandCallback.done(returnUnderstand);
+            super.onPostExecute(returnUnderstand);
+        }
+    }
+
+    public class deleteUnderstandDataAsyncTask extends AsyncTask<Void, Void, Understand> {
+        Understand understand;
+        GetUnderstandCallback getUnderstandCallback;
+        public deleteUnderstandDataAsyncTask(Understand understand, GetUnderstandCallback getUnderstandCallback){
+            this.understand = understand;
+            this.getUnderstandCallback = getUnderstandCallback;
+
+        }
+
+        protected Understand doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", understand.class_id+"");
+            Understand returnUnderstand = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "Delete_Understand.php");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
                     con.setRequestMethod("POST");

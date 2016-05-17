@@ -42,6 +42,8 @@ public class TabFragment5 extends Fragment {
     UserLocalStore userLocalStore;
     ClassLocalStore classLocalStore;
     SeverRequests severRequests;
+    String concate = "";
+    int digit = 0;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
               View v = inflater.inflate(R.layout.tab_fragment_5, container, false);
@@ -132,6 +134,14 @@ public class TabFragment5 extends Fragment {
         noButton.setVisibility(View.GONE);
     }
 
+    private String getText(String text){
+        concate = concate + text  ;
+        return concate;
+    }
+    private int addNumber(int num){
+        return digit = digit + num;
+    }
+
     private void countTime(){
         new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -167,27 +177,33 @@ public class TabFragment5 extends Fragment {
                         severRequests.fetchCountUnderstandDataInBackground(understand, new GetUnderstandCallback() {
                             @Override
                             public void done(Understand returnUnderstand) {
-                                Toast.makeText(getActivity(),"Understand"+returnUnderstand.count_understand, Toast.LENGTH_SHORT).show();
-                                push.setMessage("Understand : "+returnUnderstand.count_understand);
-                                push.sendInBackground();
+                                getText("Understand : " + addNumber(returnUnderstand.count_understand) + "\n");
+                                //Toast.makeText(getActivity(),getText("Understand : " + addNumber(returnUnderstand.count_understand) + "\n"), Toast.LENGTH_SHORT).show();
                             }
                         });
                         understand = new Understand("NO",classLocalStore.getJoinedInClass().class_id);
                         severRequests.fetchCountUnderstandDataInBackground(understand, new GetUnderstandCallback() {
                             @Override
                             public void done(Understand returnUnderstand) {
-                                Toast.makeText(getActivity(),"NOT Understand"+returnUnderstand.count_understand, Toast.LENGTH_SHORT).show();
-                                push.setMessage("NOT Understand : "+returnUnderstand.count_understand);
-                                push.sendInBackground();
+                                //Toast.makeText(getActivity(),getText("NOT Understand : " + returnUnderstand.count_understand + "\n"), Toast.LENGTH_SHORT).show();
+                                getText("NOT Understand : " + returnUnderstand.count_understand + "\n");
+                                addNumber(returnUnderstand.count_understand);
                             }
                         });
                         roster = new Roster(classLocalStore.getJoinedInClass().class_id);
                         severRequests.fetchCountRosterDataInBackground(roster, new GetRosterCallback() {
                             @Override
                             public void done(Roster returnedRoster) {
-                                Toast.makeText(getActivity(),"ALL Class"+returnedRoster.class_id, Toast.LENGTH_SHORT).show();
-                                push.setMessage("All class : "+returnedRoster.class_id);
+                                //Toast.makeText(getActivity(),getText("No Answer : "+ (returnedRoster.class_id - addNumber(0))), Toast.LENGTH_SHORT).show();
+                                //All students in class - number of students understand + number of students not understand
+                                push.setMessage(getText("No Answer : "+ (returnedRoster.class_id - addNumber(0))));
                                 push.sendInBackground();
+                            }
+                        });
+                        severRequests.deleteUnderstandDataInBackground(understand, new GetUnderstandCallback() {
+                            @Override
+                            public void done(Understand returnUnderstand) {
+
                             }
                         });
                     }
