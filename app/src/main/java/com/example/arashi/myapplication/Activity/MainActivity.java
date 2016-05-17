@@ -35,7 +35,7 @@ import com.parse.ParseInstallation;
 public class MainActivity extends Activity implements OnClickListener {
     public EditText mUsername;
     public EditText mPassword;
-    public Button button_confirm;
+    public Button button_confirm, button_cancel;
     public TextView SignUpText;
    // CheckBox checkbox1;
     UserLocalStore userLocalStore;
@@ -56,10 +56,12 @@ public class MainActivity extends Activity implements OnClickListener {
         mUsername=(EditText)findViewById(R.id.username_text);
         mPassword=(EditText)findViewById(R.id.password_text);
         button_confirm = (Button) findViewById(R.id.button_confirm);
+        button_cancel = (Button) findViewById(R.id.button_cancel);
         SignUpText = (TextView) findViewById(R.id.SignUpText);
        // checkbox1 = (CheckBox) findViewById(R.id.checkbox1);
 
         button_confirm.setOnClickListener(this);
+        button_cancel.setOnClickListener(this);
         SignUpText.setOnClickListener(this);
 
         userLocalStore = new UserLocalStore(this);
@@ -109,6 +111,10 @@ public class MainActivity extends Activity implements OnClickListener {
                     break;
                 case R.id.SignUpText:
                     startActivity(new Intent(this, SignUpActivity.class));
+                    break;
+                case R.id.button_cancel:
+                    finish();
+                    System.exit(0);
                     break;
             }
         }

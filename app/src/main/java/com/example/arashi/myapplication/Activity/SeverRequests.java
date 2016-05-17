@@ -3,6 +3,7 @@ package com.example.arashi.myapplication.Activity;
 import com.example.arashi.myapplication.Object.Announcement;
 import com.example.arashi.myapplication.Object.Class;
 import com.example.arashi.myapplication.Object.Roster;
+import com.example.arashi.myapplication.Object.Understand;
 import com.example.arashi.myapplication.Object.User;
 
 import android.app.ProgressDialog;
@@ -85,6 +86,11 @@ public class SeverRequests {
         new  storeRosterShowDataAsyncTask(roster, rosterCallback).execute();
     }
 
+    public void fetchCountRosterDataInBackground(Roster roster, GetRosterCallback rosterCallback){
+        progressDialog.show();
+        new  fetchCountRosterDataAsyncTask(roster, rosterCallback).execute();
+    }
+
     public void updateRosterDataInBackground(Roster roster, GetRosterCallback rosterCallback){
         progressDialog.show();
         new  updateRosterDataAsyncTask(roster, rosterCallback).execute();
@@ -113,6 +119,26 @@ public class SeverRequests {
         new showAnnounceListAsyncTask(classroom, getShowAnnounceCallback).execute();
     }
 
+    public void storeUnderstandDataInBackground(Understand understand, GetUnderstandCallback getUnderstandCallback){
+        progressDialog.show();
+        new StoreUnderstandDataAsyncTask(understand, getUnderstandCallback).execute();
+    }
+
+    public void updateUnderstandDataInBackground(Understand understand, GetUnderstandCallback getUnderstandCallback){
+        progressDialog.show();
+        new updateUnderstandDataAsyncTask(understand, getUnderstandCallback).execute();
+    }
+
+
+    public void fetchUnderstandDataInBackground(Understand understand, GetUnderstandCallback getUnderstandCallback){
+        progressDialog.show();
+        new fetchUnderstandDataAsyncTask(understand, getUnderstandCallback).execute();
+    }
+
+    public void fetchCountUnderstandDataInBackground(Understand understand, GetUnderstandCallback getUnderstandCallback){
+        progressDialog.show();
+        new fetchCountUnderstandDataAsyncTask(understand, getUnderstandCallback).execute();
+    }
 
     public String getEncodeData(Map<String, String> data) {
         StringBuilder sb = new StringBuilder();
@@ -812,6 +838,86 @@ public class SeverRequests {
         }
     }
 
+    public class fetchCountRosterDataAsyncTask extends AsyncTask<Void, Void, Roster> {
+        Roster roster;
+        GetRosterCallback rosterCallback;
+
+
+        public fetchCountRosterDataAsyncTask(Roster roster, GetRosterCallback rosterCallback) {
+            this.roster = roster;
+            this.rosterCallback = rosterCallback;
+
+        }
+        @Override
+        protected Roster doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", roster.class_id+"");
+            // dataToSend.put("check_student", roster.check_student+"");
+
+
+            Roster returnRoster = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchCountRoster.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    int count_roster = jObj.getInt("count_roster");
+
+                    returnRoster = new Roster(count_roster);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnRoster;
+        }
+
+
+        protected void onPostExecute(Roster returnRoster){
+            progressDialog.dismiss();
+            rosterCallback.done(returnRoster);
+            super.onPostExecute(returnRoster);
+        }
+    }
+
     public class storeRosterShowDataAsyncTask extends AsyncTask<Void, Void, Roster> {
         Roster roster;
         GetRosterCallback rosterCallback;
@@ -1402,6 +1508,320 @@ public class SeverRequests {
             progressDialog.dismiss();
             showAnnounceCallback.done(returnShowAnnounce);
             super.onPostExecute(returnShowAnnounce);
+        }
+    }
+
+    public class StoreUnderstandDataAsyncTask extends AsyncTask<Void, Void, Understand> {
+        Understand understand;
+        GetUnderstandCallback getUnderstandCallback;
+        public StoreUnderstandDataAsyncTask(Understand understand, GetUnderstandCallback getUnderstandCallback){
+            this.understand = understand;
+            this.getUnderstandCallback = getUnderstandCallback;
+
+        }
+
+        protected Understand doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("understand",understand.understand);
+            dataToSend.put("user_id",understand.user_id+"" );
+            dataToSend.put("class_id", understand.class_id+"");
+            dataToSend.put("is_first", understand.is_first+"");
+
+            Understand returnUnderstand = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "AddUnderstand.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String understand = jObj.getString("understand");
+                    int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
+                    int is_first = jObj.getInt("is_first");
+
+                    returnUnderstand = new Understand(understand, user_id, class_id, is_first);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnUnderstand;
+        }
+
+
+        protected void onPostExecute(Understand returnUnderstand){
+            progressDialog.dismiss();
+            getUnderstandCallback.done(returnUnderstand);
+            super.onPostExecute(returnUnderstand);
+        }
+    }
+    public class updateUnderstandDataAsyncTask extends AsyncTask<Void, Void, Understand> {
+        Understand understand;
+        GetUnderstandCallback getUnderstandCallback;
+        public updateUnderstandDataAsyncTask(Understand understand, GetUnderstandCallback getUnderstandCallback){
+            this.understand = understand;
+            this.getUnderstandCallback = getUnderstandCallback;
+
+        }
+
+        protected Understand doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", understand.class_id+"");
+
+            Understand returnUnderstand = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "UpdateUnderstand.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String understand = jObj.getString("understand");
+                    int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
+                    int is_first = jObj.getInt("is_first");
+
+                    returnUnderstand = new Understand(understand, user_id, class_id, is_first);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnUnderstand;
+        }
+
+
+        protected void onPostExecute(Understand returnUnderstand){
+            progressDialog.dismiss();
+            getUnderstandCallback.done(returnUnderstand);
+            super.onPostExecute(returnUnderstand);
+        }
+    }
+
+    public class fetchUnderstandDataAsyncTask extends AsyncTask<Void, Void, Understand> {
+        Understand understand;
+        GetUnderstandCallback getUnderstandCallback;
+        public fetchUnderstandDataAsyncTask(Understand understand, GetUnderstandCallback getUnderstandCallback){
+            this.understand = understand;
+            this.getUnderstandCallback = getUnderstandCallback;
+
+        }
+
+        protected Understand doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", understand.class_id+"");
+
+            Understand returnUnderstand = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchUnderstand.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String understand = jObj.getString("understand");
+                    int user_id = jObj.getInt("user_id");
+                    int class_id = jObj.getInt("class_id");
+                    int is_first = jObj.getInt("is_first");
+
+                    returnUnderstand = new Understand(understand, user_id, class_id, is_first);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnUnderstand;
+        }
+
+
+        protected void onPostExecute(Understand returnUnderstand){
+            progressDialog.dismiss();
+            getUnderstandCallback.done(returnUnderstand);
+            super.onPostExecute(returnUnderstand);
+        }
+    }
+
+    public class fetchCountUnderstandDataAsyncTask extends AsyncTask<Void, Void, Understand> {
+        Understand understand;
+        GetUnderstandCallback getUnderstandCallback;
+        public fetchCountUnderstandDataAsyncTask(Understand understand, GetUnderstandCallback getUnderstandCallback){
+            this.understand = understand;
+            this.getUnderstandCallback = getUnderstandCallback;
+
+        }
+
+        protected Understand doInBackground(Void... params){
+            Map<String, String> dataToSend = new HashMap<>();
+            dataToSend.put("class_id", understand.class_id+"");
+            dataToSend.put("understand", understand.understand);
+
+            Understand returnUnderstand = null;
+
+            try {
+
+                String encode = getEncodeData(dataToSend);
+                BufferedReader reader = null; // Read some data from server
+                String line = "";
+
+                try {
+                    URL url = new URL(SERVER_ADDRESS + "FetchCountUnderstand.php");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(encode);
+                    writer.flush();
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line + "\n");
+                    }
+                    line = stringBuilder.toString();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close(); // Close Reader
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                Log.i("custom_check", line);
+
+                JSONObject jObj = new JSONObject(line);
+
+                if (jObj.length() != 0) {
+                    String understand = jObj.getString("understand");
+                    int class_id = jObj.getInt("class_id");
+                    int count_understand = jObj.getInt("count_understand");
+
+                    returnUnderstand = new Understand(understand, class_id, count_understand);
+                }
+            } catch (Exception e) {
+                Log.e("custom_check", e.toString());
+            }
+
+            return returnUnderstand;
+        }
+
+
+        protected void onPostExecute(Understand returnUnderstand){
+            progressDialog.dismiss();
+            getUnderstandCallback.done(returnUnderstand);
+            super.onPostExecute(returnUnderstand);
         }
     }
 
