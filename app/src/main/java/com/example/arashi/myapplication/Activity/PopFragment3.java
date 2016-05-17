@@ -125,8 +125,8 @@ public class PopFragment3 extends Activity implements View.OnClickListener /*imp
                     if (booboo == null) {
                         showErrorMessage("Error");
                     } else {
-                        startActivity(new Intent(PopFragment3.this, tabMainActivity.class));
-                        //finish();
+                        //startActivity(new Intent(PopFragment3.this, tabMainActivity.class));
+                        finish();
                     }
                 }
             });

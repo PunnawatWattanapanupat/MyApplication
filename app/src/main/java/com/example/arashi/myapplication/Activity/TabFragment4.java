@@ -206,10 +206,18 @@ public class TabFragment4 extends Fragment{
         }
     }
 
-    public void onPause() {
-        super.onPause();
-//        mHelper.close();
-//        mDb.close();
+    @Override
+    public void onResume() {
+        super.onResume();
+        listItem.clear();
+        serverRequestQuizQuestion.showQuizDataInBackground(quiz, php_file, new GetShowQuizCallback() {
+            @Override
+            public void done(ArrayList<Quiz> returnedShowQuiz) {
+                listItem = returnedShowQuiz;
+                adapter.setListData(listItem);
+            }
+        });
+        adapter.notifyDataSetChanged();
     }
 }
 

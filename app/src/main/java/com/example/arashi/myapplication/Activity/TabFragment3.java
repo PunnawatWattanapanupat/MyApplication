@@ -74,5 +74,20 @@ public class TabFragment3 extends Fragment {
 
         return v;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        listitem.clear();
+        serverRequestsQA.SelectQuestion(classroom, new GetSelection() {
+            @Override
+            public void done(ArrayList<Questionstack> returnedQuestionstack) {
+                if(returnedQuestionstack.size() > 0){
+                    listitem = returnedQuestionstack;
+                    adapter.setListData(listitem);
+                }
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
 
 }

@@ -218,8 +218,9 @@ public class Pop extends Activity  {
             public void done(Announcement returnAnnounce) {
 
                 Toast.makeText(Pop.this, "Posing is completed", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(Pop.this, tabMainActivity.class));
-//                finish();
+               // startActivity(new Intent(Pop.this, tabMainActivity.class));
+                finish();
+
             }
         });
 
@@ -234,6 +235,7 @@ public class Pop extends Activity  {
             imageToUpload.setImageURI(selectedImage);
         }
     }
+
 
 
 

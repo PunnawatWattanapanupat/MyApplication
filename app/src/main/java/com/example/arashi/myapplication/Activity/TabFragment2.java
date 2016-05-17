@@ -127,6 +127,23 @@ public class TabFragment2 extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        listItem.clear();
+        severRequests.showAnnounceListInBackground(classroom, new GetShowAnnounceCallback() {
+            @Override
+            public void done(ArrayList<Announcement> returnedShowAnnounce) {
+                if(returnedShowAnnounce.size() > 0){
+                    listItem = returnedShowAnnounce;
+                    adapter.setListData(listItem);
+                }
+
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
 
 
 }
