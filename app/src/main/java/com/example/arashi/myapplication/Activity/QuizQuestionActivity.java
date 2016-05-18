@@ -576,6 +576,16 @@ public class QuizQuestionActivity extends Activity{
 //            else if (count < 1){
 //                student_prev_question.setVisibility(View.INVISIBLE);
 //            }
+            question_obj = new Question(quiz_id);
+            serverRequestQuizQuestion.checkLastDataInBackground(question_obj, new GetQuestionCallback() {
+                @Override
+                public void done(Question returnQuestion) {
+                    if(returnQuestion.numberQuestion == 1){
+                        student_next_question.setVisibility(View.GONE);
+                        student_Submit_Quiz_Button.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
             student_Submit_Quiz_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

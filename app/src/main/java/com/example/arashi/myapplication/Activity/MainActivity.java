@@ -113,7 +113,6 @@ public class MainActivity extends Activity implements OnClickListener {
                     startActivity(new Intent(this, SignUpActivity.class));
                     break;
                 case R.id.button_cancel:
-                    finish();
                     System.exit(0);
                     break;
             }

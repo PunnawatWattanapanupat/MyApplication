@@ -115,5 +115,22 @@ public class ClassActivity extends Activity {
 
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        listItem.clear();
+        severRequests.showClassListInBackground(user, new GetShowClassCallback() {
+            @Override
+            public void done(ArrayList<Class> returnedShowClass) {
+                if (returnedShowClass.size() > 0) {
+                    listItem = returnedShowClass;
+                    adapter.setListData(listItem);
+                } else {
+                    Toast.makeText(ClassActivity.this,"No Data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
 
 }
