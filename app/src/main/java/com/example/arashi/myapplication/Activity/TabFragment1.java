@@ -32,13 +32,8 @@ import java.util.Locale;
 
 
 public class TabFragment1 extends Fragment {
-    private DatePickerDialog fromDatePickerDialog;
-    private DatePickerDialog toDatePickerDialog;
-   // private EditText fromDateEtxt;
     private View mViewGroup;
-   // private CheckBox testcheck;
-    //    private EditText toDateEtxt;
-    private SimpleDateFormat dateFormatter;
+
 
     GridView gridView_roster;
     ArrayList<User> listItem_roster;
@@ -59,9 +54,7 @@ public class TabFragment1 extends Fragment {
 
 
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         fromDateEtxt = (TextView) v.findViewById(R.id.etxt_fromdate);
-       // fromDateEtxt = (EditText) v.findViewById(R.id.etxt_fromdate);
         textClassName = (TextView) v.findViewById(R.id.textClassName);
         textClassCode = (TextView) v.findViewById(R.id.textClassCode);
         textNumberStudent = (TextView) v.findViewById(R.id.textNumberStudent);
@@ -84,12 +77,10 @@ public class TabFragment1 extends Fragment {
 
         //show teacher name
         classroom = new Class(classLocalStore.getJoinedInClass().classname, classLocalStore.getJoinedInClass().class_code);
-        //Toast.makeText(getActivity(),classLocalStore.getJoinedInClass().classname + " "+ classLocalStore.getJoinedInClass().class_code ,Toast.LENGTH_LONG).show();
        severRequests.fetchClassForFullnameInBackground(classroom, new GetUserCallback() {
          @Override
           public void done(User returnedUser) {
                textTeacherName.setText(returnedUser.name);
-//               // Toast.makeText(getActivity(),returnedUser.name ,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -106,7 +97,6 @@ public class TabFragment1 extends Fragment {
                         @Override
                         public void done(Roster returnedRoster) {
                             Toast.makeText(getActivity(),"ON SESSION" ,Toast.LENGTH_LONG).show();
-                           // startActivity(new Intent(getActivity(),tabMainActivity.class));
                         }
                     });
                 }
@@ -174,22 +164,8 @@ public class TabFragment1 extends Fragment {
         //show date
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         fromDateEtxt.setText(date);
-//Present
-//        //Tin's Part
-//        fromDateEtxt.setInputType(InputType.TYPE_NULL);
-//        fromDateEtxt.requestFocus();
-//
-//
-//        setDateTimeField();
-//        fromDateEtxt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fromDatePickerDialog.show();
-//            }
-//        });
 
         mViewGroup = v.findViewById(R.id.viewsContainer);
-       // testcheck = (CheckBox) v.findViewById(R.id.checkBox22);
 
         //show roster
         classroom = new Class(classLocalStore.getJoinedInClass().class_id);
@@ -228,19 +204,6 @@ public class TabFragment1 extends Fragment {
 
         return v;
     }
-//Present
-//    private void setDateTimeField() {
-//        Calendar newCalendar = Calendar.getInstance();
-//        fromDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-//
-//            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                Calendar newDate = Calendar.getInstance();
-//                newDate.set(year, monthOfYear, dayOfMonth);
-//                fromDateEtxt.setText(dateFormatter.format(newDate.getTime()));
-//            }
-//
-//        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-//    }
 
 
 }

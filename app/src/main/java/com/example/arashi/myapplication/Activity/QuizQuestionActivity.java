@@ -48,29 +48,21 @@ public class QuizQuestionActivity extends Activity{
     Integer count=1;
     Integer quizquestionpack_id;
     ListView listViewTest;
-    // ListView listView1;
     CheckBox CheckboxRelease;
     Button finishButton;
     int count_prev=0;
-    int arrayIndex=0;
-    SQLiteDatabase mDb;
     ArrayList<Question> listItem;
-    Cursor mCursor;
     CustomAdapterQuizQuestion adapter;
     Button add_question;
     Button Cancel_Edit_Button;
     TextView NumberCount;
-    String passedVar=null;
     String correctAnswer,student_answer;
     Button Submit_Edit_Button;
 
-    ListView listView;
-    TextView textClassName;
     ServerRequestQuizQuestion serverRequestQuizQuestion;
     UserLocalStore userLocalStore;
     ClassLocalStore classLocalStore;
-    //AnnounceLocalStore announceLocalStore;
-    Class classroom;
+
     StudentQuiz studentQuizQuestion;
     LinearLayout teacherQuiz;
     LinearLayout studentQuiz;
@@ -133,11 +125,7 @@ public class QuizQuestionActivity extends Activity{
         student_next_question = (Button) findViewById(R.id.student_next_question);
         student_prev_question = (Button) findViewById(R.id.student_prev_question);
         student_Submit_Quiz_Button = (Button) findViewById(R.id.student_Submit_Quiz_Button);
-
-
         seeResultButton = (Button) findViewById(R.id.seeResultButton);
-
-
 
 
 
@@ -152,7 +140,6 @@ public class QuizQuestionActivity extends Activity{
         final int quiz_id = bundle.getInt("quizID");
 
         question_name_text.setText(text);
-
         QuestionNumber.setText("" + count);
 
 
@@ -195,11 +182,9 @@ public class QuizQuestionActivity extends Activity{
                             intent.putExtra("count_choice", returnQuestion.numberQuestion);
                             intent.putExtra("quizID", quiz_id);
                             startActivityForResult(intent,1);
-                            //Toast.makeText(QuizQuestionActivity.this, "fff "+ returnQuestion.numberQuestion, Toast.LENGTH_LONG).show();
+
                         }
                     });
-
-                    //Toast.makeText(QuizQuestionActivity.this, "fff ", Toast.LENGTH_LONG).show();
 
 
                 }
@@ -221,10 +206,6 @@ public class QuizQuestionActivity extends Activity{
 
 
 
-
-
-
-
                             String choice_a_radio_value =   String.valueOf(choice_a_radio.isChecked());
                             String choice_b_radio_value =   String.valueOf(choice_b_radio.isChecked());
                             String choice_c_radio_value =   String.valueOf(choice_c_radio.isChecked());
@@ -236,7 +217,6 @@ public class QuizQuestionActivity extends Activity{
 
 
                             int quiz_questionpack_id = Integer.parseInt(quiz_question_id.getText().toString());
-                            String question_name_text_value = question_name_text.getText().toString();
                             String question_text_value = question_text.getText().toString();
                             String choice_a_text_value = choice_a_text.getText().toString();
                             String choice_b_text_value = choice_b_text.getText().toString();
@@ -360,22 +340,9 @@ public class QuizQuestionActivity extends Activity{
                     choice_d_text.setText(question_obj.ans4);
 
 
-//                String choice_a_radio_value =   String.valueOf(choice_a_radio.isChecked());
-//                String choice_b_radio_value =   String.valueOf(choice_b_radio.isChecked());
-//                String choice_c_radio_value =   String.valueOf(choice_c_radio.isChecked());
-//                String choice_d_radio_value =   String.valueOf(choice_d_radio.isChecked());
-
-
-//                    String question_name_text_value = question_name_text.getText().toString();
-                    //                  String question_text_value = question_text.getText().toString();
-//                    String choice_a_text_value = choice_a_text.getText().toString();
-//                    String choice_b_text_value = choice_b_text.getText().toString();
-//                    String choice_c_text_value = choice_c_text.getText().toString();
-//                    String choice_d_text_value = choice_d_text.getText().toString();
 
                     correctAnswer = question_obj.correctaAnswer;
 
-                    // Toast.makeText(QuizQuestionActivity.this, correctAnswer+" "+question_obj.ans1 +" ", Toast.LENGTH_LONG).show();
 
                     if (question_obj.correctaAnswer.equals(question_obj.ans1)){
 
@@ -429,7 +396,6 @@ public class QuizQuestionActivity extends Activity{
                     String choice_d_radio_value =   String.valueOf(choice_d_radio.isChecked());
 
                     Log.e("deeeeeeeeeee",quiz.questionArray.toString());
-//                    Toast.makeText(getActivity(), choice_a_text_value+choice_b_text_value+choice_c_text_value+choice_d_text_value, Toast.LENGTH_LONG).show();
                     Log.d("question_name_value",question_name_text_value);
                     Log.d("question_text_value",question_text_value);
                     Log.d("choice_a_text_value",choice_a_text_value);
@@ -442,7 +408,7 @@ public class QuizQuestionActivity extends Activity{
                         Toast.makeText(QuizQuestionActivity.this, "Please complete question and choice.", Toast.LENGTH_LONG).show();
                     }else {
 
-                        if(             choice_a_text_value.equals(choice_b_text_value) ||
+                        if(choice_a_text_value.equals(choice_b_text_value) ||
                                 choice_a_text_value.equals(choice_c_text_value) ||
                                 choice_a_text_value.equals(choice_d_text_value)||
                                 choice_b_text_value.equals(choice_c_text_value) ||
@@ -472,7 +438,7 @@ public class QuizQuestionActivity extends Activity{
                             serverRequestQuizQuestion.storeQuizQuestionDataInBackground(question_obj, new GetQuestionCallback() {
                                 @Override
                                 public void done(Question returnQuestion) {
-                                    //Log.d("Checkkk", returnQuestion.quiz_id+"");
+
                                 }
                             });
                             //show
@@ -492,8 +458,6 @@ public class QuizQuestionActivity extends Activity{
                             //SQL Lite
                             quiz.addQuestionforQuiz(question_text_value, choice_a_text_value, choice_b_text_value, choice_c_text_value, choice_d_text_value, correctAnswer,quiz_id, count);
                             Log.d("TESTESS", "" + correctAnswer);
-                            // listItem = quiz.questionArray;
-                            // adapter.setListData(listItem);
                             question_text.setText("");
                             choice_a_text.setText("");
                             choice_b_text.setText("");
@@ -536,7 +500,7 @@ public class QuizQuestionActivity extends Activity{
                     serverRequestQuizQuestion.updateQuizDataInBackground(quiz, new GetQuizCallback() {
                         @Override
                         public void done(Quiz returnQuiz) {
-                            // Toast.makeText(QuizQuestionActivity.this, returnQuiz.quizID+"", Toast.LENGTH_LONG).show();
+
                         }
                     });
 
@@ -573,9 +537,7 @@ public class QuizQuestionActivity extends Activity{
                 student_prev_question.setVisibility(View.INVISIBLE);
                 student_Submit_Quiz_Button.setVisibility(View.GONE);
             }
-//            else if (count < 1){
-//                student_prev_question.setVisibility(View.INVISIBLE);
-//            }
+
             question_obj = new Question(quiz_id);
             serverRequestQuizQuestion.checkLastDataInBackground(question_obj, new GetQuestionCallback() {
                 @Override
@@ -667,14 +629,12 @@ public class QuizQuestionActivity extends Activity{
                         }
                     });
                     show_student_quiz_question(quiz_id);
-                    //quizquestionpack_id = show_student_quiz_question(quiz_id);
+
 
                     String choice_a_radio_value =   String.valueOf(student_choice_a_radio.isChecked());
                     String choice_b_radio_value =   String.valueOf(student_choice_b_radio.isChecked());
                     String choice_c_radio_value =   String.valueOf(student_choice_c_radio.isChecked());
                     String choice_d_radio_value =   String.valueOf(student_choice_d_radio.isChecked());
-
-
 
 
 
@@ -694,7 +654,6 @@ public class QuizQuestionActivity extends Activity{
                         Toast.makeText(QuizQuestionActivity.this, "Please choose your choice!", Toast.LENGTH_LONG).show();
                     }
 
-                   // Toast.makeText(QuizQuestionActivity.this, student_answer + quizquestionpack_id + userLocalStore.getLoggedInUser().user_id, Toast.LENGTH_LONG).show();
 
                     if(count_prev == 0) {
                         //insert
@@ -702,7 +661,6 @@ public class QuizQuestionActivity extends Activity{
                         serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Post_Student_Quiz.php", new GetStudentQuizCallback() {
                             @Override
                             public void done(StudentQuiz studentQuiz) {
-                                //Toast.makeText(QuizQuestionActivity.this, "Your answer1", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -713,7 +671,6 @@ public class QuizQuestionActivity extends Activity{
                         serverRequestQuizQuestion.storeStudentQuizDataInBackground(studentQuizQuestion,"Update_Student_Quiz.php", new GetStudentQuizCallback() {
                             @Override
                             public void done(StudentQuiz studentQuiz) {
-                               // Toast.makeText(QuizQuestionActivity.this, "Your answer2", Toast.LENGTH_LONG).show();
                             }
                         });
                         count_prev--;
@@ -729,9 +686,6 @@ public class QuizQuestionActivity extends Activity{
                         student_next_question.setVisibility(View.VISIBLE);
                         student_Submit_Quiz_Button.setVisibility(View.GONE);
                     }
-//                    else {
-//                        student_prev_question.setVisibility(View.INVISIBLE);
-//                    }
                     count--;
                     student_QuestionNumber.setText(count.toString());
                     show_student_quiz_question(quiz_id);
@@ -741,24 +695,6 @@ public class QuizQuestionActivity extends Activity{
 
             show_student_quiz_question(quiz_id);
         }
-
-
-        //question_name_text.setText(""+text);
-
-//        if (text.contains("Release to Student?:Yes")&& text.contains("Release to Student?:No")){
-//            CheckboxRelease.setChecked(true);
-//        }
-
-
-        //ListViewShow Question_alreadyCreate
-//        listView1 = (ListView)findViewById(R.id.Question_alreadyCreate);
-
-
-    }
-    public void onPause() {
-        super.onPause();
-//        mHelper.close();
-//        mDb.close();
     }
 
     public void show_student_quiz_question(int quiz_id){

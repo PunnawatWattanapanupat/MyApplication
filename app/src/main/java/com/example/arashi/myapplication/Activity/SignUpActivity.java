@@ -20,8 +20,6 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
 
         btn_teacher = (Button) findViewById(R.id.button_Teacher);
         btn_student = (Button) findViewById(R.id.button_student);
-        //getSupportActionBar().hide();
-
         btn_teacher.setOnClickListener(this);
         btn_student.setOnClickListener(this);
     }

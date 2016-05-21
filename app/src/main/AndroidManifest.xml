@@ -66,12 +66,6 @@
             android:name=".TeacherSignUp"
             android:label="@string/title_activity_teacher_sign_up" />
         <activity
-            android:name=".QuizActivity"
-            android:label="QuizActivity" />
-        <activity
-            android:name=".ResultActivity"
-            android:label="ResultActivity" />
-        <activity
             android:name=".QuizQuestionActivity"
             android:label="QuizQuestionActivity" />
         <activity
@@ -91,9 +85,6 @@
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".PopFragment3"
-            android:theme="@style/AppTheme.CustomTheme" />
-        <activity
-            android:name=".ResultQuiz"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".PopAnswer"

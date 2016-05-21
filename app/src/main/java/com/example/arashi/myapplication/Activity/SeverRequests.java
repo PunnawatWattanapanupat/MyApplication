@@ -823,7 +823,6 @@ public class SeverRequests {
                 if (jObj.length() != 0) {
                     int user_id = jObj.getInt("user_id");
                     int class_id = jObj.getInt("class_id");
- //                 int check_student = jObj.getInt("check_student");
 
 
                     returnRoster = new Roster(user_id,class_id);

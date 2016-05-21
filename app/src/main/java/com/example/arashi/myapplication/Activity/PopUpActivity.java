@@ -73,18 +73,12 @@ public class PopUpActivity extends Activity {
                     else {
                         Class classroom = new Class(className, classCode);
                         studentJoinClass(classroom);
-                        //createRoster(roster);
-//                            Toast.makeText(PopUpActivity.this,"Student", Toast.LENGTH_SHORT).show();
                     }
                 }
 
 
             }
         });
-
-//        listView = (ListView) findViewById(R.id.listView1);
-//        adapter = new ClassAdapter(this, listItem);
-//        listView.setAdapter(adapter);
 
         //cancel
         cancelButton = (Button) findViewById(R.id.CancelClassButton);
@@ -101,8 +95,7 @@ public class PopUpActivity extends Activity {
 
             public void done(Class returnedClass){
                 Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
-                //finish();
+                finish();
             }
         });
     }
@@ -112,8 +105,6 @@ public class PopUpActivity extends Activity {
         serverRequests.storeRosterDataInBackground(roster, new GetRosterCallback(){
 
             public void done(Roster returnedRoster){
-                // Toast.makeText(PopUpActivity.this, "Class is created", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(PopUpActivity.this, ClassActivity.class));
                 finish();
             }
         });

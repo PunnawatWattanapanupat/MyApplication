@@ -23,18 +23,13 @@ public class home extends Activity implements View.OnClickListener  {
     TextView vName, vUsername, vEmail, vStatus;
     Button btnEdit, btnClass, btnSign_out;
 
-//    SeverRequests serverRequest;
-//    User user;
+
     UserLocalStore userLocalStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-//
-//        Parse.initialize(this);
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
-       // Parse.initialize(this, "cbGiLWxg9HO32BM70fe0ybWAOwWeMCaOTcUpReQi","QKRM8zfrbtUs5VcqagH6FcBcsNZ1BHnYDV11E1kx");
 
 
         vName = (TextView) findViewById(R.id.fullName_text);
@@ -86,6 +81,7 @@ public class home extends Activity implements View.OnClickListener  {
 
                             // do something when the button is clicked
                             public void onClick(DialogInterface arg0, int arg1) {
+                                userLocalStore.cleanUserData();
                                 finish();
                                 //close();
 
@@ -146,7 +142,7 @@ public class home extends Activity implements View.OnClickListener  {
 
                     // do something when the button is clicked
                     public void onClick(DialogInterface arg0, int arg1) {
-
+                        userLocalStore.cleanUserData();
                         finish();
                         //close();
 

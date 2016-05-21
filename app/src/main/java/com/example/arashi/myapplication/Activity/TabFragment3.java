@@ -24,7 +24,6 @@ public class TabFragment3 extends Fragment {
     ListView listview;
     ArrayList<Questionstack> listitem;
     ListView listView;
-    Questionstack questionstackdata;
     ClassLocalStore classLocalStore;
     Class classroom;
     @Override

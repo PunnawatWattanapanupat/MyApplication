@@ -32,17 +32,6 @@ import java.util.Calendar;
 public class TabFragment2 extends Fragment {
 
 
-    private static final int RESULT_LOAD_IMAGE=1;
-    ImageView imageToUpload,createAnnounce;
-    Button bUploadImage;
-    EditText uploadImageName;
-    private View testViewGroup;
-  //  EditText mEdit;
-    private DatePickerDialog fromDatePickerDialog;
-    private DatePickerDialog toDatePickerDialog;
-    private EditText fromDateEtxt;
-    private SimpleDateFormat dateFormatter;
-
     ListView listView;
     TextView textClassName;
     ArrayList<Announcement> listItem;
@@ -94,7 +83,6 @@ public class TabFragment2 extends Fragment {
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Announcement announcement = (Announcement) arg0.getItemAtPosition(arg2);
-                //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                 announceLocalStore.storeAnnounceData(announcement);
                 announceLocalStore.setAnnounceForShow(true);
                 startActivity(new Intent(getActivity(),PopAnnounceDetail.class));
@@ -106,7 +94,6 @@ public class TabFragment2 extends Fragment {
         if(userLocalStore.getLoggedInUser().is_teacher != 1){
             createAnnounce.setVisibility(View.GONE);
             textClickCreate.setVisibility(View.GONE);
-            //linearBigCreateAnn.setVisibility(View.GONE);
         }
         //Teacher can add announcement
         else{

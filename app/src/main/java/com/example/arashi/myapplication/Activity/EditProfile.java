@@ -48,7 +48,6 @@ public class EditProfile extends Activity implements View.OnClickListener {
                 String username = userLocalStore.getLoggedInUser().username;//can not change username (unique)
                 int status = userLocalStore.getLoggedInUser().is_teacher ;
                 int user_id = userLocalStore.getLoggedInUser().user_id;
-            //    Toast.makeText(this,Integer.toString(userLocalStore.getLoggedInUser().user_id) +" "+userLocalStore.getLoggedInUser().username , Toast.LENGTH_SHORT).show();
 
 
                     if (password.equals(confirm_password)) {

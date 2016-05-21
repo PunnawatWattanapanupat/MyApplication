@@ -26,7 +26,6 @@ import java.util.ArrayList;
  */
 public class Popup_Result__Quiz_First_Page extends Activity{
 
-    //Button choiceGraphButton;
     Question question, find_question_id;
     ServerRequestQuizQuestion serverRequestQuizQuestion;
     ArrayList<BarEntry> entries = new ArrayList<>();
@@ -34,7 +33,6 @@ public class Popup_Result__Quiz_First_Page extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_result_quiz_first_page);
-    //    choiceGraphButton = (Button) findViewById(R.id.choiceGraphButton);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -51,7 +49,6 @@ public class Popup_Result__Quiz_First_Page extends Activity{
         int heighht = dm.heightPixels;
 
         getWindow().setLayout((int)(width*.8),(int)(heighht*.4));
-        //Questiontext = (EditText) findViewById(R.id.Questiontext);
 
 
 
@@ -66,8 +63,7 @@ public class Popup_Result__Quiz_First_Page extends Activity{
                             serverRequestQuizQuestion.checkCorrectChoiceInBackground(find_question_id, new GetQuestionCallback() {
                                 @Override
                                 public void done(Question returnQuestion) {
-                                    //Toast.makeText(Popup_Result__Quiz_First_Page.this, "Hello " + returnQuestion.count_question +" "+ returnQuestion.numberQuestion, Toast.LENGTH_LONG).show();
-                                    //entries.add(new BarEntry(returnQuestion.numberQuestion, i));
+
                                     BarChart barChart = (BarChart) findViewById(R.id.bar1chart);
                                     // creating labels
 
@@ -90,32 +86,11 @@ public class Popup_Result__Quiz_First_Page extends Activity{
                    // Toast.makeText(Popup_Result__Quiz_First_Page.this, "Hello "+ quizquestionpack_id, Toast.LENGTH_LONG).show();
                     });
 
-                    //entries.add(new BarEntry(correct_choice, i));
                 }
 
 
 
 
-
-//        BarChart barChart = (BarChart) findViewById(R.id.bar1chart);
-//        ArrayList<BarEntry> entries = new ArrayList<>();
-//        entries.add(new BarEntry(4f, 0));
-//        entries.add(new BarEntry(8f, 1));
-//        entries.add(new BarEntry(6f, 2));
-//        entries.add(new BarEntry(12f, 3));
-//        BarDataSet dataset = new BarDataSet(entries, "# of Answers");
-
-
-
-
-
-//        choiceGraphButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(Popup_Result__Quiz_First_Page.this,ResultQuiz.class));
-//            }
-//        });
-//
 
 
 

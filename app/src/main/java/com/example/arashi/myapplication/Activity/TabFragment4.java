@@ -60,21 +60,11 @@ import android.widget.ListView;
  * The status of questions will be updated on the phone when the user answers them.
  */
 public class TabFragment4 extends Fragment{
-    //    TextView QuestionNumber;
-//    EditText question_text;
-//    EditText choice_a_text;
-//    EditText choice_b_text;
-//    EditText choice_c_text;
-//    EditText choice_d_text;
-    //public final static String ID_Extra="com.example.arashi.myapplication.Activity.TabFragment4._ID";
+
     EditText question_name_text;
-    // Integer count=1;
     TextView question_name, score_text, score_num;
     ListView listView1;
     Button createQuizButton;
-    SQLiteDatabase mDb;
-    Boolean Tvalue = true;
-    Cursor mCursor;
     Quiz quiz;
     StudentQuiz studentQuizQuestion;
     ClassLocalStore classLocalStore;
@@ -87,13 +77,11 @@ public class TabFragment4 extends Fragment{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment_4, container, false);
-       // Button testbtn = (Button) v.findViewById(R.id.testbtn);
 
         question_name_text  = (EditText) v.findViewById(R.id.question_name_text );
         question_name = (TextView) v.findViewById(R.id.question_name);
         score_text = (TextView) v.findViewById(R.id.score_text);
         score_num = (TextView) v.findViewById(R.id.score_num);
-        //ListViewShow Question_alreadyCreate
         listView1 = (ListView)v.findViewById(R.id.Quiz_alreadyCreate);
         serverRequestQuizQuestion = new ServerRequestQuizQuestion(getActivity());
         classLocalStore = new ClassLocalStore(getActivity());
@@ -151,26 +139,15 @@ public class TabFragment4 extends Fragment{
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
-               // startActivity(new Intent(getActivity(),QuizQuestionActivity.class));
+
                 Quiz text =(Quiz) arg0.getItemAtPosition(arg2);
-                //substring
-//                if(text.contains(".\t\t")){
-//
-//                    text=text.substring(4,text.length()); //substring Number
-//                    while(text.contains("\t")){
-//                        text=text.substring(1,text.length()); //substring Number
-//                    }
-//                    text=text.substring(0,text.length()-26); //substring Release to Student
-//                }
+
 
                 quiz = new Quiz(text.quiz_name, text.class_id);
-               // Toast.makeText(getActivity(),quiz.quiz_name+" "+quiz.class_id, Toast.LENGTH_SHORT).show();
                 serverRequestQuizQuestion.fetchQuizDataInBackground(quiz, new GetQuizCallback() {
                     @Override
                     public void done(Quiz returnQuiz) {
                         Intent intent = new Intent(getActivity(), QuizQuestionActivity.class);
-                      //  Toast.makeText(getActivity(),Integer.toString(returnQuiz.quizID), Toast.LENGTH_SHORT).show();
                         intent.putExtra("MyValue", returnQuiz.quiz_name);
                         intent.putExtra("quizID", returnQuiz.quizID);
                         startActivityForResult(intent,1);

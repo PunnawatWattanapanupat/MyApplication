@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 
 public class ClassActivity extends Activity {
-  //  TextView txt_class_id;
     ListView listView;
     Button addClass, joinClass;
     ArrayList<Class> listItem = new ArrayList<>();
@@ -52,7 +51,6 @@ public class ClassActivity extends Activity {
         classLocalStore = new ClassLocalStore(this);
         userLocalStore = new UserLocalStore(this);
         user = userLocalStore.getLoggedInUser();
-        //classroom = classLocalStore.getJoinedInClass();
         listView = (ListView) findViewById(R.id.listView1);
 
         adapter = new ClassAdapter(this, listItem);
@@ -77,7 +75,6 @@ public class ClassActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Class classItem = (Class) arg0.getItemAtPosition(arg2);
-           //     Toast.makeText(ClassActivity.this,Integer.toString(classItem.class_id), Toast.LENGTH_SHORT).show();
                 classLocalStore.storeClassData(classItem);
                 classLocalStore.setClassJoinedIn(true);
                 startActivity(new Intent(ClassActivity.this,tabMainActivity.class));

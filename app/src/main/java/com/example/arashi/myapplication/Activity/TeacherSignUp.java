@@ -26,7 +26,6 @@ public class TeacherSignUp extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_sign_up);
-        //getSupportActionBar().hide();
 
         txt_name =  (EditText) findViewById(R.id.fullName_text);
         txt_username = (EditText) findViewById(R.id.username_text);

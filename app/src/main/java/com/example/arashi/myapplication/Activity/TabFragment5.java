@@ -36,7 +36,7 @@ public class TabFragment5 extends Fragment {
 
 
     Button yesButton,noButton;
-    TextView count_time, show_understand;
+    TextView  show_understand;
     Understand understand;
     Roster roster;
     UserLocalStore userLocalStore;
@@ -49,7 +49,6 @@ public class TabFragment5 extends Fragment {
               View v = inflater.inflate(R.layout.tab_fragment_5, container, false);
             yesButton = (Button) v.findViewById(R.id.yesButton);
             noButton = (Button) v.findViewById(R.id.noButton);
-           // count_time = (TextView) v.findViewById(R.id.count_time);
             show_understand = (TextView) v.findViewById(R.id.show_understand);
 
             userLocalStore = new UserLocalStore(getActivity());
@@ -75,7 +74,6 @@ public class TabFragment5 extends Fragment {
             severRequests.fetchUnderstandDataInBackground(understand, new GetUnderstandCallback() {
                 @Override
                 public void done(Understand returnUnderstand) {
-                    //Toast.makeText(getActivity(),returnUnderstand.understand, Toast.LENGTH_SHORT).show();
                     if(returnUnderstand.is_first == 0 ){
                         //OnClick yes button
                         yesButton.setOnClickListener(new View.OnClickListener() {
@@ -167,25 +165,21 @@ public class TabFragment5 extends Fragment {
 
 
                 //notice & update
-               // understand =  new Understand(classLocalStore.getJoinedInClass().class_id);
 
                 severRequests.updateUnderstandDataInBackground(understand, new GetUnderstandCallback() {
                     @Override
                     public void done(Understand returnUnderstand) {
-                       //Toast.makeText(getActivity(),returnUnderstand.understand, Toast.LENGTH_SHORT).show();
                         understand = new Understand("YES",classLocalStore.getJoinedInClass().class_id);
                         severRequests.fetchCountUnderstandDataInBackground(understand, new GetUnderstandCallback() {
                             @Override
                             public void done(Understand returnUnderstand) {
                                 getText("Understand : " + addNumber(returnUnderstand.count_understand) + "\n");
-                                //Toast.makeText(getActivity(),getText("Understand : " + addNumber(returnUnderstand.count_understand) + "\n"), Toast.LENGTH_SHORT).show();
                             }
                         });
                         understand = new Understand("NO",classLocalStore.getJoinedInClass().class_id);
                         severRequests.fetchCountUnderstandDataInBackground(understand, new GetUnderstandCallback() {
                             @Override
                             public void done(Understand returnUnderstand) {
-                                //Toast.makeText(getActivity(),getText("NOT Understand : " + returnUnderstand.count_understand + "\n"), Toast.LENGTH_SHORT).show();
                                 getText("NOT Understand : " + returnUnderstand.count_understand + "\n");
                                 addNumber(returnUnderstand.count_understand);
                             }
@@ -194,8 +188,8 @@ public class TabFragment5 extends Fragment {
                         severRequests.fetchCountRosterDataInBackground(roster, new GetRosterCallback() {
                             @Override
                             public void done(Roster returnedRoster) {
-                                //Toast.makeText(getActivity(),getText("No Answer : "+ (returnedRoster.class_id - addNumber(0))), Toast.LENGTH_SHORT).show();
-                                //All students in class - number of students understand + number of students not understand
+
+                                //No Vote = All students in class - number of students understand + number of students not understand
                                 push.setMessage(getText("No Answer : "+ (returnedRoster.class_id - addNumber(0))));
                                 push.sendInBackground();
                             }

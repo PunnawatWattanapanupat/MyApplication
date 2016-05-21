@@ -125,17 +125,6 @@ public class Pop extends Activity  {
 
 
 
-     //   imageToUpload = (ImageView) findViewById(R.id.imageToUpload);
-       // bUploadImage = (Button) v.findViewById(R.id.bUploadImage);
-
-//        imageToUpload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(galleryIntent,RESULT_LOAD_IMAGE);
-//            }
-//        });
-
         announceLocalStore = new AnnounceLocalStore(this);
         classLocalStore = new ClassLocalStore(this);
 
@@ -210,15 +199,11 @@ public class Pop extends Activity  {
         nm.notify(1410, notification);
 
 
-
-       // PendingIntent.getActivities()
-
         serverRequests.storeAnnounceDataInBackground(announcement, new GetAnnounceCallBack() {
             @Override
             public void done(Announcement returnAnnounce) {
 
                 Toast.makeText(Pop.this, "Posing is completed", Toast.LENGTH_SHORT).show();
-               // startActivity(new Intent(Pop.this, tabMainActivity.class));
                 finish();
 
             }

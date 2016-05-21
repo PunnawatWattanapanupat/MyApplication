@@ -37,19 +37,15 @@ public class MainActivity extends Activity implements OnClickListener {
     public EditText mPassword;
     public Button button_confirm, button_cancel;
     public TextView SignUpText;
-   // CheckBox checkbox1;
     UserLocalStore userLocalStore;
     Secure secure;
 
-//    EditText editText = (EditText)findViewById(R.id.username_text);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //getSupportActionBar().hide();
-        //setContentView(R.layout.main);
 
 
 
@@ -58,7 +54,6 @@ public class MainActivity extends Activity implements OnClickListener {
         button_confirm = (Button) findViewById(R.id.button_confirm);
         button_cancel = (Button) findViewById(R.id.button_cancel);
         SignUpText = (TextView) findViewById(R.id.SignUpText);
-       // checkbox1 = (CheckBox) findViewById(R.id.checkbox1);
 
         button_confirm.setOnClickListener(this);
         button_cancel.setOnClickListener(this);
@@ -66,7 +61,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
         userLocalStore = new UserLocalStore(this);
         secure = new Secure();
-
 
     }
 
@@ -103,7 +97,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
                     password = secure.getHash(password);
                     User user = new User(username, password);
-                   // Toast.makeText(this,user.username+" "+user.password, Toast.LENGTH_SHORT).show();
                     authenticate(user);
                     //Clear data before start
                     mUsername.getText().clear();
@@ -142,7 +135,6 @@ public class MainActivity extends Activity implements OnClickListener {
         userLocalStore.setUserLoggedIn(true);
         Toast.makeText(this,"Log In is Completed", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(MainActivity.this, home.class);
-       // intent.putExtra("message", username);
         startActivity(intent);
     }
 }
